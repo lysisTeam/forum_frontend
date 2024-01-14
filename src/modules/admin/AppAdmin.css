@@ -1,0 +1,211 @@
+
+
+/* login page admin */
+
+.login-page{
+    height: 100vh;
+    width: 100%;
+    background: rgb(147,165,207);
+    background: linear-gradient(90deg, rgba(147,165,207,1) 49%, rgba(228,239,233,1) 100%);
+    color: white;
+    font-family: 'Genos', sans-serif;
+}
+
+.login-wild-section{
+    width: 950px;
+    height: 500px;
+}
+
+.login-wild-section > .login-left-section{
+    height: 100%;
+    width: 300px;
+    background-image: url('../../images/login_left.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-wild-section > .login-right-section{
+    height: 100%;
+    width: calc(100% - 300px);
+    background-color: rgb(14, 26, 40);
+    position: relative;
+}
+
+.login-wild-section > .login-right-section .alert{
+    position: absolute;
+    right: 16px;
+    top: -15px;
+    margin: 0;
+    background-color: rgb(223, 38, 38);
+    min-width: 150px;
+    text-align: center;
+}
+
+.login-wild-section > .login-right-section .alert .bottom-line{
+    display: block;
+    width: 95%;
+    height: 1.5px;
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.login-wild-section > .login-right-section .alert .bottom-line > span{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 10px;
+    background-color: white;
+    transition: all 3s linear;
+    
+}
+
+.login-wild-section > .login-right-section h1{
+    color: rgb(239, 181, 117);
+}
+
+.login-wild-section > .login-right-section p{
+    font-size: 1.8rem;
+}
+
+.login-wild-section > .login-right-section label{
+    font-size: 1.2rem;
+}
+
+.login-wild-section > .login-right-section .btn-submit{
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 6px 35px;
+    background-color: rgb(235, 159, 78);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.login-wild-section > .login-right-section .btn-submit:hover{
+    background-color: rgb(231, 137, 36);
+}
+
+/* login page admin - fin*/
+
+
+/* main page admin */
+
+
+.main-page-admin{
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(228, 235, 239);
+    font-family: "Public Sans", sans-serif;
+}
+
+
+
+/*aside*/
+.main-page-admin .sidebar-page-admin{
+    height: 100%;
+    width: 320px;
+    border-right: 0.1rem dashed rgb(204, 204, 204);
+}
+
+.main-page-admin .sidebar-page-admin .logo{
+    color: rgb(31, 54, 80);
+    font-size: 2.5rem;
+    line-height: 0;
+}
+
+.main-page-admin .sidebar-page-admin .user-small-des{
+    width: 100%;
+    padding: 16px 20px;
+    background-color: rgba(165, 177, 189, 0.493);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.main-page-admin .sidebar-page-admin .user-small-des img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.main-page-admin .sidebar-page-admin .user-small-des h6{
+    font-size: 1rem;
+    font-weight: lighter;
+    color: rgb(0, 44, 110);
+}
+
+.nav-list{ 
+    
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding: 0;
+}
+
+.nav-list li{
+    list-style-type: none;
+    background-color: transparent;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 6px;
+    /* background-color: rgba(3, 69, 156, 0.247);  */
+    /* transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; */
+    transition: background-color 0.3s ease;
+}
+
+.nav-list li:hover{
+    background-color: rgba(192, 192, 192, 0.37);
+}
+
+.nav-list li a{
+    color: rgb(87, 87, 87);
+    text-decoration: none;
+}
+
+.nav-list li.active{
+    background-color: rgba(3, 69, 156, 0.247);
+}
+
+.nav-list li.active a{
+    color: rgb(5, 58, 128);
+}
+/*aside*/
+
+
+/*topbar*/
+.topBar-page-admin{
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    -webkit-backdrop-filter: blur(6px); /* assure la compatibilité avec safari */
+    backdrop-filter: blur(6px);
+    background-color: rgba(228, 235, 239, 0.2);
+
+}
+/*topbar*/
+
+.section-container-pages{
+    width: 100%;
+    position: relative;
+    background-color: rgb(248, 251, 255);
+    
+}
+
+.container-views-admin{
+    height: 100vh;
+    padding-top: 100px;
+    overflow-y: scroll;
+}
+
+/* main page admin - fin */

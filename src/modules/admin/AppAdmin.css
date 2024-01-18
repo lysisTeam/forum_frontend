@@ -133,7 +133,6 @@
 }
 
 
-
 /*aside*/
 .main-page-admin .sidebar-page-admin{
     height: 100%;
@@ -351,6 +350,9 @@
 /* main page admin - fin */
 
 @media screen AND (max-width : 1200px){
+
+    /*main page*/
+
     .container-views-admin{
         border-top-left-radius: 0;
     }
@@ -392,5 +394,45 @@
     .top-picture-drop-button{
         margin-right: 15px;
     }
+
+    /*main page - fin*/
     
+}
+
+@media screen AND (max-width : 670px){
+    .login-page{
+        padding: 0 !important;
+        background-image: url('../../images/login_left.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .login-wild-section{
+        width: 100%;
+        height: 100%;
+    }
+
+    .login-wild-section > .login-left-section{
+        display: none;
+    }
+
+    .login-wild-section > .login-right-section{
+        height: 100%;
+        width: 100%;
+        background: rgb(14,26,40);
+        background: linear-gradient(0deg, rgba(14,26,40,1) 41%, rgba(0,212,255,0) 100%);
+        position: relative;
+    }
+
+    .login-wild-section > .login-right-section .alert{
+        position: absolute;
+        right: 16px;
+        top:unset;
+        bottom: 35px;
+        margin: 0;
+        background-color: rgb(223, 38, 38);
+        min-width: 150px;
+        text-align: center;
+    }
+
 }

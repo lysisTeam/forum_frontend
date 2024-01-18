@@ -60,7 +60,7 @@ function LoginAdmin() {
         
     }
   return (
-    <div className='login-page d-flex justify-content-center align-items-center'>
+    <div className='login-page d-flex justify-content-center align-items-center px-4'>
         <div className='login-wild-section d-flex gap-2'>
             <div className='login-left-section rounded shadow'></div>
             <div className='login-right-section rounded shadow p-3 d-flex flex-column justify-content-center gap-5'>

@@ -9,6 +9,7 @@ function LoginAdmin() {
     const [showAlert,setShowAlert] = useState(false)
     const [showSpinner,setShowSpinner] = useState(false)
     const Navigate = useNavigate()  
+    const apiUrl = process.env.REACT_APP_API_URL
     
     useEffect(()=>{
         if (localStorage.admin_token) {
@@ -20,14 +21,14 @@ function LoginAdmin() {
         e.preventDefault()
         setShowSpinner(true)
         
-        await axios.post('http://localhost:3001/api/admin/login',{
+        await axios.post(apiUrl+'/api/admin/login',{
             username: username,
             password: password
         })
         .then(response =>{
             console.log(response);
             localStorage.setItem('admin_token',response.data.token)
-            Navigate('/admin/main')
+            Navigate('/admin/')
         })
         .catch((err)=>{
             // console.log(err.response.data.error);

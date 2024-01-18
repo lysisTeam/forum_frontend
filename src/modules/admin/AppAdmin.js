@@ -6,6 +6,7 @@ import Dashboard from './Components/Dashboard';
 import Administrateurs from './Components/Administrateurs';
 import Users from './Components/Users';
 import Subjects from './Components/Subjects';
+import AdminContextProvider from './Contexts/AdminContextProvider';
 
 function AppAdmin() {
     const Navigate = useNavigate()
@@ -25,14 +26,16 @@ function AppAdmin() {
 
         {
             currentRoute !== '/admin/login' &&
-            <MainPage>
-                <Routes>
-                    <Route path='/admin/' Component={Dashboard}/>
-                    <Route path='/admin/admins' Component={Administrateurs}/>
-                    <Route path='/admin/users' Component={Users}/>
-                    <Route path='/admin/subjects' Component={Subjects}/>
-                </Routes>
-            </MainPage>
+            <AdminContextProvider>
+                <MainPage>
+                    <Routes>
+                        <Route path='/admin' Component={Dashboard}/>
+                        <Route path='/admin/admins' Component={Administrateurs}/>
+                        <Route path='/admin/users' Component={Users}/>
+                        <Route path='/admin/subjects' Component={Subjects}/>
+                    </Routes>
+                </MainPage>
+            </AdminContextProvider>
         }
     </>
   )

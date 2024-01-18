@@ -99,7 +99,7 @@
 .main-page-admin{
     width: 100%;
     height: 100vh;
-    background-color: rgb(228, 235, 239);
+    background-color: rgb(249, 250, 251);
     font-family: "Public Sans", sans-serif;
 }
 
@@ -110,6 +110,9 @@
     height: 100%;
     width: 320px;
     border-right: 0.1rem dashed rgb(204, 204, 204);
+    z-index: 2;
+    background-color: rgb(249, 250, 251);
+    transition: left 0.3s ease-in-out;
 }
 
 .main-page-admin .sidebar-page-admin .logo{
@@ -154,7 +157,7 @@
     background-color: transparent;
     font-size: 0.9rem;
     font-weight: bold;
-    padding: 8px 16px;
+    padding: 13px 16px;
     border-radius: 6px;
     /* background-color: rgba(3, 69, 156, 0.247);  */
     /* transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; */
@@ -168,6 +171,13 @@
 .nav-list li a{
     color: rgb(87, 87, 87);
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-list li a i{
+    font-size: 1rem;
 }
 
 .nav-list li.active{
@@ -183,7 +193,7 @@
 /*topbar*/
 .topBar-page-admin{
     width: 100%;
-    height: 60px;
+    height: 83px;
     position: absolute;
     /* background-color: aqua; */
     display: flex;
@@ -198,7 +208,7 @@
 .section-container-pages{
     width: 100%;
     position: relative;
-    background-color: rgb(248, 251, 255);
+    /* background-color: rgb(248, 251, 255); */
     
 }
 
@@ -208,4 +218,77 @@
     overflow-y: scroll;
 }
 
+
+/*loader*/
+.loader-section{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /* background-color: rgb(147,165,207); */
+    background-image: url('../../images/Joyboy.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.loader-section::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(147, 165, 207, 0.863);
+    
+}
+/*loader*/
+
+/*menu-toggle*/
+.top-button{
+    background-color: transparent;
+    border: 0;
+    margin-right: 15px;
+}
+
+.menu-button-toggle{
+    display: none;
+}
+
 /* main page admin - fin */
+
+@media screen AND (max-width : 1200px){
+    .sidebar-page-admin{
+        position: absolute;
+        top: 0;
+        left: -320px;
+        width: 272px !important;
+    }
+
+    .sidebar-page-admin.open{
+        left: 0;
+        
+    }
+
+    .overlay::before{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(22, 28, 36, 0.8);
+    }
+
+    .topBar-page-admin{
+
+        height: 60px !important;
+        padding: 0 25px !important;
+    
+    }
+
+    .menu-button-toggle{
+        display: inline-block;
+    }
+}

@@ -1,33 +1,39 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import avatar from "../../../images/avatar_25.jpg"
+import avatar from "../../../images/RyoumenSukunaIcon.jpg"
+import AdminContext from '../Contexts/AdminContext'
 
-function SideBar() {
+function SideBar({isOpen}) {
   const location = useLocation()
   const currentRoute = location.pathname  
+  const {admin} = useContext(AdminContext)
+
+  useEffect(()=>{
+    console.log(isOpen);
+  },[isOpen])
 
   return (
-    <div className='sidebar-page-admin shadow px-4 py-3'>
+    <div className={`sidebar-page-admin shadow-sm px-3 py-3 ${isOpen?'open':''}`}>
         <Link to={"#"} className='logo'>
-            <i class="fa-brands fa-fantasy-flight-games"></i>
+            <i className="fa-brands fa-fantasy-flight-games py-2"></i>
         </Link>
-        <div className='user-small-des mt-3'>
+        <div className='user-small-des mt-4'>
             <img alt='user-avatar' src={avatar} />
-            <h6 className='fw-bold m-0 p-0'>super admin</h6>
+            <h6 className='fw-bold m-0 p-0'>super {admin?.nom}</h6>
         </div>
-        <nav className='mt-3'>
+        <nav className='mt-4'>
             <ul className='nav-list'>
-                <li className={currentRoute === '/admin/' && "active"}>
-                    <Link to={'/admin/'} ><i class="fa-solid fa-chart-column"></i> Tableau de bord</Link>
+                <li className={currentRoute === '/admin'? "active" : ""}>
+                    <Link to={'/admin'} ><i className="fa-solid fa-chart-column"></i>Tableau de bord</Link>
                 </li>
-                <li className={currentRoute === '/admin/admins' && "active"}>
-                    <Link to={'/admin/admins'} className='nav-link'><i class="fa-solid fa-user-gear"></i> Administrateurs</Link>
+                <li className={currentRoute === '/admin/admins'? "active" : ""}>
+                    <Link to={'/admin/admins'} className='nav-link'><i className="fa-solid fa-user-gear"></i>Administrateurs</Link>
                 </li>
-                <li className={currentRoute === '/admin/users' && "active"}>
-                    <Link to={'/admin/users'} className='nav-link'><i class="fa-solid fa-user-large"></i> Utilisateurs</Link>
+                <li className={currentRoute === '/admin/users'? "active" : ""}>
+                    <Link to={'/admin/users'} className='nav-link'><i className="fa-solid fa-user-large"></i>Utilisateurs</Link>
                 </li>
-                <li className={currentRoute === '/admin/subjects' && "active"}>
-                    <Link to={'/admin/subjects'} className='nav-link'><i class="fa-regular fa-comment"></i> Thèmes de discussion</Link>
+                <li className={currentRoute === '/admin/subjects'? "active" : ""}>
+                    <Link to={'/admin/subjects'} className='nav-link'><i className="fa-regular fa-comment"></i>Thèmes de discussion</Link>
                 </li>
             </ul>
         </nav>

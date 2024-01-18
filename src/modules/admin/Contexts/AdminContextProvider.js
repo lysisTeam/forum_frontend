@@ -26,7 +26,7 @@ function AdminContextProvider({children}) {
         }
 
         getAdmin()
-    },[])
+    },[apiUrl])
   return (
     <AdminContext.Provider value={{admin}}>
         {

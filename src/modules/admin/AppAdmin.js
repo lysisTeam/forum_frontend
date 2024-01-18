@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import LoginAdmin from './Components/LoginAdmin';
 import MainPage from './Components/MainPage';
+// eslint-disable-next-line
 import Dashboard from './Components/Dashboard';
 import Administrateurs from './Components/Administrateurs';
 import Users from './Components/Users';
@@ -29,8 +30,8 @@ function AppAdmin() {
             <AdminContextProvider>
                 <MainPage>
                     <Routes>
-                        <Route path='/admin' Component={Dashboard}/>
-                        <Route path='/admin/admins' Component={Administrateurs}/>
+                        {/* <Route path='/admin' Component={Dashboard}/> */}
+                        <Route path='/admin' Component={Administrateurs}/>
                         <Route path='/admin/users' Component={Users}/>
                         <Route path='/admin/subjects' Component={Subjects}/>
                     </Routes>

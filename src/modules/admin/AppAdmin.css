@@ -229,7 +229,8 @@
     /* position: absolute; */
     /* background-color: aqua; */
     background-color: rgb(14, 26, 40);
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
+    z-index: 8;
 
 }
 
@@ -290,11 +291,26 @@
 }
 
 .container-views-admin{
+    position: relative;
     border-top-left-radius: 30px;
     height: calc(100vh - 60px);
     padding-top: 22px;
     overflow-y: scroll;
+    z-index: 10;
     background-color: rgb(249, 250, 251);
+}
+
+.container-views-admin::-webkit-scrollbar {
+    width: 2px; /* width of the entire scrollbar */
+}
+
+.container-views-admin::-webkit-scrollbar-track {
+    background: transparent; /* color of the tracking area */
+}
+
+.container-views-admin::-webkit-scrollbar-thumb {
+    border-radius: 25px;
+    border: 2px solid rgb(218, 218, 218); /* creates padding around scroll thumb */
 }
 
 
@@ -328,7 +344,7 @@
     border: 1px white solid;
     border-radius: 50%;
     margin-left: 8px;
-    position: relative;
+    position: relative !important;
 }
 
 .top-picture-drop-button img{
@@ -344,6 +360,17 @@
     left: 44px;
     font-size: 0.5rem;
     transform: translate(-50%,-50%);
+}
+
+.top-picture-drop-section{
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    top: 40px;
+    right: -15px;
+    background-color: rgb(243, 0, 0);
+    z-index: 11;
+    
 }
 
 

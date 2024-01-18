@@ -27,6 +27,10 @@ function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar}) {
           <button className='top-picture-drop-button' onClick={()=>alert('sdfsd')}>
             <img alt='user-avatar' src={avatar} />
             <i class="fa-solid fa-caret-down"></i>
+
+            <div className='top-picture-drop-section rounded shadow p-3'>
+
+            </div>
           </button>
         </div>
       </div>

@@ -13,7 +13,7 @@ function LoginAdmin() {
     
     useEffect(()=>{
         if (localStorage.admin_token) {
-            Navigate('/admin/')
+            Navigate('/admin')
         }
     },[Navigate])
 

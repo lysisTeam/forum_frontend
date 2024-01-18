@@ -98,11 +98,11 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    /* background-color: rgb(147,165,207); */
+    /* background-color: rgb(147,165,207);
     background-image: url('../../images/Joyboy.jpg');
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover; */
 }
 
 .loader-section::before{
@@ -138,7 +138,7 @@
     height: 100%;
     width: 280px;
     /* border-right: 0.1rem dashed rgb(204, 204, 204); */
-    z-index: 2;
+    z-index: 13;
     background-color: rgb(14, 26, 40);
     transition: left 0.3s ease-in-out;
 }
@@ -301,7 +301,7 @@
 }
 
 .container-views-admin::-webkit-scrollbar {
-    width: 2px; /* width of the entire scrollbar */
+    width: 0px; /* width of the entire scrollbar */
 }
 
 .container-views-admin::-webkit-scrollbar-track {
@@ -363,14 +363,70 @@
 }
 
 .top-picture-drop-section{
-    width: 200px;
-    height: 100px;
+    min-width: 200px;
+    /* height: 100px; */
     position: absolute;
     top: 40px;
     right: -15px;
-    background-color: rgb(243, 0, 0);
+    background-color: rgb(255, 255, 255);
     z-index: 11;
+    color: rgb(0, 0, 0);
+    font-size: 0.8rem;
+    text-align: left;
+    opacity: 0;
+    cursor: default;
+    transition: opacity .2s ease;
     
+}
+
+.top-picture-drop-section.show{
+    opacity: 1;
+}
+
+.top-picture-drop-section h6{
+    font-weight: 600;
+    color: rgb(56, 56, 56);
+}
+
+.top-picture-drop-section .email{
+    font-weight: 600;
+    color: rgb(114, 107, 151);
+}
+
+.logout-button{
+    background-color: rgb(255, 161, 161);
+    font-weight: 600;
+    /* background-color: black; */
+    border: 0;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding: 8px;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+
+}
+
+.logout-button i{
+    position: unset;
+    color: inherit;
+    font-size: inherit;
+    transform: none;
+    transition: transform 0.2s ease-in-out;
+}
+
+.logout-button:hover{
+    background-color: rgb(255, 82, 82);
+    font-weight: 700;
+    /* background-color: black; */
+    border: 0;
+    width: 100%;
+    padding: 8px;
+
+}
+
+.logout-button:hover i{
+    transform: translateX(12px);
 }
 
 
@@ -403,6 +459,7 @@
         height: 100%;
         top: 0;
         left: 0;
+        z-index: 12;
         background-color: rgba(22, 28, 36, 0.8);
     }
 
@@ -415,7 +472,7 @@
     }
 
     .menu-button-toggle{
-        display: flex;
+        display: inline-block;
     }
 
     .top-picture-drop-button{
@@ -425,7 +482,6 @@
     /*main page - fin*/
     
 }
-
 
 @media screen AND (max-width : 670px){
     .login-page{

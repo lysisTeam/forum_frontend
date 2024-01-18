@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import avatar from "../../../images/RyoumenSukunaIcon.jpg"
+import AdminContext from '../Contexts/AdminContext'
 
-function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar}) {
+function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPictureSection, handleToggleTopPictureSection}) {
+  const {admin, logout} = useContext(AdminContext)
   return (
     <div className='topBar-page-admin '>
       <div className={`searchBar px-5 gap-2 ${openSearchBar?'fall':''}`}>
@@ -23,14 +25,21 @@ function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar}) {
                 0<span class="visually-hidden">unread messages</span>
               </span>
             </i>
-            </button>
-          <button className='top-picture-drop-button' onClick={()=>alert('sdfsd')}>
+          </button>
+          <button className='top-picture-drop-button' onClick={handleToggleTopPictureSection}>
             <img alt='user-avatar' src={avatar} />
             <i class="fa-solid fa-caret-down"></i>
 
-            <div className='top-picture-drop-section rounded shadow p-3'>
-
-            </div>
+            {
+              openTopPictureSection &&
+              <div className='top-picture-drop-section rounded shadow p-3'>
+                <h6 className='p-0 m-0'>{`${admin.nom} ${admin.prenoms}`}</h6>
+                <p className='m-0 email'>{admin.email}</p>
+                <hr className='my-2'></hr>
+                <span className='logout-button rounded pe-auto' onClick={logout}>Se déconnecter <i class="fa-solid fa-person-walking-luggage"></i></span>
+              </div>
+            }
+            
           </button>
         </div>
       </div>

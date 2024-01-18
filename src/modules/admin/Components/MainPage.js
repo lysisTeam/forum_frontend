@@ -5,6 +5,7 @@ import TopBar from '../Layouts/TopBar'
 function MainPage({children}) {
   const [openSideBar, setOpenSideBar] = useState(false)
   const [openSearchBar, setOpenSearchBar] = useState(false)
+  const [openTopPictureSection, setOpenTopPictureSection] = useState(false)
 
   useEffect(()=>{
     // fonction pour fermer le sidebar au resize > 1200px
@@ -25,6 +26,13 @@ function MainPage({children}) {
       if (openSearchBar && (!event.target.closest('.searchBar'))) {
         setOpenSearchBar(false)
       }
+
+      if (openTopPictureSection && (!event.target.closest('.top-picture-drop-button'))) {
+        document.querySelector('.top-picture-drop-section').classList.remove('show')
+        setTimeout(() => {
+          setOpenTopPictureSection(false)
+        }, 200);
+      }
     }
 
     //evenements fermer sidebar
@@ -32,19 +40,42 @@ function MainPage({children}) {
     document.addEventListener('mousedown', handleClose);
 
 
-    console.log(openSearchBar);
+    console.log(openTopPictureSection);
     return () => {
       window.removeEventListener("resize",handleResize)
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[openSideBar, openSearchBar])
+  },[openSideBar, openSearchBar, openTopPictureSection])
+
+
+  const handleToggleTopPictureSection = (e) => {
+
+    if ((!e.target.closest('.top-picture-drop-section'))) {
+      if (!openTopPictureSection) {
+        setOpenTopPictureSection(true)
+        setTimeout(() => {
+          document.querySelector('.top-picture-drop-section').classList.add('show')
+        }, 1);
+        
+      }else{
+        document.querySelector('.top-picture-drop-section').classList.remove('show')
+        setTimeout(() => {
+          setOpenTopPictureSection(false)
+        }, 200);
+      }
+
+    }
+   
+    
+    e.stopPropagation()
+  }
   return (
     <div className='main-page-admin d-flex'>
       <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />
-      <div className='section-container-pages'>
-        <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} />
-        <div className={`container-views-admin ${openSideBar?'overlay':''} `}>
+      <div className={`section-container-pages ${openSideBar?'overlay':''} `}>
+        <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection}/>
+        <div className='container-views-admin'>
           <div className='container'>
             {children}
           </div>

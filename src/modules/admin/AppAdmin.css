@@ -294,10 +294,11 @@
     position: relative;
     border-top-left-radius: 30px;
     height: calc(100vh - 60px);
-    padding-top: 22px;
+    padding-top: 74px;
     overflow-y: scroll;
     z-index: 10;
-    background-color: rgb(249, 250, 251);
+    background-color: #eff3f6;
+    color: rgb(14, 26, 40);
 }
 
 .container-views-admin::-webkit-scrollbar {
@@ -385,7 +386,7 @@
 
 .top-picture-drop-section h6{
     font-weight: 600;
-    color: rgb(56, 56, 56);
+    color: rgb(14, 26, 40);
 }
 
 .top-picture-drop-section .email{
@@ -431,6 +432,67 @@
 
 
 /* main page admin - fin */
+
+
+/* page utilisateurs */
+
+.container-list{
+    background-color: white;
+    overflow-x: scroll;
+}
+
+.btn-dark{
+    background-color: rgb(14, 26, 40) !important;
+}
+
+.btn-dark:hover{
+    background-color: rgb(30, 53, 78) !important;
+}
+
+.container-list table thead{
+    --bs-table-bg: rgb(14, 26, 40);
+    --bs-table-color: white;
+    margin-bottom: 50px !important;
+    padding-bottom: 50px !important;
+} 
+
+.container-list .td-profil-pic{
+    /* display: flex; */
+    align-items: center;
+    gap: 8px;
+}
+
+.container-list .td-profil-pic img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.container-list table th, .container-list table tbody td{
+    vertical-align: middle;
+    font-size: 0.9rem;
+    text-wrap: nowrap;
+    
+}
+
+
+.container-list::-webkit-scrollbar {
+    width: 0px;
+    height: 5px; 
+    background-color: #eff3f6;/* width of the entire scrollbar */
+}
+
+.container-list::-webkit-scrollbar-track {
+    background: transparent; /* color of the tracking area */
+}
+
+.container-list::-webkit-scrollbar-thumb {
+    border-radius: 25px;
+    border: 2px solid rgb(218, 218, 218); /* creates padding around scroll thumb */
+}
+
+/* page utilisateurs */
+
 
 @media screen AND (max-width : 1200px){
 

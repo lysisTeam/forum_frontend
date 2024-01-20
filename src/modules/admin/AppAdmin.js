@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import LoginAdmin from './Components/LoginAdmin';
-import MainPage from './Components/MainPage';
+import LoginAdmin from './Pages/LoginAdmin';
+import MainPage from './Pages/MainPage';
 // eslint-disable-next-line
 import Dashboard from './Components/Dashboard';
 import Administrateurs from './Components/Administrateurs';
 import Users from './Components/Users';
 import Subjects from './Components/Subjects';
 import AdminContextProvider from './Contexts/AdminContextProvider';
+import AddUser from './Components/AddUser';
 
 function AppAdmin() {
     const Navigate = useNavigate()
@@ -33,6 +34,7 @@ function AppAdmin() {
                         {/* <Route path='/admin' Component={Dashboard}/> */}
                         <Route path='/admin' Component={Administrateurs}/>
                         <Route path='/admin/users' Component={Users}/>
+                        <Route path='/admin/users/add' Component={AddUser}/>
                         <Route path='/admin/subjects' Component={Subjects}/>
                     </Routes>
                 </MainPage>

@@ -1,12 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AlertError from '../Layouts/AlertError'
 
 function LoginAdmin() {
     const [username,setUsername] = useState('')
     const [password,setpassword] = useState('')
-    const [error,setError] = useState('')
-    const [showAlert,setShowAlert] = useState(false)
+
+    const [textError,setTextError] = useState('')
+    const [callError,setCallError] = useState(false)
+    
     const [showSpinner,setShowSpinner] = useState(false)
     const Navigate = useNavigate()  
     const apiUrl = process.env.REACT_APP_API_URL
@@ -32,46 +35,20 @@ function LoginAdmin() {
         })
         .catch((err)=>{
             // console.log(err.response.data.error);
-            showError(err.response.data.error)
+            setTextError(err.response.data.error)
+            setCallError(true)
+
+
         })
         setShowSpinner(false)
     }
 
-    const showError = (textError) =>{
-
-        setError(textError)
-        setShowAlert(true)
-        
-        setTimeout(() => {
-            if (document.querySelector('.bottom-line span')) {
-                document.querySelector('.bottom-line span').style.width = 0
-            }
-        }, 100);
-        
-        setTimeout(() => {
-             // document.querySelector('.bottom-line span').style.visibility = 'hidden'
-             if (document.querySelector('.bottom-line span')) {
-                document.querySelector('.bottom-line span').style.width = '100%'
-            }
-             
-             setShowAlert(false)
-        }, 3100);
-   
-        
-    }
   return (
     <div className='login-page d-flex justify-content-center align-items-center px-4'>
         <div className='login-wild-section d-flex gap-2'>
             <div className='login-left-section rounded shadow'></div>
             <div className='login-right-section rounded shadow p-3 d-flex flex-column justify-content-center gap-5'>
-                {
-                    (showAlert) &&
-                    <div className="alert fw-bold fs-6 py-1 shadow" role="alert">
-                        {error}
-                        <div className='bottom-line'><span ></span></div>
-                    </div>
-                }
-            
+                <AlertError textError={textError} callError={callError} setCallError={setCallError}/>
                 <div className='d-flex flex-column justify-content-center align-items-center'>
                     <h1 className='fw-bold p-0 m-0'>Se connecter</h1>
                     <p className='m-0 p-0'>Content de vous revoir !!!</p>

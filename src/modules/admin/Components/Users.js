@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import pp from '../../../images/avatar_25.jpg'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 function Users() {
+  const [students, setStudents] = useState([])
+  const apiUrl = process.env.REACT_APP_API_URL
+
+  useEffect(()=>{
+    const getStudents = async()=>{
+      await axios.get(apiUrl+'/api/user/all',{
+        headers: {
+          token: localStorage.admin_token
+        }
+      })
+      .then((response)=>{
+        setStudents(response.data.users)
+        console.log(response.data);
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
+
+    getStudents()
+  },[apiUrl, setStudents])
+
   return (
     <div>
         <div className='d-flex justify-content-between'>
           <h4 className='fw-bold'>Etudiants</h4>
-          <button className='btn btn-dark'><i class="fa-regular fa-square-plus"></i> Ajouter</button>
+          <Link to={'/admin/users/add'} className='btn btn-dark' ><i class="fa-regular fa-square-plus"></i> Nouvel étudiant</Link>
         </div>
         <div className='container-list rounded-3 shadow p-3 mt-4'>
           <h6 className='fw-bold m-0'>Liste des étudiants</h6>
@@ -24,37 +48,20 @@ function Users() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row"><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"/></th>
-                {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                <td className='td-profil-pic'><img alt='pp' src={pp}/> Mounirou abdul kodir</td>
-                <td>kodir2023</td>
-                <td>mounirouabdul40@gmail.com</td>
-                <td>DAD</td>
-                <td>DAD - A</td>
-                <td><button className='btn'><i class="fa-solid fa-ellipsis"></i></button></td>
-              </tr>
-              <tr>
-                <th scope="row"><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"/></th>
-                {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                <td className='td-profil-pic'><img alt='pp' src={pp}/> Mounirou abdul kodir</td>
-                <td>kodir2023</td>
-                <td>mounirouabdul40@gmail.com</td>
-                <td>DAD</td>
-                <td>DAD - A</td>
-                <td><button className='btn'><i class="fa-solid fa-ellipsis"></i></button></td>
-              </tr>
-              <tr>
-                <th scope="row"><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"/></th>
-                {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                <td className='td-profil-pic'><img alt='pp' src={pp}/> Mounirou abdul kodir</td>
-                <td>kodir2023</td>
-                <td>mounirouabdul40@gmail.com</td>
-                <td>DAD</td>
-                <td>DAD - A</td>
-                <td><button className='btn'><i class="fa-solid fa-ellipsis"></i></button></td>
-              </tr>
-              
+              {
+                students?.map(student =>(
+                  <tr>
+                    <th scope="row"><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"/></th>
+                    {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
+                    <td className='td-profil-pic'><img alt='pp' src={apiUrl+'/'+student.photo}/>{` ${student.nom} ${student.prenoms}`}</td>
+                    <td>{`${student.username}`}</td>
+                    <td>{`${student.email}`}</td>
+                    <td>{`${student.specialite}`}</td>
+                    <td>{`${student.classe}`}</td>
+                    <td><button className='btn'><i class="fa-solid fa-ellipsis"></i></button></td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>

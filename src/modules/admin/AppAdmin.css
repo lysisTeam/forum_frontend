@@ -25,11 +25,11 @@
 .login-wild-section > .login-right-section{
     height: 100%;
     width: calc(100% - 300px);
-    background-color: rgb(14, 26, 40);
+    background-color: var(--main-bg-color);
     position: relative;
 }
 
-.login-wild-section > .login-right-section .alert{
+.alert{
     position: absolute;
     right: 16px;
     top: -15px;
@@ -39,7 +39,7 @@
     text-align: center;
 }
 
-.login-wild-section > .login-right-section .alert .bottom-line{
+.alert .bottom-line{
     display: block;
     width: 95%;
     height: 1.5px;
@@ -49,7 +49,7 @@
     transform: translate(-50%,-50%);
 }
 
-.login-wild-section > .login-right-section .alert .bottom-line > span{
+.alert .bottom-line > span{
     position: absolute;
     left: 0;
     width: 100%;
@@ -128,7 +128,7 @@
 .main-page-admin{
     width: 100%;
     height: 100vh;
-    background-color: rgb(14, 26, 40);
+    background-color: var(--main-bg-color);
     font-family: "Public Sans", sans-serif;
 }
 
@@ -139,7 +139,7 @@
     width: 280px;
     /* border-right: 0.1rem dashed rgb(204, 204, 204); */
     z-index: 13;
-    background-color: rgb(14, 26, 40);
+    background-color: var(--main-bg-color);
     transition: left 0.3s ease-in-out;
 }
 
@@ -228,7 +228,7 @@
     height: 60px;
     /* position: absolute; */
     /* background-color: aqua; */
-    background-color: rgb(14, 26, 40);
+    background-color: var(--main-bg-color);
     /* overflow-y: hidden; */
     z-index: 8;
 
@@ -243,7 +243,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(14, 26, 40);
+    background-color: var(--main-bg-color);
     transition: top 0.3s ease-in-out;
 }
 
@@ -257,7 +257,7 @@
     border-bottom-left-radius: 30px;
     display: flex;
     align-items: center;
-    background-color: rgb(14, 26, 40);
+    background-color: var(--main-bg-color);
     color: white;
     transition: top 0.3s ease-in-out;
 }
@@ -298,7 +298,7 @@
     overflow-y: scroll;
     z-index: 10;
     background-color: #eff3f6;
-    color: rgb(14, 26, 40);
+    color: var(--main-bg-color);
 }
 
 .container-views-admin::-webkit-scrollbar {
@@ -386,7 +386,7 @@
 
 .top-picture-drop-section h6{
     font-weight: 600;
-    color: rgb(14, 26, 40);
+    color: var(--main-bg-color);
 }
 
 .top-picture-drop-section .email{
@@ -442,7 +442,7 @@
 }
 
 .btn-dark{
-    background-color: rgb(14, 26, 40) !important;
+    background-color: var(--main-bg-color) !important;
 }
 
 .btn-dark:hover{
@@ -450,7 +450,7 @@
 }
 
 .container-list table thead{
-    --bs-table-bg: rgb(14, 26, 40);
+    --bs-table-bg: var(--main-bg-color);
     --bs-table-color: white;
     margin-bottom: 50px !important;
     padding-bottom: 50px !important;
@@ -463,15 +463,19 @@
 }
 
 .container-list .td-profil-pic img{
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    image-rendering: auto;
 }
 
 .container-list table th, .container-list table tbody td{
     vertical-align: middle;
-    font-size: 0.9rem;
+    font-size: 0.98rem;
     text-wrap: nowrap;
+    text-transform: capitalize;
     
 }
 
@@ -491,7 +495,109 @@
     border: 2px solid rgb(218, 218, 218); /* creates padding around scroll thumb */
 }
 
+
+/*useradd*/
+
+.btn-back{
+    background-color: #d3d9df;
+}
+
+.btn-back:hover{
+    background-color: #bfcbd6;
+}
+
+.pic-preference{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+
+}
+
+
+
+.overlay{
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    border: 0;
+    opacity: 0;
+    transition: 0.2s ease opacity;
+    }
+
+.overlay:hover{
+    opacity: 1;
+}
+
+
+.add-user-section .btn-submit{
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 6px 35px;
+    background-color: var(--main-bg-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.2s ease;
+}
+
+.add-user-section .btn-submit:hover{
+    background-color: rgb(10, 51, 99);
+    color: white;
+}
+
+.add-user-section .btn-submit.success{
+    background-color: green !important;
+}
+
+/*useradd*/
+
 /* page utilisateurs */
+
+
+
+
+
+/*alert*/
+
+.alert{
+    position: absolute;
+    right: 16px;
+    top: -15px;
+    margin: 0;
+    background-color: rgb(223, 38, 38);
+    color: white;
+    font-size: 0.9rem !important;
+    min-width: 150px;
+    text-align: center;
+}
+
+.alert .bottom-line{
+    display: block;
+    width: 95%;
+    height: 1.5px;
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.alert .bottom-line > span{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 10px;
+    background-color: var(--main-bg-color);
+    transition: all 3s linear;
+    
+}
+
+/*alert*/
 
 
 @media screen AND (max-width : 1200px){
@@ -570,7 +676,9 @@
         position: relative;
     }
 
-    .login-wild-section > .login-right-section .alert{
+    /*alert*/
+
+    .alert{
         position: absolute;
         right: 16px;
         top:unset;
@@ -579,6 +687,13 @@
         background-color: rgb(223, 38, 38);
         min-width: 150px;
         text-align: center;
+    }
+    /*alert*/
+
+
+
+    .container-views-admin {
+        padding-top: 16px;
     }
 
 }

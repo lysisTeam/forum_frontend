@@ -31,7 +31,7 @@ function SideBar({openSideBar}) {
                 <li className={currentRoute === '/admin'? "active" : ""}>
                     <Link to={'/admin'} className='nav-link'><i className="fa-solid fa-user-gear"></i>Administrateurs</Link>
                 </li>
-                <li className={currentRoute === '/admin/users'? "active" : ""}>
+                <li className={currentRoute === '/admin/users' || currentRoute === '/admin/users/add'? "active" : ""}>
                     <Link to={'/admin/users'} className='nav-link'><i className="fa-solid fa-user-large"></i>Utilisateurs</Link>
                 </li>
                 <li className={currentRoute === '/admin/subjects'? "active" : ""}>

@@ -33,6 +33,8 @@ function MainPage({children}) {
           setOpenTopPictureSection(false)
         }, 200);
       }
+
+
     }
 
     //evenements fermer sidebar

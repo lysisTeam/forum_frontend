@@ -473,16 +473,21 @@
 
 .container-list table th, .container-list table tbody td{
     vertical-align: middle;
-    font-size: 0.98rem;
+    font-size: 0.875rem;
     text-wrap: nowrap;
     text-transform: capitalize;
+    
+}
+
+.container-list table tbody td{
+    color: rgb(33, 43, 54);
     
 }
 
 
 .container-list::-webkit-scrollbar {
     width: 0px;
-    height: 5px; 
+    height: 0px; 
     background-color: #eff3f6;/* width of the entire scrollbar */
 }
 
@@ -516,7 +521,7 @@
 
 
 
-.overlay{
+.pic-preference-section .overlay{
     width: 100px;
     height: 100px;
     background-color: rgba(0, 0, 0, 0.3);
@@ -528,7 +533,7 @@
     transition: 0.2s ease opacity;
     }
 
-.overlay:hover{
+.pic-preference-section .overlay:hover{
     opacity: 1;
 }
 

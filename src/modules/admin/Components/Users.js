@@ -53,7 +53,7 @@ function Users() {
                   <tr>
                     <th scope="row"><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"/></th>
                     {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                    <td className='td-profil-pic'><img alt='pp' src={apiUrl+'/'+student.photo}/>{` ${student.nom} ${student.prenoms}`}</td>
+                    <td className='td-profil-pic'><img alt='pp' src={apiUrl+'/'+student.photo}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}</td>
                     <td>{`${student.username}`}</td>
                     <td>{`${student.email}`}</td>
                     <td>{`${student.specialite}`}</td>

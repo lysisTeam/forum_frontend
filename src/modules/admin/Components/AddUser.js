@@ -142,7 +142,7 @@ function AddUser() {
                     <hr></hr>
                     <div className='d-flex justify-content-between align-items-center flex-wrap gap-3'>
                         <div className='d-flex gap-2 align-items-center'>
-                        <div className='position-relative'>
+                        <div className='position-relative pic-preference-section'>
                             {/* <img className='pic-preference' alt='' src={'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}></img> */}
                             {
                                 (!imageReader)?

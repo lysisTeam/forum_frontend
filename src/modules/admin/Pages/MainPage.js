@@ -33,8 +33,6 @@ function MainPage({children}) {
           setOpenTopPictureSection(false)
         }, 200);
       }
-
-
     }
 
     //evenements fermer sidebar
@@ -42,7 +40,6 @@ function MainPage({children}) {
     document.addEventListener('mousedown', handleClose);
 
 
-    console.log(openTopPictureSection);
     return () => {
       window.removeEventListener("resize",handleResize)
       document.removeEventListener('mousedown', handleClose);

@@ -20,10 +20,15 @@ function AdminContextProvider({children}) {
                 }
             }).then(response => {
                 setAdmin(response.data.admin)
-                setIsLoaded(true)
+                setTimeout(() => {
+                    setIsLoaded(true)
+                }, 1000);
+                
             }).catch(err => {
-                console.log(err);
-                setIsLoaded(true)
+                // console.log(err);
+                setTimeout(() => {
+                    setIsLoaded(true)
+                }, 1000);
             })
         }
 

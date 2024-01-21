@@ -295,6 +295,7 @@
     border-top-left-radius: 30px;
     height: calc(100vh - 60px);
     padding-top: 74px;
+    padding-bottom: 30px;
     overflow-y: scroll;
     z-index: 10;
     background-color: #eff3f6;
@@ -441,6 +442,29 @@
     overflow-x: scroll;
 }
 
+.container-list .container-list-top{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.container-list .container-list-top.selected{
+    background-color: #a6d6fd;
+}
+
+.container-list table tbody tr{
+    transition: background-color 0.2s ease-in-out;
+}
+
+.container-list table.disable-hover:hover{
+    --bs-table-hover-bg: none !important;
+}
+
+.container-list table tbody tr.selected{
+    --bs-table-bg: #a6d6fd !important;
+}
+
 .btn-dark{
     background-color: var(--main-bg-color) !important;
 }
@@ -450,10 +474,11 @@
 }
 
 .container-list table thead{
-    --bs-table-bg: var(--main-bg-color);
-    --bs-table-color: white;
+    --bs-table-bg: #eff3f6;
+    --bs-table-color: rgb(0, 0, 0);
     margin-bottom: 50px !important;
     padding-bottom: 50px !important;
+    height: 50px !important;
 } 
 
 .container-list .td-profil-pic{
@@ -484,6 +509,38 @@
     
 }
 
+.container-list .td-option-section{
+    min-width: 140px;
+    /* height: 100px; */
+    position: absolute;
+    top: 12px;
+    right: 48px;
+    background-color: rgb(255, 255, 255);
+    z-index: 11;
+    color: rgb(0, 0, 0);
+    font-size: 0.8rem;
+    text-align: left;
+    opacity: 0;
+    cursor: default;
+    transition: opacity .2s ease;
+    overflow: hidden;
+}
+
+.container-list .td-option-section.show{
+    opacity: 1;
+}
+
+.container-list .td-option-section button{
+    background-color: #ffffff;
+    border-radius: 0 !important;
+    padding: 5px 10px;
+    text-align:left;
+    font-size: 0.85rem;
+}
+
+.container-list .td-option-section button:hover{
+    background-color: #f1f3f5;
+}
 
 .container-list::-webkit-scrollbar {
     width: 0px;

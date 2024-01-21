@@ -142,30 +142,30 @@ function AddUser() {
                     <hr></hr>
                     <div className='d-flex justify-content-between align-items-center flex-wrap gap-3'>
                         <div className='d-flex gap-2 align-items-center'>
-                        <div className='position-relative pic-preference-section'>
-                            {/* <img className='pic-preference' alt='' src={'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}></img> */}
-                            {
-                                (!imageReader)?
-                                <img className='pic-preference' alt=''  src={'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}></img>
-                                :
-                                <img className='pic-preference' alt=''  src={imageReader}></img>
-                            }
-                            <button className='overlay d-flex justify-content-center align-items-center' onClick={clickFileInput}>
-                            {
-                                (!imageReader)?
-                                    <i class="fa-solid fa-square-plus" style={{color: 'white'}}></i>
-                                :
-                                    <i class="fa-solid fa-pen-to-square" style={{color: 'white'}}></i>
-                            }
-                            
-                            </button>
-                            <input className="form-control d-none" id='file' type="file" accept="image/*" onChange={handleChange} />
-                        </div>
-                            
-                        <div>
-                            <h6 className='fw-bold m-0'>Photo de profil</h6>
-                            <p className='text-muted m-0' style={{fontSize: '13px'}}>Taille idéale : 400px x 400px</p>
-                        </div>
+                            <div className='position-relative pic-preference-section'>
+                                {/* <img className='pic-preference' alt='' src={'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}></img> */}
+                                {
+                                    (!imageReader)?
+                                    <img className='pic-preference' alt=''  src={'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}></img>
+                                    :
+                                    <img className='pic-preference' alt=''  src={imageReader}></img>
+                                }
+                                <button className='overlay d-flex justify-content-center align-items-center' onClick={clickFileInput}>
+                                {
+                                    (!imageReader)?
+                                        <i class="fa-solid fa-square-plus" style={{color: 'white'}}></i>
+                                    :
+                                        <i class="fa-solid fa-pen-to-square" style={{color: 'white'}}></i>
+                                }
+                                
+                                </button>
+                                <input className="form-control d-none" id='file' type="file" accept="image/*" onChange={handleChange} />
+                            </div>
+                                
+                            <div>
+                                <h6 className='fw-bold m-0'>Photo de profil</h6>
+                                <p className='text-muted m-0' style={{fontSize: '13px'}}>Taille idéale : 400px x 400px</p>
+                            </div>
                         </div>
                         {/* <button type="button" className="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatePic">Ajouter une photo</button> */}
                         {

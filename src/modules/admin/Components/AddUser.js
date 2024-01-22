@@ -190,7 +190,7 @@ function AddUser() {
                                     <span className="visually-hidden">Loading...</span>
                                 </div>
                             :
-                            <i class="fa-solid fa-check-double"></i>
+                            <i class="fa-solid fa-check-double fa-shake"></i>
                         }
                         </button>
                     </div>

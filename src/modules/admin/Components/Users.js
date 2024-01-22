@@ -19,6 +19,7 @@ function Users() {
         }
       })
       .then((response)=>{
+        // console.log(response.data.users);
         setStudents(response.data.users)
         setTimeout(() => {
           setShowPlaceholder(false)
@@ -35,7 +36,6 @@ function Users() {
 
     // fonction pour fermer le sidebar au click sur le document
     const handleClose = (e) =>{
-      console.log('1');
       if (showOptions && (!e.target.closest('.td-option-section'))) {
         document.querySelector('.td-option-section.show').classList.remove('show')
         setTimeout(() => {
@@ -59,7 +59,7 @@ function Users() {
 
   //cocher ou decocher une checkbox
   const handleChange = (e) =>{
-    console.log(e.target.parentElement.parentElement);
+    // console.log(e.target.parentElement.parentElement);
     if (e.target.checked) {
       const newTab = [...selectedStudents, e.target.id]
       setSelectedStudents(newTab)
@@ -114,6 +114,25 @@ function Users() {
     }
   }
 
+  const handleDelete = async (ids) =>{
+    // console.log(ids);
+    await axios.delete(apiUrl+'/api/user/delete',{
+      data: {ids:ids},
+      headers:{
+        token: localStorage.admin_token
+      }
+    })
+    .then((response)=>{
+      // console.log(response);
+      const newTab = students.filter(student => !response.data.userDeleted.includes(student._id))
+      setStudents(newTab)
+      setSelectedStudents([])
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
+
   return (
     <div>
         <div className='d-flex justify-content-between'>
@@ -127,7 +146,7 @@ function Users() {
               (selectedStudents.length !== 0)?
               <div className='d-flex justify-content-between align-items-center w-100'>
                 <h6 className='fw-bold m-0 text-primary'>{`${selectedStudents.length} selectionné${(selectedStudents.length === 1)?'':'s'}`}</h6>
-                <button className='btn'><i class="fa-solid fa-trash-can text-danger"></i></button>
+                <button className='btn' onDoubleClick={()=>handleDelete(selectedStudents)} ><i class="fa-solid fa-trash-can text-danger pe-none"></i></button>
               </div>
               :
               <h6 className='fw-bold m-0'>Liste des étudiants</h6>
@@ -167,7 +186,7 @@ function Users() {
                           <div className='td-option-section rounded shadow d-flex flex-column d-none'>
                             {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
                             <button className='btn fw-bold'><i class="fa-solid fa-pen-nib"></i>&nbsp; Modifier</button>
-                            <button className='btn text-danger fw-bold'><i class="fa-solid fa-trash-can"></i>&nbsp; Supprimer</button>
+                            <button className='btn text-danger fw-bold' onClick={()=>{handleDelete([student._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
                           </div>
                         }
                       </td>

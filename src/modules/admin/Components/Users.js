@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import pp from '../../../images/avatar_25.jpg'
+import React, { useContext, useEffect, useState } from 'react'
+// import pp from '../../../images/avatar_25.jpg'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
+import AdminContext from '../Contexts/AdminContext'
 
 function Users() {
   const [showPlaceholder, setShowPlaceholder] = useState(true)
@@ -10,8 +11,14 @@ function Users() {
   const [students, setStudents] = useState([])
   const [selectedStudents, setSelectedStudents] = useState([])
   const apiUrl = process.env.REACT_APP_API_URL
+  const {showToast} = useContext(AdminContext)
+
+  let clickCount = 0;
+  
 
   useEffect(()=>{
+
+
     const getStudents = async()=>{
       await axios.get(apiUrl+'/api/user/all',{
         headers: {
@@ -127,18 +134,38 @@ function Users() {
       const newTab = students.filter(student => !response.data.userDeleted.includes(student._id))
       setStudents(newTab)
       setSelectedStudents([])
+      setShowOptions(false)
     })
     .catch(err=>{
+      setShowOptions(false)
       console.log(err);
     })
   }
 
+  const tripleClick = (ids) =>{
+    
+    clickCount++;
+
+    if (clickCount === 1) {
+      setTimeout(() => {
+        if (clickCount === 1 || clickCount === 2) {
+          // Un seul clic, ou deux clics
+          showToast(`Il pourrait s'agir d'un click accidentel, Cliquez trois fois pour supprimer !`,"bg-danger")
+        }
+        clickCount = 0;
+      }, 700);
+    } else if (clickCount === 3) {
+      // triple-clic détecté
+      handleDelete(ids)
+      clickCount = 0;
+    }
+
+  }
+
   return (
     <div>
-        <div className='d-flex justify-content-between'>
-          <h4 className='fw-bold'>Etudiants</h4>
-          <Link to={'/admin/users/add'} className='btn btn-dark' ><i class="fa-regular fa-square-plus"></i> Nouvel étudiant</Link>
-        </div>
+        <h4 className='fw-bold'>Etudiants</h4>
+        
         <div className='container-list rounded shadow  mt-4'>
           <div className={`container-list-top px-3 ${(selectedStudents.length !== 0)?'selected':''}`}>
           
@@ -146,10 +173,14 @@ function Users() {
               (selectedStudents.length !== 0)?
               <div className='d-flex justify-content-between align-items-center w-100'>
                 <h6 className='fw-bold m-0 text-primary'>{`${selectedStudents.length} selectionné${(selectedStudents.length === 1)?'':'s'}`}</h6>
-                <button className='btn' onDoubleClick={()=>handleDelete(selectedStudents)} ><i class="fa-solid fa-trash-can text-danger pe-none"></i></button>
+                <button className='btn' onClick={()=>tripleClick(selectedStudents)} ><i class="fa-solid fa-trash-can text-danger pe-none"></i></button>
               </div>
               :
-              <h6 className='fw-bold m-0'>Liste des étudiants</h6>
+              <div className='d-flex justify-content-between align-items-center w-100'>
+                <h6 className='fw-bold m-0'>Liste des étudiants</h6>
+                <Link to={'/admin/users/add'} className='btn btn-outline-dark btn-sm' ><i class="fa-regular fa-square-plus"></i> Nouvel étudiant</Link>
+              </div>
+              
             }
           </div>
           <table class="table table-hover table-borderless ">
@@ -185,8 +216,8 @@ function Users() {
                           showOptions &&
                           <div className='td-option-section rounded shadow d-flex flex-column d-none'>
                             {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
-                            <button className='btn fw-bold'><i class="fa-solid fa-pen-nib"></i>&nbsp; Modifier</button>
-                            <button className='btn text-danger fw-bold' onClick={()=>{handleDelete([student._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
+                            <button className='btn fw-bold'><i class="fa-solid fa-eye"></i>&nbsp; Voir</button>
+                            <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([student._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
                           </div>
                         }
                       </td>

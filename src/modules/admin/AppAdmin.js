@@ -9,6 +9,7 @@ import Users from './Components/Users';
 import Subjects from './Components/Subjects';
 import AdminContextProvider from './Contexts/AdminContextProvider';
 import AddUser from './Components/AddUser';
+import AddAdmin from './Components/AddAdmin';
 
 function AppAdmin() {
     const Navigate = useNavigate()
@@ -33,6 +34,7 @@ function AppAdmin() {
                     <Routes>
                         {/* <Route path='/admin' Component={Dashboard}/> */}
                         <Route path='/admin' Component={Administrateurs}/>
+                        <Route path='/admin/add' Component={AddAdmin}/>
                         <Route path='/admin/users' Component={Users}/>
                         <Route path='/admin/users/add' Component={AddUser}/>
                         <Route path='/admin/subjects' Component={Subjects}/>

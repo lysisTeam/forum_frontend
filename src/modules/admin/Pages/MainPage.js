@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SideBar from '../Layouts/SideBar'
 import TopBar from '../Layouts/TopBar'
+import AdminContext from '../Contexts/AdminContext'
 
 function MainPage({children}) {
   const [openSideBar, setOpenSideBar] = useState(false)
   const [openSearchBar, setOpenSearchBar] = useState(false)
   const [openTopPictureSection, setOpenTopPictureSection] = useState(false)
+
+  const {message, theme} = useContext(AdminContext)
 
   useEffect(()=>{
     // fonction pour fermer le sidebar au resize > 1200px
@@ -45,7 +48,7 @@ function MainPage({children}) {
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[openSideBar, openSearchBar, openTopPictureSection])
+  },[openSideBar, openSearchBar, openTopPictureSection, theme])
 
 
   const handleToggleTopPictureSection = (e) => {
@@ -78,6 +81,23 @@ function MainPage({children}) {
           <div className='container'>
             {children}
           </div>
+
+
+          <div className="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" className={`toast ${theme}`} role="alert" aria-live="assertive" aria-atomic="true">
+                {/* <div className="toast-header">
+                <strong className="me-auto">Alerte</strong>
+                <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div> */}
+                <div className="toast-body text-white">
+                {message}
+                </div>
+            </div>
+
+          </div>
+
+
+
         </div>
       </div>
     </div>

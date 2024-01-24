@@ -28,11 +28,11 @@ function SideBar({openSideBar}) {
                 {/* <li className={currentRoute === '/admin'? "active" : ""}>
                     <Link to={'/admin'} ><i className="fa-solid fa-chart-column"></i>Tableau de bord</Link>
                 </li> */}
-                <li className={currentRoute === '/admin'? "active" : ""}>
+                <li className={currentRoute === '/admin' || currentRoute === '/admin/add'? "active" : ""}>
                     <Link to={'/admin'} className='nav-link'><i className="fa-solid fa-user-gear"></i>Administrateurs</Link>
                 </li>
                 <li className={currentRoute === '/admin/users' || currentRoute === '/admin/users/add'? "active" : ""}>
-                    <Link to={'/admin/users'} className='nav-link'><i className="fa-solid fa-user-large"></i>Utilisateurs</Link>
+                    <Link to={'/admin/users'} className='nav-link'><i className="fa-solid fa-user-large"></i>Etudiants</Link>
                 </li>
                 <li className={currentRoute === '/admin/subjects'? "active" : ""}>
                     <Link to={'/admin/subjects'} className='nav-link'><i className="fa-regular fa-comment"></i>Rooms publiques</Link>

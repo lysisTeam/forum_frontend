@@ -8,7 +8,7 @@ function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPicture
     <div className='topBar-page-admin '>
       <div className={`searchBar px-5 gap-2 ${openSearchBar?'fall':''}`}>
         <i class="fa-solid fa-keyboard"></i>
-        <input type='text' placeholder='Ecrire ici...'/>
+        <input type='text' placeholder='I need someone to save me...'/>
         <button className='top-button' onClick={()=>setOpenSearchBar(true)}><i class="fa-solid fa-eraser"></i></button>
       </div>
 

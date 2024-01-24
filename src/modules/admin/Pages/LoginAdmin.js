@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AlertError from '../Layouts/AlertError'
+import * as bootstrap from 'bootstrap';
 
 function LoginAdmin() {
     const [username,setUsername] = useState('')
@@ -35,12 +36,21 @@ function LoginAdmin() {
         })
         .catch((err)=>{
             // console.log(err.response.data.error);
-            setTextError(err.response.data.error)
-            setCallError(true)
+            // setTextError(err.response.data.error)
+            // setCallError(true)
+            showToast(err.response.data.error)
 
 
         })
         setShowSpinner(false)
+    }
+
+    const showToast = (message)=>{
+        const toastLiveExample = document.getElementById('liveToast')
+
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        setTextError(message)
+        toastBootstrap.show()
     }
 
   return (
@@ -75,6 +85,18 @@ function LoginAdmin() {
                         </button>
                       </div>
                   </form>
+            </div>
+        </div>
+
+        <div className="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" className="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                {/* <div className="toast-header">
+                <strong className="me-auto">Alerte</strong>
+                <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div> */}
+                <div className="toast-body text-white">
+                {textError}
+                </div>
             </div>
         </div>
     </div>

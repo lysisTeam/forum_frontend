@@ -638,17 +638,17 @@
     text-align: center;
 }
 
-.alert .bottom-line{
+.toast .bottom-line{
     display: block;
     width: 95%;
     height: 1.5px;
     position: absolute;
-    bottom: -2px;
+    bottom: 15px;
     left: 50%;
     transform: translate(-50%,-50%);
 }
 
-.alert .bottom-line > span{
+.toast .bottom-line > span{
     position: absolute;
     left: 0;
     width: 100%;

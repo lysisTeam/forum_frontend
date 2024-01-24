@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AddPic from '../Layouts/AddPic'
 import axios from 'axios'
-import AlertError from '../Layouts/AlertError'
+// import AlertError from '../Layouts/AlertError'
+import AdminContext from '../Contexts/AdminContext'
 
 function AddUser() {
     const [image, setImage] = useState(null)
@@ -19,8 +20,10 @@ function AddUser() {
     const [showSpinner, setShowSpinner] = useState(false)
     const [success, setSuccess] = useState(false)
 
-    const [textError,setTextError] = useState('')
-    const [callError,setCallError] = useState(false)
+    // const [textError,setTextError] = useState('')
+    // const [callError,setCallError] = useState(false)
+
+    const {showToast} = useContext(AdminContext)
 
     const Navigate = useNavigate() 
     const apiUrl = process.env.REACT_APP_API_URL
@@ -85,10 +88,12 @@ function AddUser() {
         .catch((err)=>{
             setShowSpinner(false)
 
-            setTextError(err.response.data.error)
-            setCallError(true)
+            // setTextError(err.response.data.error)
+            // setCallError(true)
 
             // console.log(err)
+
+            showToast(err.response.data.error, "bg-danger")
         })
     }
 
@@ -97,7 +102,7 @@ function AddUser() {
         <Link to={'/admin/users'} className='btn fw-bold fs-6 btn-back' ><i class="fa-solid fa-angle-left"></i> Revenir à la liste</Link>
         <div className='mb-5'>
             <div className='bg-white p-4 mt-4 rounded shadow border position-relative'>
-                <AlertError textError={textError} callError={callError} setCallError={setCallError}/>
+                {/* <AlertError textError={textError} callError={callError} setCallError={setCallError}/> */}
                 <h6 className='fw-bold'>Données personnelles</h6>
                 <form className='py-4' onSubmit={handleSubmit}>
                     <div className='row'>

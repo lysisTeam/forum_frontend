@@ -187,10 +187,10 @@ function Administrateurs() {
               
             }
           </div>
-          <table class="table table-hover table-borderless ">
+          <table class={`table ${admins?.length !== 0?'table-hover':''} table-borderless `}>
             <thead className='m-3'>
               <tr >
-                <th scope="col"><input class={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
+                <th scope="col"><input class={`form-check-input ${admin.autorisation && admins.length !== 0? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
                 <th scope="col">Admin</th>
                 <th scope="col">Nom d'utilisateur</th>
                 <th scope="col">Email</th>
@@ -205,34 +205,48 @@ function Administrateurs() {
               :
               <tbody>
                 {
-                  admins?.map(one_admin =>(
-                    <tr key={one_admin._id}>
-                      <th scope="row"><input class={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
-                      {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                      <td className='td-profil-pic'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
-                      <td>{`${one_admin.username}`}</td>
-                      <td>{`${one_admin.email}`}</td>
-                      <td>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>
-                      {/* <td>{`${one_admin.classe}`}</td> */}
-                      <td className='position-relative' style={{'textAlign': 'end'}}>
-                        <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
-                        {
-                          showOptions &&
-                          <div className='td-option-section rounded shadow d-flex flex-column d-none'>
-                            {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
-                            <button className='btn fw-bold'><i class="fa-solid fa-eye"></i>&nbsp; Voir l'activité</button>
-                            {
-                              admin.autorisation === 1 &&
-                              <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([one_admin._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
-                            }
-                            
-                          </div>
-                        }
+                  admins.length === 0?
+                    <tr>
+                      <td colspan="6">
+                        <h6 className='text-center text-muted'>Aucun administrateur ajouté <br/> 
+                          <Link to={'/admin/add'} className='btn btn-light btn-sm text-muted' ><i class="fa-regular fa-square-plus"></i> Cliquez ici pour ajouter</Link>
+                        </h6>
                       </td>
                     </tr>
-                  ))
+                  
+                  :
+                    admins?.map(one_admin =>(
+                      <tr key={one_admin._id}>
+                        <th scope="row"><input class={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
+                        {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
+                        <td className='td-profil-pic'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
+                        <td>{`${one_admin.username}`}</td>
+                        <td>{`${one_admin.email}`}</td>
+                        <td>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>
+                        {/* <td>{`${one_admin.classe}`}</td> */}
+                        <td className='position-relative' style={{'textAlign': 'end'}}>
+                          <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                          {
+                            showOptions &&
+                            <div className='td-option-section rounded shadow d-flex flex-column d-none'>
+                              {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
+                              <button className='btn fw-bold'><i class="fa-solid fa-eye"></i>&nbsp; Voir l'activité</button>
+                              {
+                                admin.autorisation === 1 &&
+                                <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([one_admin._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
+                              }
+                              
+                            </div>
+                          }
+                        </td>
+                      </tr>
+                    ))
+
+                  
+              
                 }
               </tbody>
+              
             }
           </table>
           <h6 className='text-center text-white'>I'am in hell</h6>

@@ -183,7 +183,7 @@ function Users() {
               
             }
           </div>
-          <table class="table table-hover table-borderless ">
+          <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless `}>
             <thead className='m-3'>
               <tr >
                 <th scope="col"><input class="form-check-input" type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
@@ -201,6 +201,17 @@ function Users() {
               :
               <tbody>
                 {
+
+                  students.length === 0?
+                    <tr>
+                      <td colspan="7">
+                        <h6 className='text-center text-muted'>Aucun étudiant ajouté <br/> 
+                          <Link to={'/admin/users/add'} className='btn btn-light btn-sm text-muted' ><i class="fa-regular fa-square-plus"></i> cliquez ici pour ajouter</Link>
+                        </h6>
+                      </td>
+                    </tr>
+
+                  :
                   students?.map(student =>(
                     <tr key={student._id}>
                       <th scope="row"><input class="form-check-input" type="checkbox" value="" id={student._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import AdminContext from '../Contexts/AdminContext'
-import axios from 'axios'
+import { Axios } from 'axios'
 
-function AddAdmin() {
-    const [nom, setNom] = useState("")
+function Settings() {
+  const [nom, setNom] = useState("")
     const [prenoms, setprenoms] = useState("")
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
@@ -13,59 +13,64 @@ function AddAdmin() {
     const [success, setSuccess] = useState(false)
     const [showSpinner, setShowSpinner] = useState(false)
 
-    const {showToast} = useContext(AdminContext)
+    const {showToast, admin} = useContext(AdminContext)
 
     const Navigate = useNavigate() 
     const apiUrl = process.env.REACT_APP_API_URL
 
     const handleSubmit = async(e)=>{
-        e.preventDefault()
+      e.preventDefault()
 
-        setShowSpinner(true)
+      setShowSpinner(true)
 
-        await axios.post(apiUrl+'/api/admin/register',{
-            nom: nom,
-            email: email,
-            prenoms: prenoms,
-            password:password,
-            autorisation:autorisation,
-            passwordRepeat: repeatPassword
-            // role: role
-        },{
-            headers:{
-                token: localStorage.admin_token
-            }
-        })
-        .then((response)=>{
-            setSuccess(true)
+      await Axios.post(apiUrl+'/api/admin/register',{
+          nom: nom,
+          email: email,
+          prenoms: prenoms,
+          password:password,
+          autorisation:autorisation,
+          passwordRepeat: repeatPassword
+          // role: role
+      },{
+          headers:{
+              token: localStorage.admin_token
+          }
+      })
+      .then((response)=>{
+          setSuccess(true)
 
-            setShowSpinner(false)
+          setShowSpinner(false)
 
-            // console.log(response);
-            setTimeout(() => {
-                Navigate('/admin')
-            }, 2000);
-            
-        })
-        .catch((err)=>{
-            setShowSpinner(false)
+          // console.log(response);
+          setTimeout(() => {
+              Navigate('/admin')
+          }, 2000);
+          
+      })
+      .catch((err)=>{
+          setShowSpinner(false)
 
-            // setTextError(err.response.data.error)
-            // setCallError(true)
+          // setTextError(err.response.data.error)
+          // setCallError(true)
 
-            // console.log(err)
+          // console.log(err)
 
-            showToast(err.response.data.error, "bg-danger")
-        })
-    }
+          showToast(err.response.data.error, "bg-danger")
+      })
+  }
   return (
     <div className='add-user-section'>
-        <Link to={'/admin'} className='btn fw-bold fs-6 btn-back' ><i class="fa-solid fa-angle-left"></i> Revenir à la liste</Link>
         <div className='mb-5'>
+        <h4 className='fw-bold'>Paramètres</h4>
             <div className='bg-white p-4 mt-4 rounded shadow border position-relative'>
                 {/* <AlertError textError={textError} callError={callError} setCallError={setCallError}/> */}
-                <h6 className='fw-bold'>Données personnelles</h6>
-                <form className='py-4' onSubmit={handleSubmit}>
+                <form className='' onSubmit={handleSubmit}>
+                    {/* <hr></hr> */}
+                    <div className='d-flex justify-content-between align-items-center mb-4'>
+                      <h6 className='fw-bold'>Données personnelles</h6>
+                      <button className='btn btn-sm btn-outline-dark'>Editer</button>
+                    </div>
+                    
                     <div className='row'>
                     <div className="mb-3 col-12 col-md-6 col-lg-6">
                         <label htmlFor="name" className="form-label">Nom*</label>
@@ -79,20 +84,20 @@ function AddAdmin() {
                     
                     
                     <div className='row'>
-                        <div className="mb-3 col-12 col-lg-6 col-md-6">
+                        <div className="mb-3 col-12 col-lg-12 col-md-12">
                             <label htmlFor="exampleFormControlInput1" className="form-label">Email*</label>
                             <input type="email" className="form-control" id="exampleFormControlInput1" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
                         </div>
                         
-                        <div className="mb-3 col-12 col-lg-6 col-md-6">
-                            <label htmlFor="" className="form-label">Autorisation*</label>
-                            <select class="form-select" aria-label="Default select example" value={autorisation} onChange={e => setAutorisation(e.target.value)}>
-                                <option value="0" selected>administrateur</option>
-                                <option value="1">Super administrateur</option>
-                            </select>
-                        </div>
                     </div>
+                </form>
 
+                <form>
+                    <hr></hr>
+                    <div className='d-flex justify-content-between align-items-center mb-4'>
+                      <h6 className='fw-bold'>Mon mot de passe</h6>
+                      <button className='btn btn-sm btn-outline-dark'>Editer</button>
+                    </div>
                     <div className='row'>
                         <div className='mb-3 col-12 col-md-6 col-lg-6'>
                             <label htmlFor="inputPassword5" className="form-label">Mot de passe temporaire*</label>
@@ -107,7 +112,7 @@ function AddAdmin() {
                         </div>
                     </div>
 
-                    <div className='d-flex justify-content-center mt-4'>
+                    {/* <div className='d-flex justify-content-center mt-4'>
                         <button type="submit" className={`btn-submit btn ${(success)?'success':''} rounded shadow`}> {(!success)?'Valider':'Etudiant ajouté avec succès'}
                         
                         {
@@ -122,9 +127,9 @@ function AddAdmin() {
                             <i class="fa-solid fa-check-double fa-shake"></i>
                         }
                         </button>
-                    </div>
-                    
+                    </div> */}
                 </form>
+                
             </div>
             {/* <AddPic image={image} setImage={setImage}/> */}
         </div>
@@ -132,4 +137,4 @@ function AddAdmin() {
   )
 }
 
-export default AddAdmin
+export default Settings

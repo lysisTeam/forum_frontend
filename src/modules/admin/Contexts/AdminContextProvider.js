@@ -17,13 +17,14 @@ function AdminContextProvider({children}) {
     useEffect(()=>{
 
         const getAdmin = async()=>{
+            // console.log(localStorage.getItem('admin_token'));
             await axios.get(apiUrl+'/api/admin/',{
                 headers:{
                     token: localStorage.getItem('admin_token')
                 }
             }).then(response => {
                 setAdmin(response.data.admin)
-                console.log(response.data.admin)
+                // console.log(response.data.admin)
                 setTimeout(() => {
                     setIsLoaded(true)
                 }, 1000);

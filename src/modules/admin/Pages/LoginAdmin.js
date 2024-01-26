@@ -32,7 +32,9 @@ function LoginAdmin() {
         .then(response =>{
             console.log(response);
             localStorage.setItem('admin_token',response.data.token)
-            Navigate('/admin')
+            setTimeout(() => {
+                Navigate('/admin')
+            }, 1);
         })
         .catch((err)=>{
             // console.log(err.response.data.error);

@@ -395,6 +395,32 @@
     color: rgb(114, 107, 151);
 }
 
+.setting-button{
+    font-weight: 600;
+    /* background-color: black; */
+    border: 0;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: center;
+    
+    cursor: pointer;
+}
+
+.setting-button i{
+    position: unset;
+    color: rgb(73, 73, 73);
+    font-size: 1.2rem;
+    transform: none;
+    pointer-events: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.setting-button:hover i{
+    color: rgb(0, 0, 0);
+}
+
 .logout-button{
     background-color: rgb(255, 161, 161);
     font-weight: 600;
@@ -500,9 +526,10 @@
     vertical-align: middle;
     font-size: 0.875rem;
     text-wrap: nowrap;
-    text-transform: capitalize;
+    
     
 }
+
 
 .container-list table tbody td{
     color: rgb(33, 43, 54);

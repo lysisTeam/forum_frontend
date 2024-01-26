@@ -183,7 +183,7 @@ function Users() {
               
             }
           </div>
-          <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless `}>
+          <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
             <thead className='m-3'>
               <tr >
                 <th scope="col"><input class="form-check-input" type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
@@ -216,11 +216,11 @@ function Users() {
                     <tr key={student._id}>
                       <th scope="row"><input class="form-check-input" type="checkbox" value="" id={student._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
                       {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                      <td className='td-profil-pic'><img alt='pp' src={(student.photo)?apiUrl+'/'+student.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}</td>
+                      <td className='td-profil-pic text-capitalize'><img alt='pp' src={(student.photo)?apiUrl+'/'+student.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}</td>
                       <td>{`${student.username}`}</td>
                       <td>{`${student.email}`}</td>
-                      <td>{`${student.specialite}`}</td>
-                      <td>{`${student.classe}`}</td>
+                      <td className='text-uppercase'>{`${student.specialite}`}</td>
+                      <td className='text-uppercase'>{`${student.classe}`}</td>
                       <td className='position-relative'>
                         <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
                         {
@@ -238,6 +238,7 @@ function Users() {
               </tbody>
             }
           </table>
+          <h6 className='text-end text-muted'><i className="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
         </div>
     </div>
   )

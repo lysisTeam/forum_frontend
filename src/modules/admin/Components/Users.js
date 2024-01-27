@@ -165,7 +165,7 @@ function Users() {
   return (
     <div>
         <h4 className='fw-bold'>Etudiants</h4>
-        
+
         <div className='container-list rounded shadow  mt-4'>
           <div className={`container-list-top px-3 ${(selectedStudents.length !== 0)?'selected':''}`}>
           
@@ -183,7 +183,7 @@ function Users() {
               
             }
           </div>
-          <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless `}>
+          <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
             <thead className='m-3'>
               <tr >
                 <th scope="col"><input class="form-check-input" type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
@@ -238,6 +238,7 @@ function Users() {
               </tbody>
             }
           </table>
+          <h6 className='text-end text-muted'><i class="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
         </div>
     </div>
   )

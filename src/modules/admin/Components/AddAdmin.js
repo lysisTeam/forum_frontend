@@ -97,7 +97,7 @@ function AddAdmin() {
                         <div className='mb-3 col-12 col-md-6 col-lg-6'>
                             <label htmlFor="inputPassword5" className="form-label">Mot de passe temporaire*</label>
                             <div class="input-group">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                {/* <button class="btn btn-outline-secondary" type="button" id="button-addon1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"><i class="fa-solid fa-arrows-rotate"></i></button> */}
                                 <input type="password" className="form-control" aria-labelledby="passwordHelpBlock" value={password} onChange={(e)=>setPassword(e.target.value)} required />
                             </div>
                         </div>
@@ -126,9 +126,6 @@ function AddAdmin() {
                     
                 </form>
             </div>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
-  Tooltip on top
-</button>
             {/* <AddPic image={image} setImage={setImage}/> */}
         </div>
     </div>

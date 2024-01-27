@@ -123,7 +123,7 @@ function Administrateurs() {
 
   const handleDelete = async (ids) =>{
     // console.log(ids);
-    await axios.delete(apiUrl+'/api/user/delete',{
+    await axios.delete(apiUrl+'/api/admin/delete',{
       data: {ids:ids},
       headers:{
         token: localStorage.admin_token
@@ -187,7 +187,7 @@ function Administrateurs() {
               
             }
           </div>
-          <table class={`table ${admins?.length !== 0?'table-hover':''} table-borderless `}>
+          <table class={`table ${admins?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
             <thead className='m-3'>
               <tr >
                 <th scope="col"><input class={`form-check-input ${admin.autorisation && admins.length !== 0? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
@@ -249,7 +249,7 @@ function Administrateurs() {
               
             }
           </table>
-          <h6 className='text-center text-white'>I'am in hell</h6>
+          <h6 className='text-end text-muted'><i class="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
         </div>
     </div>
   )

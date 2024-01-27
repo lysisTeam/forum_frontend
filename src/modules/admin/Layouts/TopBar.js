@@ -35,6 +35,7 @@ function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPicture
               <div className='top-picture-drop-section rounded shadow p-3'>
                 <h6 className='p-0 m-0'>{`${admin.nom} ${admin.prenoms}`}</h6>
                 <p className='m-0 email'>{admin.email}</p>
+                
                 <hr className='my-2'></hr>
                 <span className='logout-button rounded pe-auto' onClick={logout}>Se déconnecter <i class="fa-solid fa-person-walking-luggage"></i></span>
               </div>

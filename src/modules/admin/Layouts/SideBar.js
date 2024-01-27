@@ -9,7 +9,7 @@ function SideBar({openSideBar}) {
   const {admin} = useContext(AdminContext)
 
   useEffect(()=>{
-    console.log(openSideBar);
+    // console.log(openSideBar);
   },[openSideBar])
 
   return (
@@ -28,7 +28,7 @@ function SideBar({openSideBar}) {
                 {/* <li className={currentRoute === '/admin'? "active" : ""}>
                     <Link to={'/admin'} ><i className="fa-solid fa-chart-column"></i>Tableau de bord</Link>
                 </li> */}
-                <li className={currentRoute === '/admin' || currentRoute === '/admin/add'? "active" : ""}>
+                <li className={currentRoute === '/admin' || currentRoute === '/admin/add' || currentRoute === '/admin/settings'? "active" : ""}>
                     <Link to={'/admin'} className='nav-link'><i className="fa-solid fa-user-gear"></i>Administrateurs</Link>
                 </li>
                 <li className={currentRoute === '/admin/users' || currentRoute === '/admin/users/add'? "active" : ""}>

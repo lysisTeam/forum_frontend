@@ -30,11 +30,12 @@ function MainPage({children}) {
         setOpenSearchBar(false)
       }
 
-      if (openTopPictureSection && (!event.target.closest('.top-picture-drop-button'))) {
+      if (openTopPictureSection && ((!event.target.closest('.top-picture-drop-button')) || event.target.classList.contains('setting-button'))) {
         document.querySelector('.top-picture-drop-section').classList.remove('show')
         setTimeout(() => {
           setOpenTopPictureSection(false)
         }, 200);
+        
       }
     }
 

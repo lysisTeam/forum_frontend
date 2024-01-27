@@ -26,7 +26,7 @@ function Administrateurs() {
         }
       })
       .then((response)=>{
-        console.log(response.data.admins.filter(one_admin => one_admin._id !== admin._id));
+        // console.log(response.data.admins.filter(one_admin => one_admin._id !== admin._id));
         setAdmins(response.data.admins.filter(one_admin => one_admin._id !== admin._id))
         setTimeout(() => {
           setShowPlaceholder(false)
@@ -173,24 +173,24 @@ function Administrateurs() {
               (selectedAdmins.length !== 0)?
               <div className='d-flex justify-content-between align-items-center w-100'>
                 <h6 className='fw-bold m-0 text-primary'>{`${selectedAdmins.length} selectionné${(selectedAdmins.length === 1)?'':'s'}`}</h6>
-                <button className='btn' onClick={()=>tripleClick(selectedAdmins)} ><i class="fa-solid fa-trash-can text-danger pe-none"></i></button>
+                <button className='btn' onClick={()=>tripleClick(selectedAdmins)} ><i className="fa-solid fa-trash-can text-danger pe-none"></i></button>
               </div>
               :
               <div className='d-flex justify-content-between align-items-center w-100'>
                 <h6 className='fw-bold m-0'>Liste des administrateurs</h6>
                 {
                   admin.autorisation === 1 &&
-                  <Link to={'/admin/add'} className='btn btn-outline-dark btn-sm' ><i class="fa-regular fa-square-plus"></i> Nouvel administrateur</Link>
+                  <Link to={'/admin/add'} className='btn btn-outline-dark btn-sm' ><i className="fa-regular fa-square-plus"></i> Nouvel administrateur</Link>
                 }
                 
               </div>
               
             }
           </div>
-          <table class={`table ${admins?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
+          <table className={`table ${admins?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
             <thead className='m-3'>
               <tr >
-                <th scope="col"><input class={`form-check-input ${admin.autorisation && admins.length !== 0? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
+                <th scope="col"><input className={`form-check-input ${admin.autorisation && admins.length !== 0? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
                 <th scope="col">Admin</th>
                 <th scope="col">Nom d'utilisateur</th>
                 <th scope="col">Email</th>
@@ -209,7 +209,7 @@ function Administrateurs() {
                     <tr>
                       <td colspan="6">
                         <h6 className='text-center text-muted'>Aucun administrateur ajouté <br/> 
-                          <Link to={'/admin/add'} className='btn btn-light btn-sm text-muted' ><i class="fa-regular fa-square-plus"></i> Cliquez ici pour ajouter</Link>
+                          <Link to={'/admin/add'} className='btn btn-light btn-sm text-muted' ><i className="fa-regular fa-square-plus"></i> Cliquez ici pour ajouter</Link>
                         </h6>
                       </td>
                     </tr>
@@ -217,23 +217,23 @@ function Administrateurs() {
                   :
                     admins?.map(one_admin =>(
                       <tr key={one_admin._id}>
-                        <th scope="row"><input class={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
+                        <th scope="row"><input className={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
                         {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                        <td className='td-profil-pic'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
+                        <td className='td-profil-pic text-capitalize'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
                         <td>{`${one_admin.username}`}</td>
                         <td>{`${one_admin.email}`}</td>
-                        <td>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>
+                        <td className='text-capitalize'>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>
                         {/* <td>{`${one_admin.classe}`}</td> */}
                         <td className='position-relative' style={{'textAlign': 'end'}}>
-                          <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                          <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
                           {
                             showOptions &&
                             <div className='td-option-section rounded shadow d-flex flex-column d-none'>
-                              {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
-                              <button className='btn fw-bold'><i class="fa-solid fa-eye"></i>&nbsp; Voir l'activité</button>
+                              {/* <button className='btn fw-bold'><i className="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
+                              <button className='btn fw-bold'><i className="fa-solid fa-eye"></i>&nbsp; Voir l'activité</button>
                               {
                                 admin.autorisation === 1 &&
-                                <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([one_admin._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
+                                <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([one_admin._id])}}><i className="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
                               }
                               
                             </div>
@@ -249,7 +249,7 @@ function Administrateurs() {
               
             }
           </table>
-          <h6 className='text-end text-muted'><i class="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
+          <h6 className='text-end text-muted'><i className="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
         </div>
     </div>
   )

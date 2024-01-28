@@ -13,7 +13,7 @@ function SideBar({openSideBar}) {
   },[openSideBar])
 
   return (
-    <div className={`sidebar-page-admin shadow-sm px-3 py-3 ${openSideBar?'open':''}`}>
+    <div className={`sidebar-page-admin shadow-sm px-3 py-3 ${openSideBar?'open':''} ${(currentRoute === '/admin/subjects'? 'hide' : '')}` }>
         <div className='d-flex justify-content-center'>
             <Link to={"#"} className='logo '>
                 <i className="fa-brands fa-fantasy-flight-games py-2"></i>

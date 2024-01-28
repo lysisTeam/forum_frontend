@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AdminContext from '../Contexts/AdminContext'
 import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
+import { motion } from 'framer-motion';
 
 function Administrateurs() {
   const [admins, setAdmins] = useState([])
@@ -13,14 +14,17 @@ function Administrateurs() {
 
   let clickCount = 0;
   const apiUrl = process.env.REACT_APP_API_URL
-  const {showToast, admin} = useContext(AdminContext)
+  const {showToast, admin, searchContent, setSearchContent} = useContext(AdminContext)
 
+  // setSearchContent("")
 
   useEffect(()=>{
-
+    
 
     const getAdmins = async()=>{
-      await axios.get(apiUrl+'/api/admin/all',{
+      await axios.post(apiUrl+'/api/admin',{
+        searchContent: searchContent
+      },{
         headers: {
           token: localStorage.admin_token
         }
@@ -62,7 +66,7 @@ function Administrateurs() {
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[apiUrl, setAdmins, selectedAdmins, showOptions])
+  },[apiUrl, setAdmins, selectedAdmins, showOptions, admin, searchContent])
 
   //cocher ou decocher une checkbox
   const handleChange = (e) =>{
@@ -163,95 +167,101 @@ function Administrateurs() {
   }
   
   return (
-    <div>
+    <motion.div initial={{ opacity: 0}} animate={{ opacity: 1}} exit={{ opacity: 0}} transition={{ duration: 0.5 }}>
+      <div className='d-flex justify-content-between'>
         <h4 className='fw-bold'>Administrateurs</h4>
+        {
+          searchContent &&
+          <h5 className='fw-bold'>"{searchContent}" 
+            <button className='top-button text-dark' onClick={()=>setSearchContent("")}><i className="fa-solid fa-eraser pe-none"></i></button>
+          </h5>
+        }
+      </div>
 
-        <div className='container-list rounded shadow  mt-4'>
-          <div className={`container-list-top px-3 ${(selectedAdmins.length !== 0)?'selected':''}`}>
-          
-            {
-              (selectedAdmins.length !== 0)?
-              <div className='d-flex justify-content-between align-items-center w-100'>
-                <h6 className='fw-bold m-0 text-primary'>{`${selectedAdmins.length} selectionné${(selectedAdmins.length === 1)?'':'s'}`}</h6>
-                <button className='btn' onClick={()=>tripleClick(selectedAdmins)} ><i className="fa-solid fa-trash-can text-danger pe-none"></i></button>
-              </div>
-              :
-              <div className='d-flex justify-content-between align-items-center w-100'>
-                <h6 className='fw-bold m-0'>Liste des administrateurs</h6>
-                {
-                  admin.autorisation === 1 &&
-                  <Link to={'/admin/add'} className='btn btn-outline-dark btn-sm' ><i className="fa-regular fa-square-plus"></i> Nouvel administrateur</Link>
-                }
-                
-              </div>
+      <div className='container-list rounded shadow  mt-4'>
+        <div className={`container-list-top px-3 ${(selectedAdmins.length !== 0)?'selected':''}`}>
+        
+          {
+            (selectedAdmins.length !== 0)?
+            <div className='d-flex justify-content-between align-items-center w-100'>
+              <h6 className='fw-bold m-0 text-primary'>{`${selectedAdmins.length} selectionné${(selectedAdmins.length === 1)?'':'s'}`}</h6>
+              <button className='btn' onClick={()=>tripleClick(selectedAdmins)} ><i className="fa-solid fa-trash-can text-danger pe-none"></i></button>
+            </div>
+            :
+            <div className='d-flex justify-content-between align-items-center w-100'>
+              <h6 className='fw-bold m-0'>Liste des administrateurs</h6>
+              {
+                admin.autorisation === 1 &&
+                <Link to={'/admin/add'} className='btn btn-outline-dark btn-sm' ><i className="fa-regular fa-square-plus"></i> Nouvel administrateur</Link>
+              }
               
-            }
-          </div>
-          <table className={`table ${admins?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
-            <thead className='m-3'>
-              <tr >
-                <th scope="col"><input className={`form-check-input ${admin.autorisation && admins.length !== 0? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
-                <th scope="col">Admin</th>
-                <th scope="col">Nom d'utilisateur</th>
-                <th scope="col">Email</th>
-                <th scope="col">Rôle</th>
-                {/* <th scope="col">Classe</th> */}
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            {
-              (showPlaceholder)?
-              <PlaceholderTable/>
-              :
-              <tbody>
-                {
-                  admins.length === 0?
-                    <tr>
-                      <td colspan="6">
-                        <h6 className='text-center text-muted'>Aucun administrateur ajouté <br/> 
-                          <Link to={'/admin/add'} className='btn btn-light btn-sm text-muted' ><i className="fa-regular fa-square-plus"></i> Cliquez ici pour ajouter</Link>
-                        </h6>
+            </div>
+            
+          }
+        </div>
+        <table className={`table ${admins?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
+          <thead className='m-3'>
+            <tr >
+              <th scope="col"><input className={`form-check-input ${admin.autorisation && admins.length !== 0? '' : 'pe-none'}`} type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
+              <th scope="col">Admin</th>
+              <th scope="col">Nom d'utilisateur</th>
+              <th scope="col">Email</th>
+              <th scope="col">Rôle</th>
+              {/* <th scope="col">Classe</th> */}
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          {
+            (showPlaceholder)?
+            <PlaceholderTable/>
+            :
+            <tbody>
+              {
+                admins.length === 0?
+                  <tr>
+                    <td colSpan="6">
+                      <h6 className='text-center text-muted'>Aucun administrateur trouvé <br/> 
+                      </h6>
+                    </td>
+                  </tr>
+                :
+                  admins?.map(one_admin =>(
+                    <tr key={one_admin._id}>
+                      <th scope="row"><input className={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
+                      {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
+                      <td className='td-profil-pic text-capitalize'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
+                      <td>{`${one_admin.username}`}</td>
+                      <td>{`${one_admin.email}`}</td>
+                      <td className='text-capitalize'>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>
+                      {/* <td>{`${one_admin.classe}`}</td> */}
+                      <td className='position-relative' style={{'textAlign': 'end'}}>
+                        <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                        {
+                          showOptions &&
+                          <div className='td-option-section rounded shadow d-flex flex-column d-none'>
+                            {/* <button className='btn fw-bold'><i className="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
+                            <button className='btn fw-bold'><i className="fa-solid fa-eye"></i>&nbsp; Voir l'activité</button>
+                            {
+                              admin.autorisation === 1 &&
+                              <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([one_admin._id])}}><i className="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
+                            }
+                            
+                          </div>
+                        }
                       </td>
                     </tr>
-                  
-                  :
-                    admins?.map(one_admin =>(
-                      <tr key={one_admin._id}>
-                        <th scope="row"><input className={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
-                        {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                        <td className='td-profil-pic text-capitalize'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
-                        <td>{`${one_admin.username}`}</td>
-                        <td>{`${one_admin.email}`}</td>
-                        <td className='text-capitalize'>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>
-                        {/* <td>{`${one_admin.classe}`}</td> */}
-                        <td className='position-relative' style={{'textAlign': 'end'}}>
-                          <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
-                          {
-                            showOptions &&
-                            <div className='td-option-section rounded shadow d-flex flex-column d-none'>
-                              {/* <button className='btn fw-bold'><i className="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
-                              <button className='btn fw-bold'><i className="fa-solid fa-eye"></i>&nbsp; Voir l'activité</button>
-                              {
-                                admin.autorisation === 1 &&
-                                <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([one_admin._id])}}><i className="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
-                              }
-                              
-                            </div>
-                          }
-                        </td>
-                      </tr>
-                    ))
+                  ))
 
-                  
-              
-                }
-              </tbody>
-              
-            }
-          </table>
-          <h6 className='text-end text-muted'><i className="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
-        </div>
-    </div>
+                
+            
+              }
+            </tbody>
+            
+          }
+        </table>
+        <h6 className='text-end text-muted'><i className="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
+      </div>
+    </motion.div>
   )
 }
 

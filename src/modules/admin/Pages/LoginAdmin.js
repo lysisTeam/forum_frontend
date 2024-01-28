@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AlertError from '../Layouts/AlertError'
 import * as bootstrap from 'bootstrap';
+import { motion } from 'framer-motion';
 
 function LoginAdmin() {
     const [username,setUsername] = useState('')
@@ -56,7 +57,7 @@ function LoginAdmin() {
     }
 
   return (
-    <div className='login-page d-flex justify-content-center align-items-center px-4'>
+    <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }} transition={{ duration: 0.5 }} className='login-page d-flex justify-content-center align-items-center px-4'>
         <div className='login-wild-section d-flex gap-2'>
             <div className='login-left-section rounded shadow'></div>
             <div className='login-right-section rounded shadow p-3 d-flex flex-column justify-content-center gap-5'>
@@ -101,7 +102,7 @@ function LoginAdmin() {
                 </div>
             </div>
         </div>
-    </div>
+    </motion.div>
   )
 }
 

@@ -1,0 +1,36 @@
+/* mettre en full screen */
+
+.container-views-admin.remove-border-radius{
+    border-top-left-radius: 0;
+    height: 100%;
+    padding-top: 0;
+    background-color: aqua;
+}
+
+.sidebar-page-admin.hide{
+    position: absolute;
+    top: 0;
+    left: -320px;
+    width: 272px !important;
+}
+
+.sidebar-page-admin.open{
+    left: 0;
+    
+}
+
+.menu-button-toggle.show{
+    display: inline-block;
+}
+
+.topBar-item-section.reduce-padding, .searchBar.reduce-padding{
+    padding: 0 10px !important;
+}
+
+.topBar-page-admin.toggleable{
+    position: absolute;
+    top: 0;
+    width: 0;
+}
+
+/* mettre en full screen */

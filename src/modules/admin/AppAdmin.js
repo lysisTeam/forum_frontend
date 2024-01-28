@@ -25,9 +25,9 @@ function AppAdmin() {
         }
         else{
             if (decodedToken) {
-                console.log("expired : ",decodedToken)
+                // console.log("expired : ",decodedToken)
                 const isTokenExpired = decodedToken.exp < Date.now() / 1000;
-                console.log(isTokenExpired);
+                // console.log(isTokenExpired);
                 try {
                     if (isTokenExpired) {
                         // Le token a expiré, redirigez vers la page de connexion

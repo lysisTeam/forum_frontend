@@ -1,23 +1,25 @@
 import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import avatar from "../../../images/RyoumenSukunaIcon.jpg"
 import AdminContext from '../Contexts/AdminContext'
 
 function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPictureSection, handleToggleTopPictureSection}) {
-  const {admin, logout} = useContext(AdminContext)
+  const {admin, logout, searchContent, setSearchContent} = useContext(AdminContext)
   const Navigate = useNavigate()
+  const location = useLocation()
+  const currentRoute = location.pathname
   return (
-    <div className='topBar-page-admin '>
+    <div className={`topBar-page-admin ${(currentRoute === '/admin/subjects'? 'toggleable' : '')}`}>
       <div className={`searchBar px-5 gap-2 ${openSearchBar?'fall':''}`}>
         <i className="fa-solid fa-keyboard"></i>
-        <input type='text' placeholder='I need someone to save me...'/>
-        <button className='top-button' onClick={()=>setOpenSearchBar(true)}><i className="fa-solid fa-eraser"></i></button>
+        <input type='text' value={searchContent} onChange={(e)=>setSearchContent(e.target.value)} placeholder='I need someone to save me...'/>
+        <button className='top-button' onClick={()=>setSearchContent("")}><i className="fa-solid fa-eraser pe-none"></i></button>
       </div>
 
-      <div className={`topBar-item-section px-5 ${openSearchBar?'fall':''}`}>
+      <div className={`topBar-item-section px-5 ${openSearchBar?'fall':''} `}>
         <div>
-          <button className='top-button menu-button-toggle' onClick={()=>{setOpenSideBar(true)}}><i className="fa-solid fa-bars-staggered pe-none"></i></button>
+          <button className={`top-button menu-button-toggle ${(currentRoute === '/admin/subjects'? 'show' : '')}`} onClick={()=>{setOpenSideBar(true)}}><i className="fa-solid fa-bars-staggered pe-none"></i></button>
           <button className='top-button' onClick={()=>setOpenSearchBar(true)}><i className="fa-solid fa-magnifying-glass pe-none"></i></button>
         </div>
 

@@ -12,6 +12,9 @@ function AdminContextProvider({children}) {
     const [theme, setTheme] = useState('')
     const Navigate = useNavigate()
 
+    //variable pour l'input de la recherche
+    const [searchContent, setSearchContent] = useState("")
+
     const apiUrl = process.env.REACT_APP_API_URL
 
     useEffect(()=>{
@@ -56,13 +59,13 @@ function AdminContextProvider({children}) {
 
             const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
 
-            console.log(theme, ' /', message);
+
 
             toastBootstrap.show()
         }, 1);
     }
   return (
-    <AdminContext.Provider value={{admin, logout, message, theme, showToast}}>
+    <AdminContext.Provider value={{admin, setAdmin, logout, message, theme, showToast, searchContent, setSearchContent}}>
         {
             (!isLoaded)?
             <Loader/>

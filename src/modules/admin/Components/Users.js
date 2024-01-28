@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
 import AdminContext from '../Contexts/AdminContext'
+import { motion } from 'framer-motion'
 
 function Users() {
   const [showPlaceholder, setShowPlaceholder] = useState(true)
@@ -11,16 +12,19 @@ function Users() {
   const [students, setStudents] = useState([])
   const [selectedStudents, setSelectedStudents] = useState([])
   const apiUrl = process.env.REACT_APP_API_URL
-  const {showToast} = useContext(AdminContext)
+  const {showToast, searchContent, setSearchContent} = useContext(AdminContext)
 
   let clickCount = 0;
   
 
   useEffect(()=>{
 
-
     const getStudents = async()=>{
-      await axios.get(apiUrl+'/api/user/all',{
+      await axios.post(apiUrl+'/api/user',
+      {
+        searchContent: searchContent
+      },
+      {
         headers: {
           token: localStorage.admin_token
         }
@@ -62,7 +66,7 @@ function Users() {
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[apiUrl, setStudents, selectedStudents, showOptions])
+  },[apiUrl, setStudents, selectedStudents, showOptions, searchContent])
 
   //cocher ou decocher une checkbox
   const handleChange = (e) =>{
@@ -163,84 +167,92 @@ function Users() {
   }
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0}} animate={{ opacity: 1}} exit={{ opacity: 0}} transition={{ duration: 0.5 }}>
+      <div className='d-flex justify-content-between'>
         <h4 className='fw-bold'>Etudiants</h4>
+        {
+          searchContent &&
+          <h5 className='fw-bold'>"{searchContent}" 
+            <button className='top-button text-dark' onClick={()=>setSearchContent("")}><i className="fa-solid fa-eraser pe-none"></i></button>
+          </h5>
+        }
+      </div>
+      
 
-        <div className='container-list rounded shadow  mt-4'>
-          <div className={`container-list-top px-3 ${(selectedStudents.length !== 0)?'selected':''}`}>
-          
-            {
-              (selectedStudents.length !== 0)?
-              <div className='d-flex justify-content-between align-items-center w-100'>
-                <h6 className='fw-bold m-0 text-primary'>{`${selectedStudents.length} selectionné${(selectedStudents.length === 1)?'':'s'}`}</h6>
-                <button className='btn' onClick={()=>tripleClick(selectedStudents)} ><i class="fa-solid fa-trash-can text-danger pe-none"></i></button>
-              </div>
-              :
-              <div className='d-flex justify-content-between align-items-center w-100'>
-                <h6 className='fw-bold m-0'>Liste des étudiants</h6>
-                <Link to={'/admin/users/add'} className='btn btn-outline-dark btn-sm' ><i class="fa-regular fa-square-plus"></i> Nouvel étudiant</Link>
-              </div>
-              
-            }
-          </div>
-          <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
-            <thead className='m-3'>
-              <tr >
-                <th scope="col"><input class="form-check-input" type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
-                <th scope="col">Etudiant</th>
-                <th scope="col">Nom d'utilisateur</th>
-                <th scope="col">Email</th>
-                <th scope="col">Spécialité</th>
-                <th scope="col">Classe</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            {
-              (showPlaceholder)?
-              <PlaceholderTable/>
-              :
-              <tbody>
-                {
-
-                  students.length === 0?
-                    <tr>
-                      <td colspan="7">
-                        <h6 className='text-center text-muted'>Aucun étudiant ajouté <br/> 
-                          <Link to={'/admin/users/add'} className='btn btn-light btn-sm text-muted' ><i class="fa-regular fa-square-plus"></i> cliquez ici pour ajouter</Link>
-                        </h6>
-                      </td>
-                    </tr>
-
-                  :
-                  students?.map(student =>(
-                    <tr key={student._id}>
-                      <th scope="row"><input class="form-check-input" type="checkbox" value="" id={student._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
-                      {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                      <td className='td-profil-pic text-capitalize'><img alt='pp' src={(student.photo)?apiUrl+'/'+student.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}</td>
-                      <td>{`${student.username}`}</td>
-                      <td>{`${student.email}`}</td>
-                      <td className='text-uppercase'>{`${student.specialite}`}</td>
-                      <td className='text-uppercase'>{`${student.classe}`}</td>
-                      <td className='position-relative'>
-                        <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
-                        {
-                          showOptions &&
-                          <div className='td-option-section rounded shadow d-flex flex-column d-none'>
-                            {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
-                            <button className='btn fw-bold'><i class="fa-solid fa-eye"></i>&nbsp; Voir</button>
-                            <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([student._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
-                          </div>
-                        }
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            }
-          </table>
-          <h6 className='text-end text-muted'><i className="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
+      <div className='container-list rounded shadow  mt-4'>
+        <div className={`container-list-top px-3 ${(selectedStudents.length !== 0)?'selected':''}`}>
+        
+          {
+            (selectedStudents.length !== 0)?
+            <div className='d-flex justify-content-between align-items-center w-100'>
+              <h6 className='fw-bold m-0 text-primary'>{`${selectedStudents.length} selectionné${(selectedStudents.length === 1)?'':'s'}`}</h6>
+              <button className='btn' onClick={()=>tripleClick(selectedStudents)} ><i class="fa-solid fa-trash-can text-danger pe-none"></i></button>
+            </div>
+            :
+            <div className='d-flex justify-content-between align-items-center w-100'>
+              <h6 className='fw-bold m-0'>Liste des étudiants</h6>
+              <Link to={'/admin/users/add'} className='btn btn-outline-dark btn-sm' ><i class="fa-regular fa-square-plus"></i> Nouvel étudiant</Link>
+            </div>
+            
+          }
         </div>
-    </div>
+        <table class={`table ${students?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
+          <thead className='m-3'>
+            <tr >
+              <th scope="col"><input class="form-check-input" type="checkbox" value="" onChange={handleChangeAll} aria-label="Checkbox for following text input"/></th>
+              <th scope="col">Etudiant</th>
+              <th scope="col">Nom d'utilisateur</th>
+              <th scope="col">Email</th>
+              <th scope="col">Spécialité</th>
+              <th scope="col">Classe</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          {
+            (showPlaceholder)?
+            <PlaceholderTable/>
+            :
+            <tbody>
+              {
+
+                students.length === 0?
+                  <tr>
+                    <td colspan="7">
+                      <h6 className='text-center text-muted'>Aucun étudiant trouvé
+                      </h6>
+                    </td>
+                  </tr>
+
+                :
+                students?.map(student =>(
+                  <tr key={student._id}>
+                    <th scope="row"><input class="form-check-input" type="checkbox" value="" id={student._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
+                    {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
+                    <td className='td-profil-pic text-capitalize'><img alt='pp' src={(student.photo)?apiUrl+'/'+student.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}</td>
+                    <td>{`${student.username}`}</td>
+                    <td>{`${student.email}`}</td>
+                    <td className='text-uppercase'>{`${student.specialite}`}</td>
+                    <td className='text-uppercase'>{`${student.classe}`}</td>
+                    <td className='position-relative'>
+                      <button className={`btn ${(showOptions)?'pe-none':''}`} onClick={toggleOptions}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                      {
+                        showOptions &&
+                        <div className='td-option-section rounded shadow d-flex flex-column d-none'>
+                          {/* <button className='btn fw-bold'><i class="fa-solid fa-clock-rotate-left"></i>&nbsp; Réini. le mot de passe</button> */}
+                          <button className='btn fw-bold'><i class="fa-solid fa-eye"></i>&nbsp; Voir</button>
+                          <button className='btn text-danger fw-bold' onClick={()=>{tripleClick([student._id])}}><i class="fa-solid fa-trash-can pe-none"></i>&nbsp; Supprimer</button>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          }
+        </table>
+        <h6 className='text-end text-muted'><i className="fa-brands fa-fantasy-flight-games"></i>&nbsp;&nbsp;</h6>
+      </div>
+    </motion.div>
   )
 }
 

@@ -2,13 +2,19 @@ import React, { useContext, useEffect, useState } from 'react'
 import SideBar from '../Layouts/SideBar'
 import TopBar from '../Layouts/TopBar'
 import AdminContext from '../Contexts/AdminContext'
+import { motion } from 'framer-motion';
+import { useLocation } from 'react-router';
 
 function MainPage({children}) {
   const [openSideBar, setOpenSideBar] = useState(false)
   const [openSearchBar, setOpenSearchBar] = useState(false)
   const [openTopPictureSection, setOpenTopPictureSection] = useState(false)
 
-  const {message, theme} = useContext(AdminContext)
+  const location = useLocation()
+  const currentRoute = location.pathname 
+  
+
+  const {message, theme, setSearchContent, searchContent} = useContext(AdminContext)
 
   useEffect(()=>{
     // fonction pour fermer le sidebar au resize > 1200px
@@ -28,6 +34,13 @@ function MainPage({children}) {
 
       if (openSearchBar && (!event.target.closest('.searchBar'))) {
         setOpenSearchBar(false)
+        if (event.target.closest('.nav-link')) {
+          setSearchContent("")
+        }
+      }
+
+      if (searchContent && event.target.closest('.nav-link')) {
+        setSearchContent("")
       }
 
       if (openTopPictureSection && ((!event.target.closest('.top-picture-drop-button')) || event.target.classList.contains('setting-button'))) {
@@ -49,7 +62,7 @@ function MainPage({children}) {
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[openSideBar, openSearchBar, openTopPictureSection, theme])
+  },[openSideBar, openSearchBar, openTopPictureSection, theme, setSearchContent])
 
 
   const handleToggleTopPictureSection = (e) => {
@@ -74,12 +87,12 @@ function MainPage({children}) {
     e.stopPropagation()
   }
   return (
-    <div className='main-page-admin d-flex'>
+    <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }} transition={{ duration: 0.5 }} className='main-page-admin d-flex'>
       <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />
       <div className={`section-container-pages ${openSideBar?'overlay':''} `}>
         <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection}/>
-        <div className='container-views-admin'>
-          <div className='container'>
+        <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius' : '')}`}>
+          <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
             {children}
           </div>
 
@@ -101,7 +114,7 @@ function MainPage({children}) {
 
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

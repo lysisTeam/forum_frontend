@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import AdminContext from '../Contexts/AdminContext'
 import axios from 'axios'
+import GlobalContext from '../Contexts/GlobalContext'
 
 function AddAdmin() {
     const [nom, setNom] = useState("")
@@ -13,7 +13,7 @@ function AddAdmin() {
     const [success, setSuccess] = useState(false)
     const [showSpinner, setShowSpinner] = useState(false)
 
-    const {showToast} = useContext(AdminContext)
+    const {showToast} = useContext(GlobalContext)
 
     const Navigate = useNavigate() 
     const apiUrl = process.env.REACT_APP_API_URL

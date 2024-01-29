@@ -3,14 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import avatar from "../../../images/RyoumenSukunaIcon.jpg"
 import AdminContext from '../Contexts/AdminContext'
+import GlobalContext from '../Contexts/GlobalContext';
 
 function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPictureSection, handleToggleTopPictureSection}) {
-  const {admin, logout, searchContent, setSearchContent} = useContext(AdminContext)
+  const {admin, logout} = useContext(AdminContext)
+  const {searchContent, setSearchContent, openTopBar} = useContext(GlobalContext)
   const Navigate = useNavigate()
   const location = useLocation()
   const currentRoute = location.pathname
   return (
-    <div className={`topBar-page-admin ${(currentRoute === '/admin/subjects'? 'toggleable' : '')}`}>
+    <div className={`topBar-page-admin ${(currentRoute === '/admin/subjects'? 'toggleable ' : '')} ${(openTopBar ? 'show shadow' : '')}`}>
       <div className={`searchBar px-5 gap-2 ${openSearchBar?'fall':''}`}>
         <i className="fa-solid fa-keyboard"></i>
         <input type='text' value={searchContent} onChange={(e)=>setSearchContent(e.target.value)} placeholder='I need someone to save me...'/>
@@ -20,7 +22,11 @@ function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPicture
       <div className={`topBar-item-section px-5 ${openSearchBar?'fall':''} `}>
         <div>
           <button className={`top-button menu-button-toggle ${(currentRoute === '/admin/subjects'? 'show' : '')}`} onClick={()=>{setOpenSideBar(true)}}><i className="fa-solid fa-bars-staggered pe-none"></i></button>
-          <button className='top-button' onClick={()=>setOpenSearchBar(true)}><i className="fa-solid fa-magnifying-glass pe-none"></i></button>
+          {
+            currentRoute !== '/admin/subjects' &&
+            <button className='top-button' onClick={()=>setOpenSearchBar(true)}><i className="fa-solid fa-magnifying-glass pe-none"></i></button>
+          }
+          
         </div>
 
         <div>

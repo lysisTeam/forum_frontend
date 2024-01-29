@@ -3,17 +3,12 @@ import AdminContext from './AdminContext'
 import axios from 'axios'
 import Loader from '../Layouts/Loader'
 import { useNavigate } from 'react-router-dom'
-import * as bootstrap from 'bootstrap';
 
 function AdminContextProvider({children}) {
     const [admin, setAdmin] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
-    const [message, setMessage] = useState('')
-    const [theme, setTheme] = useState('')
     const Navigate = useNavigate()
 
-    //variable pour l'input de la recherche
-    const [searchContent, setSearchContent] = useState("")
 
     const apiUrl = process.env.REACT_APP_API_URL
 
@@ -48,24 +43,8 @@ function AdminContextProvider({children}) {
         Navigate('/admin/login')
     }
 
-    const showToast = (message, theme)=>{
-
-        setMessage(message)
-        setTheme(theme)
-        
-        setTimeout(() => {
-            const toastLiveExample = document.getElementById('liveToast')
-        
-
-            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-
-
-
-            toastBootstrap.show()
-        }, 1);
-    }
   return (
-    <AdminContext.Provider value={{admin, setAdmin, logout, message, theme, showToast, searchContent, setSearchContent}}>
+    <AdminContext.Provider value={{admin, setAdmin, logout}}>
         {
             (!isLoaded)?
             <Loader/>

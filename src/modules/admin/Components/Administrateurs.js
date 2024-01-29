@@ -4,6 +4,7 @@ import AdminContext from '../Contexts/AdminContext'
 import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
 import { motion } from 'framer-motion';
+import GlobalContext from '../Contexts/GlobalContext'
 
 function Administrateurs() {
   const [admins, setAdmins] = useState([])
@@ -14,7 +15,8 @@ function Administrateurs() {
 
   let clickCount = 0;
   const apiUrl = process.env.REACT_APP_API_URL
-  const {showToast, admin, searchContent, setSearchContent} = useContext(AdminContext)
+  const {admin} = useContext(AdminContext)
+  const {showToast, searchContent, setSearchContent} = useContext(GlobalContext)
 
   // setSearchContent("")
 

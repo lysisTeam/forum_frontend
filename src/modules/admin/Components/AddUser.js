@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import AddPic from '../Layouts/AddPic'
 import axios from 'axios'
 // import AlertError from '../Layouts/AlertError'
-import AdminContext from '../Contexts/AdminContext'
+import GlobalContext from '../Contexts/GlobalContext'
 
 function AddUser() {
     const [image, setImage] = useState(null)
@@ -23,7 +23,7 @@ function AddUser() {
     // const [textError,setTextError] = useState('')
     // const [callError,setCallError] = useState(false)
 
-    const {showToast} = useContext(AdminContext)
+    const {showToast} = useContext(GlobalContext)
 
     const Navigate = useNavigate() 
     const apiUrl = process.env.REACT_APP_API_URL

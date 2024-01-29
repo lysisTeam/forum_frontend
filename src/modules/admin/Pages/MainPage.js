@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import SideBar from '../Layouts/SideBar'
 import TopBar from '../Layouts/TopBar'
-import AdminContext from '../Contexts/AdminContext'
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router';
+import GlobalContext from '../Contexts/GlobalContext';
 
 function MainPage({children}) {
-  const [openSideBar, setOpenSideBar] = useState(false)
   const [openSearchBar, setOpenSearchBar] = useState(false)
   const [openTopPictureSection, setOpenTopPictureSection] = useState(false)
 
@@ -14,7 +13,7 @@ function MainPage({children}) {
   const currentRoute = location.pathname 
   
 
-  const {message, theme, setSearchContent, searchContent} = useContext(AdminContext)
+  const {setSearchContent, searchContent, openSideBar, setOpenSideBar} = useContext(GlobalContext)
 
   useEffect(()=>{
     // fonction pour fermer le sidebar au resize > 1200px
@@ -62,7 +61,7 @@ function MainPage({children}) {
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[openSideBar, openSearchBar, openTopPictureSection, theme, setSearchContent])
+  },[openSideBar, openSearchBar, openTopPictureSection, setSearchContent, searchContent])
 
 
   const handleToggleTopPictureSection = (e) => {
@@ -95,23 +94,6 @@ function MainPage({children}) {
           <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
             {children}
           </div>
-
-
-          <div className="toast-container position-fixed bottom-0 end-0 p-3">
-            <div id="liveToast" className={`toast ${theme}`} role="alert" aria-live="assertive" aria-atomic="true">
-                {/* <div className="toast-header">
-                <strong className="me-auto">Alerte</strong>
-                <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div> */}
-                <div className="toast-body text-white">
-                {message}
-                </div>
-            </div>
-
-          </div>
-
-
-
         </div>
       </div>
     </motion.div>

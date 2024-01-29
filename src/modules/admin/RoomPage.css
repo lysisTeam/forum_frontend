@@ -4,7 +4,7 @@
     border-top-left-radius: 0;
     height: 100%;
     padding-top: 0;
-    background-color: aqua;
+    /* background-color: rgb(187, 211, 211); */
 }
 
 .sidebar-page-admin.hide{
@@ -29,8 +29,26 @@
 
 .topBar-page-admin.toggleable{
     position: absolute;
+    top: -60px;
+    left: 0;
+    z-index: 11;
+    transition: top 0.2s ease-in-out;
+}
+
+.topBar-page-admin.toggleable.show{
     top: 0;
-    width: 0;
+}
+
+.button-toggle-top-bar{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    transition: top 0.2s ease-in-out;
+}
+
+.button-toggle-top-bar.fall{
+    top: 60px;
 }
 
 /* mettre en full screen */

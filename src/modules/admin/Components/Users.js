@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
-import AdminContext from '../Contexts/AdminContext'
 import { motion } from 'framer-motion'
+import GlobalContext from '../Contexts/GlobalContext'
 
 function Users() {
   const [showPlaceholder, setShowPlaceholder] = useState(true)
@@ -12,7 +12,7 @@ function Users() {
   const [students, setStudents] = useState([])
   const [selectedStudents, setSelectedStudents] = useState([])
   const apiUrl = process.env.REACT_APP_API_URL
-  const {showToast, searchContent, setSearchContent} = useContext(AdminContext)
+  const {showToast, searchContent, setSearchContent} = useContext(GlobalContext)
 
   let clickCount = 0;
   

@@ -3,13 +3,14 @@ import AdminContext from '../Contexts/AdminContext'
 
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import GlobalContext from '../Contexts/GlobalContext';
 
 function Settings() {
   const [nom, setNom] = useState("")
     const [prenoms, setPrenoms] = useState("")
     const [password, setPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
-    const [newPasswordRepeat, setNewPasswordReapeat] = useState('')
+    const [newPasswordRepeat, setNewPasswordRepeat] = useState('')
     const [email, setEmail] = useState('')
     const [autorisation, setAutorisation] = useState(0)
 
@@ -19,7 +20,8 @@ function Settings() {
     const [isEditing, setIsEditing] = useState(false)
     const [isEditingPassword, setIsEditingPassword] = useState(false)
 
-    const {showToast, admin, setAdmin} = useContext(AdminContext)
+    const {admin, setAdmin} = useContext(AdminContext)
+    const {showToast} = useContext(GlobalContext)
 
     const apiUrl = process.env.REACT_APP_API_URL
 
@@ -67,7 +69,7 @@ function Settings() {
 
         setPassword('')
         setNewPassword('')
-        setNewPasswordReapeat('')
+        setNewPasswordRepeat('')
 
         setIsEditing(false)
         setIsEditingPassword(false)
@@ -176,7 +178,7 @@ function Settings() {
                         </div>
                         <div className='mb-3 col-12 col-md-6 col-lg-6'>
                             <label htmlFor="inputPassword5" className="form-label">Repetez le nouveau mot de passe*</label>
-                            <input type="password" className="form-control" aria-labelledby="passwordHelpBlock" value={newPasswordRepeat} onChange={(e)=>setNewPasswordReapeat(e.target.value)} required/>
+                            <input type="password" className="form-control" aria-labelledby="passwordHelpBlock" value={newPasswordRepeat} onChange={(e)=>setNewPasswordRepeat(e.target.value)} required/>
                         </div>
                     </div>
 

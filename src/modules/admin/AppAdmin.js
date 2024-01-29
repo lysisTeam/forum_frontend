@@ -12,12 +12,16 @@ import AdminContextProvider from './Contexts/AdminContextProvider';
 import AddUser from './Components/AddUser';
 import AddAdmin from './Components/AddAdmin';
 import Settings from './Components/Settings';
+import GlobalContextProvider from './Contexts/GlobalContextProvider';
+import Alerte from './Layouts/Alerte';
+
 
 function AppAdmin() {
     const Navigate = useNavigate()
     const location = useLocation()
     const currentRoute = location.pathname 
     const { decodedToken } = useJwt(localStorage.admin_token || "") 
+    
 
     useEffect(()=>{
         if (!localStorage.admin_token) {
@@ -46,6 +50,7 @@ function AppAdmin() {
     },[Navigate, decodedToken])
   return (
     <>
+    <GlobalContextProvider>
         <Routes>
             <Route path='/admin/login' Component={LoginAdmin} />
         </Routes>
@@ -66,6 +71,9 @@ function AppAdmin() {
                 </MainPage>
             </AdminContextProvider>
         }
+
+        <Alerte/>
+    </GlobalContextProvider>
     </>
   )
 }

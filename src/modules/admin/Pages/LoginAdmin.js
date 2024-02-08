@@ -37,7 +37,7 @@ function LoginAdmin() {
             }, 1);
         })
         .catch((err)=>{
-            showToast(err.response.data.error, "bg-success")
+            showToast(err.response.data.error, "bg-danger")
         })
         setShowSpinner(false)
     }

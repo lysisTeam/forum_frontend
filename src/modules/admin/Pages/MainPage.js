@@ -90,7 +90,7 @@ function MainPage({children}) {
       <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />
       <div className={`section-container-pages ${openSideBar?'overlay':''} `}>
         <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection}/>
-        <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius' : '')}`}>
+        <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius dismiss-padding' : '')}`}>
           <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
             {children}
           </div>

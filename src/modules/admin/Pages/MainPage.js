@@ -115,18 +115,17 @@ function MainPage({children}) {
    
     e.stopPropagation()
   }
+
   return (
     <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }} transition={{ duration: 0.5 }} className='main-page-admin d-flex'>
       <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />
       <div className={`section-container-pages ${openSideBar?'overlay':''} `}>
         <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection} openNotificationSection={openNotificationSection} handleToggleNotificationSection={handleToggleNotificationSection} />
-        <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius' : '')}`}>
-        <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection}/>
-        <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius dismiss-padding' : '')}`}>
-          <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
-            {children}
+          <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius dismiss-padding' : '')}`}>
+            <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
+              {children}
+            </div>
           </div>
-        </div>
       </div>
     </motion.div>
   )

@@ -121,6 +121,8 @@ function MainPage({children}) {
       <div className={`section-container-pages ${openSideBar?'overlay':''} `}>
         <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection} openNotificationSection={openNotificationSection} handleToggleNotificationSection={handleToggleNotificationSection} />
         <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius' : '')}`}>
+        <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection}/>
+        <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius dismiss-padding' : '')}`}>
           <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
             {children}
           </div>

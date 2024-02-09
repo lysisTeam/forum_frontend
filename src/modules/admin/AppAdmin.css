@@ -344,6 +344,27 @@
     font-size: 0.5rem;
 }
 
+.notifications-drop-section{
+    min-width: 200px;
+    /* height: 100px; */
+    position: absolute;
+    top: 40px;
+    right: -15px;
+    background-color: rgb(255, 255, 255);
+    z-index: 11;
+    color: rgb(0, 0, 0);
+    font-size: 0.8rem;
+    text-align: left;
+    opacity: 0;
+    cursor: default;
+    transition: opacity .2s ease;
+    
+}
+
+.notifications-drop-section.show{
+    opacity: 1;
+}
+
 .top-picture-drop-button{
     border: 1px white solid;
     border-radius: 50%;

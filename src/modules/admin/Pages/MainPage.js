@@ -8,6 +8,7 @@ import GlobalContext from '../Contexts/GlobalContext';
 function MainPage({children}) {
   const [openSearchBar, setOpenSearchBar] = useState(false)
   const [openTopPictureSection, setOpenTopPictureSection] = useState(false)
+  const [openNotificationSection, setOpenNotificationSection] = useState(false)
 
   const location = useLocation()
   const currentRoute = location.pathname 
@@ -49,6 +50,14 @@ function MainPage({children}) {
         }, 200);
         
       }
+
+      if (openNotificationSection && ((!event.target.closest('.notifications-drop-section')) )) {
+        document.querySelector('.notifications-drop-section').classList.remove('show')
+        setTimeout(() => {
+          setOpenNotificationSection(false)
+        }, 200);
+        
+      }
     }
 
     //evenements fermer sidebar
@@ -61,9 +70,9 @@ function MainPage({children}) {
       document.removeEventListener('mousedown', handleClose);
     };
 
-  },[openSideBar, openSearchBar, openTopPictureSection, setSearchContent, searchContent])
+  },[openSideBar, openSearchBar, openTopPictureSection,openNotificationSection, setSearchContent, searchContent])
 
-
+  //Fonction pour affciher et cacher la section sous top pic picture
   const handleToggleTopPictureSection = (e) => {
 
     if ((!e.target.closest('.top-picture-drop-section'))) {
@@ -82,14 +91,35 @@ function MainPage({children}) {
 
     }
    
-    
+    e.stopPropagation()
+  }
+
+  //Fonction pour affciher et cacher la section notification
+  const handleToggleNotificationSection = (e) => {
+
+    if ((!e.target.closest('.notifications-drop-section'))) {
+      if (!openNotificationSection) {
+        setOpenNotificationSection(true)
+        setTimeout(() => {
+          document.querySelector('.notifications-drop-section').classList.add('show')
+        }, 1);
+        
+      }else{
+        document.querySelector('.notifications-drop-section').classList.remove('show')
+        setTimeout(() => {
+          setOpenNotificationSection(false)
+        }, 200);
+      }
+
+    }
+   
     e.stopPropagation()
   }
   return (
     <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }} transition={{ duration: 0.5 }} className='main-page-admin d-flex'>
       <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />
       <div className={`section-container-pages ${openSideBar?'overlay':''} `}>
-        <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection}/>
+        <TopBar setOpenSideBar={setOpenSideBar} setOpenSearchBar={setOpenSearchBar} openSearchBar={openSearchBar} openTopPictureSection={openTopPictureSection} handleToggleTopPictureSection={handleToggleTopPictureSection} openNotificationSection={openNotificationSection} handleToggleNotificationSection={handleToggleNotificationSection} />
         <div className={`container-views-admin ${(currentRoute === '/admin/subjects'? 'remove-border-radius' : '')}`}>
           <div className={`${(currentRoute === '/admin/subjects'? '' : 'container')}`}>
             {children}

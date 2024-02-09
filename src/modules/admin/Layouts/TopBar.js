@@ -5,7 +5,7 @@ import avatar from "../../../images/RyoumenSukunaIcon.jpg"
 import AdminContext from '../Contexts/AdminContext'
 import GlobalContext from '../Contexts/GlobalContext';
 
-function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPictureSection, handleToggleTopPictureSection}) {
+function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPictureSection, handleToggleTopPictureSection, openNotificationSection, handleToggleNotificationSection}) {
   const {admin, logout} = useContext(AdminContext)
   const {searchContent, setSearchContent, openTopBar} = useContext(GlobalContext)
   const Navigate = useNavigate()
@@ -30,12 +30,20 @@ function TopBar({setOpenSideBar, setOpenSearchBar, openSearchBar, openTopPicture
         </div>
 
         <div>
-          <button className='top-button'>
+          <button className='top-button button-notifications position-relative' onClick={handleToggleNotificationSection}>
             <i className="fa-solid fa-bell pe-none position-relative">
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 0<span className="visually-hidden">unread messages</span>
               </span>
             </i>
+
+            {
+              openNotificationSection &&
+              <div className='notifications-drop-section rounded shadow p-3'>
+                <h6 className='text-muted text-center m-0' style={{fontSize: "0.9rem"}}>aucune notification</h6>
+              </div>
+            }
+            
           </button>
           <button className='top-picture-drop-button' onClick={handleToggleTopPictureSection}>
             <img alt='user-avatar' src={avatar} />

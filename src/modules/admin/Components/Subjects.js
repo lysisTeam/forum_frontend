@@ -1,8 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import GlobalContext from '../Contexts/GlobalContext'
 
 function Subjects() {
   const {setOpenSideBar, openTopBar, setOpenTopBar} = useContext(GlobalContext)
+
+  useEffect(()=>{
+    setOpenTopBar(false)
+  },[setOpenTopBar])
   return (
     <div className='position-relative'>
       <button className={`button-toggle-top-bar ${openTopBar? 'fall' : ''}`} onClick={()=>{setOpenTopBar(previous => !previous)}}><i className="fa-solid fa-angle-down pe-none"></i></button>

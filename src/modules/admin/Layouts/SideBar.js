@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import avatar from "../../../images/RyoumenSukunaIcon.jpg"
+import avatar from "../../../images/avatar.jpg"
 import AdminContext from '../Contexts/AdminContext'
 
 function SideBar({openSideBar}) {

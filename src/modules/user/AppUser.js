@@ -2,7 +2,9 @@ import React from 'react'
 
 function AppUser() {
   return (
-    <div>AppUser</div>
+    <div>
+      <textarea id="exampleFormControlTextarea1"></textarea>
+    </div>
   )
 }
 

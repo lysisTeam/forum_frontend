@@ -45,7 +45,7 @@
     left: 50%;
     transform: translate(-50%);
     transition: top 0.2s ease-in-out;
-
+    z-index: 1000;
     padding: 1px 15px;
     font-size: 0.5rem;
     border: 0;
@@ -68,7 +68,7 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    gap: 10px;
+    gap: 2px;
     background-color: var(--main-bg-color);
 }
 
@@ -95,7 +95,30 @@
 
 .subjects .first-section .add-room-button:hover{
     background-color: rgb(194, 99, 35);
-}  
+}
+
+.subjects .first-section .add-room-button .fa-down-long{
+    position: absolute;
+    top: -25px;
+    left: 13px;
+    font-size: 1.2rem;
+    color: black;
+}
+
+
+
+.subjects .first-section .top-tiny-bar{
+   height: 60px;
+}
+
+.subjects .first-section .top-tiny-bar img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    image-rendering: auto;
+}
 
 .subjects .first-section .search-room{
     margin-top: 15px;
@@ -218,11 +241,331 @@
 .subjects .second-section{
     height: 100%;
     width: calc(100% - 400px);
-    background-color: #eff3f6;
+    background-color: var(--main-bg-color);
+    overflow: hidden;
 }
 
 
 .section-chat{
     width: 100%;
     height: 100%;
+}
+
+.section-chat .chat-open{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    
+}
+
+
+
+.section-chat .chat-open .chat-top-bar{
+    width: 100%;
+    height: 60px;
+    background-color: #eff3f6;
+    border-bottom: 2px solid rgba(29, 25, 51, 0.336);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-cover{
+    padding: 4px;
+    padding-right: 15px;
+    /* background-color: var(--main-bg-color); */
+    border-radius: 45px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    /* color: white; */
+    /* border: 1px solid rgb(202, 202, 202); */
+    font-size: 0.9rem;
+}
+
+.top-cover img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.top-cover h6{
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.top-cover span{
+    font-size: 0.65rem;
+}
+
+.top-cover i{
+    font-size: 0.9rem;
+    position: relative;
+    top: 2px;
+}
+
+/* .chat-top-bar .btns{
+    
+} */
+
+
+
+.chat-top-bar .btns .btn{
+    font-size: 1.1rem;
+    transition: all ease-in-out 0.2s;
+    
+}
+
+.chat-top-bar .btns .btn:hover{
+    color: rgb(88, 88, 88);
+}
+
+
+.section-chat .chat-open .chat-body{
+    flex-grow: 1;
+    position: relative;
+    background-image: url('../../images/backgroundchat.jpeg');
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+
+.section-chat .chat-open .chat-body::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(239, 243, 246, 0.8);
+    
+}
+
+
+.section-chat .chat-open .chat-body .section-messages{
+    
+    z-index: 500;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: 15px;*/
+    padding-top: 15px;
+    overflow-y: scroll;
+    
+}
+
+.section-chat .chat-open .chat-body .section-messages::-webkit-scrollbar {
+    width: 2px; /* width of the entire scrollbar */
+}
+
+.section-chat .chat-open .chat-body .section-messages::-webkit-scrollbar-track {
+    background: rgb(218, 218, 218); /* color of the tracking area */
+}
+
+.section-chat .chat-open .chat-body .section-messages::-webkit-scrollbar-thumb {
+    border-radius: 25px;
+    border: 2px solid gray;
+}
+
+.section-chat .chat-open .chat-body .section-messages .time{
+    font-size: 0.6rem;
+    font-weight: 0;
+    margin-left: 25px;
+}
+
+.section-chat .chat-open .chat-body .section-messages .message-entrant > div{
+    background-color:rgb(236, 171, 127);
+    max-width: 50%;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: end;
+    margin-bottom: 15px;
+    
+}
+
+.section-chat .chat-open .chat-body .section-messages .message-sortant{
+    display: flex;
+    justify-content: end;
+    
+}
+
+.section-chat .chat-open .chat-body .section-messages .message-sortant > div{
+    background-color:var(--main-bg-color);
+    color: white;
+    max-width: 50%;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: end;
+    margin-bottom: 15px;
+    
+}
+
+
+
+
+
+
+
+.section-chat .chat-open .chat-bottom-bar{
+    width: 100%;
+    min-height: 60px;
+    background-color: #eff3f6;
+    /* border-top: 2px solid rgb(202, 202, 202); */
+    display: flex;
+    justify-content: end;
+    
+}
+
+.chat-bottom-bar .chat-input-section{
+    background-color: var(--main-bg-color);
+    color: white;
+    width: 100%;
+    display: flex;
+    align-items: end;
+    gap: 5px;
+}
+
+.chat-bottom-bar textarea{
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    outline: none;
+    border: 0;
+    font-size: 0.9rem;
+    /* height: min-content; */
+    resize: none;
+    max-height: 200px;
+    margin-bottom: 8px;
+}
+
+.chat-bottom-bar textarea::-webkit-scrollbar {
+    width: 2px; /* width of the entire scrollbar */
+}
+
+.chat-bottom-bar textarea::-webkit-scrollbar-track {
+    background: gray; /* color of the tracking area */
+}
+
+.chat-bottom-bar textarea::-webkit-scrollbar-thumb {
+    border-radius: 25px;
+    border: 2px solid rgb(218, 218, 218);
+}
+
+.chat-bottom-bar .chat-input-section button{
+    color: white;
+    height: min-content;
+    
+}
+
+.chat-bottom-bar .chat-input-section .btn-send{
+    color: white;
+    background-color: rgb(231, 114, 36);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#addRoomModal .modal-header{
+    background-color: var(--main-bg-color);
+    color: white;
+}
+
+#addRoomModal .modal-body{
+    background-color: aliceblue;
+}
+
+
+
+
+.form-add-room .image-input{
+    height: 300px;
+    width: 250px;
+    border: 2px var(--main-bg-color) dashed;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.form-add-room .image-input .btn-delete{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border: 0;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-add-room .image-input .overlay{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 0, 49, 0.3);
+    position: absolute;
+    top: 0;
+    border: 0;
+    opacity: 0;
+    transition: 0.2s ease opacity;
+}
+
+.form-add-room .image-input .overlay:hover{
+    opacity: 1;
+}
+
+.form-add-room .image-input img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+.form-add-room > div:nth-child(2){
+    border: 2px var(--main-bg-color) dashed;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-add-room > div:nth-child(2) button{
+    width: auto;
+}
+
+.form-add-room > div:nth-child(2) input{
+    background-color: rgb(28, 28, 51);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.form-add-room > div:nth-child(2) input::placeholder{
+
+    color: rgb(179, 179, 179);
+   
 }

@@ -201,6 +201,7 @@ function Administrateurs() {
             
           }
         </div>
+        
         <table className={`table ${admins?.length !== 0?'table-hover':''} table-borderless border-bottom`}>
           <thead className='m-3'>
             <tr >

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import avatar from "../../../images/RyoumenSukunaIcon.jpg"
+import avatar from "../../../images/avatar.jpg"
 import AdminContext from '../Contexts/AdminContext'
 import GlobalContext from '../Contexts/GlobalContext';
 

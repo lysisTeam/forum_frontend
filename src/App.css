@@ -5,6 +5,7 @@
 
 :root {
   --main-bg-color: rgb(14, 26, 40);
+  --main-color: rgb(231, 114, 36)
 }
 
 *{
@@ -43,4 +44,18 @@
   .container {
     max-width: 1140px;
   }
+}
+
+
+.image-lettres{
+  height: 40px;
+  width: 40px;
+  background: var(--main-color);
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.85rem;
 }

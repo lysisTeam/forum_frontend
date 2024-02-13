@@ -6,6 +6,7 @@ import avatar from "../../../images/avatar.jpg"
 import Chat from '../Layouts/Chat'
 import axios from 'axios'
 import AddRoomModal from '../Layouts/AddRoomModal'
+import ImageLetters from '../Layouts/ImageLetters'
 
 function Subjects() {
   const { openTopBar, setOpenTopBar} = useContext(GlobalContext)
@@ -90,7 +91,12 @@ function Subjects() {
             :
             rooms?.map((room)=>(
               <div className={`liste-rooms-item px-3 py-3 overflow-hidden ${currentRoom._id === room._id ? 'active' : ''} `} key={room._id} onClick={()=>setCurrentRoom(room)}>
-                <img alt='cover' src={(room.cover)?apiUrl+'/'+room.cover: image}/>
+                {
+                  (room.cover)?
+                  <img alt='cover' src={apiUrl+'/'+room.cover}/>
+                  :
+                  <ImageLetters nom={room.titre || ""} prenoms={""}></ImageLetters>
+                }
                 
                 <div className='flex-grow-1 overflow-hidden col-6 d-flex flex-column justify-content-center gap-1'>
                   <div className='d-flex justify-content-between align-items-center overflow-hidden '>
@@ -104,8 +110,11 @@ function Subjects() {
 
           }
 
+          {
+            isLoaded && rooms.length === 0 &&
+            <h6 className='text-center text-muted mt-3'>Aucune room pour l'instant</h6>
+          }
           
-          <h6 className='text-center text-muted mt-3'>Aucune room pour l'instant</h6>
           <h6 className='text-center text-muted mt-3'><i className="fa-brands fa-fantasy-flight-games"></i></h6>
         </div>
         

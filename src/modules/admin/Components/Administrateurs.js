@@ -5,6 +5,7 @@ import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
 import { motion } from 'framer-motion';
 import GlobalContext from '../Contexts/GlobalContext'
+import ImageLetters from '../Layouts/ImageLetters'
 
 function Administrateurs() {
   const [admins, setAdmins] = useState([])
@@ -232,7 +233,16 @@ function Administrateurs() {
                     <tr key={one_admin._id}>
                       <th scope="row"><input className={`form-check-input ${admin.autorisation? '' : 'pe-none'}`} type="checkbox" value="" id={one_admin._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
                       {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                      <td className='td-profil-pic text-capitalize'><img alt='pp' src={(one_admin.photo)?apiUrl+'/'+one_admin.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}</td>
+                      <td className='td-profil-pic text-capitalize'>
+                        {
+                          (one_admin.photo)?
+                          <img alt='pp' src={apiUrl+'/'+one_admin.photo}/>
+                          :
+                          <ImageLetters nom={one_admin.nom || ""} prenoms={one_admin.prenoms || ""}></ImageLetters>
+                        }
+                        
+                        &nbsp;&nbsp;&nbsp;&nbsp;{`${one_admin.nom} ${one_admin.prenoms}`}
+                      </td>
                       <td>{`${one_admin.username}`}</td>
                       <td>{`${one_admin.email}`}</td>
                       <td className='text-capitalize'>{`${one_admin.autorisation? 'super administrateur':' administrateur'}`}</td>

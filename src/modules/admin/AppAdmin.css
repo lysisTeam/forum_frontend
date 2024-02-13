@@ -501,7 +501,7 @@
 } 
 
 .container-list .td-profil-pic{
-    /* display: flex; */
+    display: flex;
     align-items: center;
     gap: 8px;
 }
@@ -704,7 +704,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 12;
+    z-index: 501;
     background-color: rgba(22, 28, 36, 0.8);
 }
 

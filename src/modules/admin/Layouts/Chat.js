@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import image from '../../../images/Robot Cosmonaut.jpg'
 import avatar from "../../../images/avatar.jpg"
+import ImageLetters from './ImageLetters'
 
 function Chat({currentRoom}) {
   const apiUrl = process.env.REACT_APP_API_URL
@@ -51,10 +52,15 @@ function Chat({currentRoom}) {
         <div className='chat-open'>
           <div className='chat-top-bar px-3 shadow'>
             <div className='top-cover'>
-              <img alt='cover' src={(currentRoom.cover)?apiUrl+'/'+currentRoom.cover: image}/>
+                {
+                  (currentRoom.cover)?
+                  <img alt='cover' src={apiUrl+'/'+currentRoom.cover}/>
+                  :
+                  <ImageLetters nom={currentRoom.titre || ""} prenoms={""}></ImageLetters>
+                }
               <div>
                 <h6 className='m-0 fw-bold'>{currentRoom.titre} &nbsp;&nbsp; <i class="fa-solid fa-gears"></i></h6>
-                <span>{`${currentRoom.members.length} participant${currentRoom.members.length === 0 ? '' : 's'}`}</span>
+                <span>{`${currentRoom.members.length} participant${currentRoom.members.length < 2 ? '' : 's'}`}</span>
               </div>
              
             </div>
@@ -67,9 +73,17 @@ function Chat({currentRoom}) {
           </div>
           <div className='chat-body'>
             <div className='container section-messages'>
+              {/*message sortant */}
+              <div className='sentence-info'>
+                <div className='rounded'>
+                  <span>Abdul Mounirou a créé ce groupe</span>
+                </div>
+              </div>
+
               {/*message entrant */}
               <div className='message-entrant'>
-                <img alt='user-avatar' src={avatar} />
+                {/* <img alt='user-avatar' src={avatar} /> */}
+                <ImageLetters nom={"Mounirou" || ""} prenoms={"Abdul Kodir" || ""}></ImageLetters>
                 <div>
                   <span className='name'>Abdul mounirou</span>
                   <div className='px-3 py-2 rounded message-container'>
@@ -83,6 +97,29 @@ function Chat({currentRoom}) {
                 </div>
               </div>
 
+              {/*message entrant */}
+              <div className='message-entrant'>
+                <img alt='user-avatar' src={avatar} />
+                {/* <ImageLetters nom={"Mounirou" || ""} prenoms={"Abdul Kodir" || ""}></ImageLetters> */}
+                <div>
+                  <span className='name'>Abdul mounirou</span>
+                  <div className='px-3 py-2 rounded message-container'>
+                      Bonjour, comment tu vas ?
+                      <span className='time'>11:50</span>
+
+                      <span data-icon="tail-in" class="coin">
+                        <svg viewBox="0 0 8 13" height="13" width="8" preserveAspectRatio="xMidYMid meet" class="" version="1.1" x="0px" y="0px" enable-background="new 0 0 8 13"><title>tail-in</title><path opacity="0.13" fill="#0000000" d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"></path><path fill="currentColor" d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"></path></svg>
+                      </span>
+                  </div>
+                </div>
+              </div>
+
+              {/*message sortant */}
+              <div className='sentence-info'>
+                <div className='rounded'>
+                  <span>Abdul Mounirou a ajouté abdul-aziz à cette conversation</span>
+                </div>
+              </div>
 
               {/*message sortant */}
               <div className='message-sortant'>
@@ -97,10 +134,8 @@ function Chat({currentRoom}) {
                 </div>
               </div>
 
-        
-
               
-
+        
             </div>
           </div>
 

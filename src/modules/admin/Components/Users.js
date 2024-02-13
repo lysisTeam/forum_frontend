@@ -5,6 +5,7 @@ import axios from 'axios'
 import PlaceholderTable from '../Layouts/PlaceholderTable'
 import { motion } from 'framer-motion'
 import GlobalContext from '../Contexts/GlobalContext'
+import ImageLetters from '../Layouts/ImageLetters'
 
 function Users() {
   const [showPlaceholder, setShowPlaceholder] = useState(true)
@@ -228,7 +229,16 @@ function Users() {
                   <tr key={student._id}>
                     <th scope="row"><input class="form-check-input" type="checkbox" value="" id={student._id} onChange={handleChange} aria-label="Checkbox for following text input"/></th>
                     {/* <td className='td-profil-pic'><img alt='pp' src={pp}/></td> */}
-                    <td className='td-profil-pic text-capitalize'><img alt='pp' src={(student.photo)?apiUrl+'/'+student.photo:'https://i.pinimg.com/originals/38/3d/e0/383de0cdfd99a0dc1edb98e2481b8468.jpg'}/>&nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}</td>
+                    <td className='td-profil-pic text-capitalize'>
+                      {
+                        (student.photo)?
+                        <img alt='pp' src={apiUrl+'/'+student.photo}/>
+                        :
+                        <ImageLetters nom={student.nom || ""} prenoms={student.prenoms || ""}></ImageLetters>
+                      }
+                      
+                      &nbsp;&nbsp;&nbsp;&nbsp;{`${student.nom} ${student.prenoms}`}
+                    </td>
                     <td>{`${student.username}`}</td>
                     <td>{`${student.email}`}</td>
                     <td className='text-uppercase'>{`${student.specialite}`}</td>

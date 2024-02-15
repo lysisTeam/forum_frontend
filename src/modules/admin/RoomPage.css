@@ -68,18 +68,20 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    gap: 2px;
     background-color: var(--main-bg-color);
 }
 
 .subjects .first-section{
     height: 100%;
-    width: 400px;
+    width: 350px;
     background-color: #ffffff;
     position: relative;
 
     display: flex;
     flex-direction: column;
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-right: 1px solid rgba(29, 25, 51, 0.336);
 
 }
 
@@ -240,9 +242,11 @@
 
 .subjects .second-section{
     height: 100%;
-    width: calc(100% - 400px);
+    width: calc(100% - 350px);
     background-color: var(--main-bg-color);
     overflow: hidden;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
 }
 
 
@@ -254,17 +258,22 @@
 .section-chat .chat-open{
     position: relative;
     display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.section-chat .chat-open-conversation{
+    position: relative;
+    display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     background-image: url('../../images/backgroundchat.jpeg');
-
-    
 }
 
 
 
-.section-chat .chat-open .chat-top-bar{
+.section-chat .chat-open-conversation .chat-top-bar{
     width: 100%;
     height: 60px;
     background-color: #ffffff;
@@ -327,7 +336,7 @@
 }
 
 
-.section-chat .chat-open .chat-body{
+.section-chat .chat-open-conversation .chat-body{
     flex-grow: 1;
     height: min-content;
     position: relative;
@@ -339,7 +348,7 @@
 }
 
 
-.section-chat .chat-open .chat-body::before{
+.section-chat .chat-open-conversation .chat-body::before{
     content: '';
     position: absolute;
     width: 100%;
@@ -349,7 +358,7 @@
 }
 
 
-.section-chat .chat-open .chat-body .section-messages{
+.section-chat .chat-open-conversation .chat-body .section-messages{
     
     z-index: 500;
     /* display: flex;
@@ -361,41 +370,43 @@
     
 }
 
-.section-chat .chat-open .chat-body .section-messages::-webkit-scrollbar {
+.section-chat .chat-open-conversation .chat-body .section-messages::-webkit-scrollbar {
     width: 0px; /* width of the entire scrollbar */
 }
 
-.section-chat .chat-open .chat-body .section-messages::-webkit-scrollbar-track {
+.section-chat .chat-open-conversation .chat-body .section-messages::-webkit-scrollbar-track {
     background: rgb(218, 218, 218); /* color of the tracking area */
 }
 
-.section-chat .chat-open .chat-body .section-messages::-webkit-scrollbar-thumb {
+.section-chat .chat-open-conversation .chat-body .section-messages::-webkit-scrollbar-thumb {
     border-radius: 25px;
     border: 2px solid transparent;
 }
 
-.section-chat .chat-open .chat-body .section-messages .time{
+.section-chat .chat-open-conversation .chat-body .section-messages .time{
     font-size: 0.6rem;
     font-weight: 0;
     margin-left: 25px;
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-entrant{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant{
     display: flex;
     gap: 8px;
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-entrant img{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant img{
     height: 40px;
     width: 40px;
+    object-fit: cover;
+    
     border-radius: 50%;
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-entrant > div{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant > div{
     max-width: 60%;
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-entrant .message-container{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container{
     background-color:rgb(236, 171, 127);
     /* max-width: 60%; */
     width: fit-content;
@@ -409,7 +420,7 @@
     
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-entrant .message-container .coin{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .coin{
     color: rgb(236, 171, 127) !important;
     position: absolute;
     top: 0;
@@ -417,20 +428,20 @@
     
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-sortant{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant{
     display: flex;
     flex-direction: column;
     align-items: end;
     
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-sortant .name,
-.section-chat .chat-open .chat-body .section-messages .message-entrant .name{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .name,
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .name{
     font-size: 0.7rem;
     color: rgb(87, 87, 87);
 }
 
-.section-chat .chat-open .chat-body .section-messages .message-sortant .message-container{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container{
     background-color:var(--main-bg-color);
     color: white;
     max-width: 60%;
@@ -444,7 +455,37 @@
 }
 
 
-.section-chat .chat-open .chat-body .section-messages .message-sortant .message-container .coin{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .btn-option,
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .btn-option{
+    position: absolute;
+    top: 50%;  /* à 50%/50% du parent référent */
+    transform: translate(-50%, -50%);
+    color: rgb(107, 107, 107);
+    padding: 0 2px;
+    font-size: 0.8rem;
+    opacity: 0;
+}
+
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .btn-option{
+
+    right: -17px;
+
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .btn-option{
+
+    left: -10px;
+
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .btn-option:hover,
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .btn-option:hover{
+    color: black;
+}
+
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .coin{
     color: var(--main-bg-color) !important;
     position: absolute;
 
@@ -452,25 +493,52 @@
     right: -8px;
 }
 
-.section-chat .chat-open .chat-body .section-messages .sentence-info{
+.section-chat .chat-open-conversation .chat-body .section-messages .sentence-info{
     margin-bottom: 15px;
     display: flex;
     justify-content: center;
 }
 
-.section-chat .chat-open .chat-body .section-messages .sentence-info > div{
-    background-color: rgb(11, 0, 58);
+.section-chat .chat-open-conversation .chat-body .section-messages .sentence-info > div{
+    background-color: rgb(169, 188, 209);
     width: fit-content;
-    padding: 8px 60px;
-    color: white;
-    font-size: 0.75rem;
+    padding: 6px 60px;
+    color: rgb(0, 0, 0);
+    font-size: 0.7rem;
     font-weight: bold;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .sentence-entete{
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .sentence-entete > div{
+    background-color: #d6d6d6;
+    z-index: 500;
+    width: fit-content;
+    padding: 4px 10px;
+    color: rgb(59, 59, 59);
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .sentence-entete > .line{
+   width: 100%;
+   z-index: 499;
+   height: 1px;
+   position: absolute;
+   top: 50%;  /* à 50%/50% du parent référent */
+   background-color: rgba(0, 0, 0, 0.178);
+   padding: 0;
 }
 
 
 
 
-.section-chat .chat-open .chat-bottom-bar{
+.section-chat .chat-open-conversation .chat-bottom-bar{
     width: 100%;
     height: auto;
     min-height: 60px;
@@ -482,7 +550,7 @@
     
 }
 
-.section-chat .chat-open .chat-bottom-bar::before{
+.section-chat .chat-open-conversation .chat-bottom-bar::before{
     content: '';
     position: absolute;
     width: 100%;
@@ -538,6 +606,26 @@
     background-color: rgb(231, 114, 36);
 }
 
+.section-chat .section-medias{
+    width: 0px;
+    height: 100%;
+    background-color: white;
+    border-left: 1px solid rgba(29, 25, 51, 0.336);
+    transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    text-wrap: nowrap;
+}
+
+.section-chat .section-medias.open{
+    width: 400px;
+}
+
+.section-chat .section-medias .top-section{
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-bottom: 1px solid rgba(29, 25, 51, 0.336); */
+}
 
 
 

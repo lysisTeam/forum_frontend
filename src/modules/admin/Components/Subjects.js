@@ -42,6 +42,38 @@ function Subjects() {
 
 
   },[setOpenTopBar, currentRoom, apiUrl])
+
+  const afficherDateConversation = (updatedAt)=>{
+      const dateMessage = new Date(updatedAt);
+      const dateActuelle = new Date();
+
+      // Calcul de la différence en millisecondes entre la date actuelle et la date du message
+      const difference = dateActuelle - dateMessage;
+
+      // Calcul du nombre d'heures depuis le message
+      const heuresDepuisMessage = Math.floor(difference / (1000 * 60 * 60));
+
+      if (heuresDepuisMessage < 24) {
+          // Si le message date de moins de 24 heures, afficher l'heure et la minute
+          const heure = dateMessage.getHours().toString().padStart(2, '0');
+          const minute = dateMessage.getMinutes().toString().padStart(2, '0');
+          return `${heure}:${minute}`;
+      } else if (heuresDepuisMessage < 24 * 7) {
+          // Si le message date de moins d'une semaine, afficher le nom du jour
+          const options = { weekday: 'short' };
+          return dateMessage.toLocaleDateString('fr-FR', options);
+      } else if (heuresDepuisMessage < 24 * 30 * 6) {
+          // Si le message date de plus longtemps, afficher sous le format 12/01/2022
+          const jour = dateMessage.getDate().toString().padStart(2, '0');
+          const mois = (dateMessage.getMonth() + 1).toString().padStart(2, '0'); // Notez que les mois commencent à 0
+          const annee = dateMessage.getFullYear();
+          return `${jour}/${mois}/${annee}`;
+      } else {
+          // Si le message date de plus de 6 mois, afficher la date complète
+          return dateMessage.toLocaleDateString('fr-FR');
+      }
+  }
+
   return (
     <div className='position-relative subjects p-2'>
       <button className={`button-toggle-top-bar ${openTopBar? 'fall' : ''}`} onClick={()=>{setOpenTopBar(previous => !previous)}}>
@@ -101,7 +133,7 @@ function Subjects() {
                 <div className='flex-grow-1 overflow-hidden col-6 d-flex flex-column justify-content-center gap-1'>
                   <div className='d-flex justify-content-between align-items-center overflow-hidden '>
                     <h6 className=''>{room.titre}</h6>
-                    <span style={{fontSize: "0.8rem"}}>3 jours</span>
+                    <span className='text-muted' style={{fontSize: "0.75rem"}}>{afficherDateConversation(room.updatedAt)}</span>
                   </div>
                   <p className=''>aucun message...</p>
                 </div>

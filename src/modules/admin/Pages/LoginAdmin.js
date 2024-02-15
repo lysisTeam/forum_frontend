@@ -56,7 +56,7 @@ function LoginAdmin() {
                 <form onSubmit={(e)=>handleSubmit(e)}>
                       <div className="mb-3">
                           <label htmlFor="exampleInputEmail1" className="form-label">Nom d'utilisateur</label>
-                          <input type="text" className="form-control fw-bold fs-5" id="exampleInputEmail1" aria-describedby="emailHelp" required value={username} onChange={(e)=>setUsername(e.target.value)} />
+                          <input type="text" className="form-control fw-bold fs-5" id="exampleInputEmail1" name='username' required value={username} onChange={(e)=>setUsername(e.target.value)} />
                       </div>
                       <div className="mb-3">
                           <label htmlFor="exampleInputPassword1" className="form-label">Mot de passe</label>

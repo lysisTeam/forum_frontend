@@ -4,7 +4,7 @@ function ImageLetters({nom, prenoms}) {
     const [word, setWord] = useState("")
     useEffect(()=>{
         if (!prenoms) {
-            console.log(nom.split(" "))
+            // console.log(nom.split(" "))
             const words = nom.split(" ")
             if (words.length > 1) {
                 setWord(words[0][0] + words[1][0])
@@ -16,7 +16,7 @@ function ImageLetters({nom, prenoms}) {
         }
     },[nom, prenoms, word])
   return (
-    <div className='image-lettres shadow'>{word.toUpperCase()}</div>
+    <div className='image-lettres shadow'>{(word ? word : "").toUpperCase()}</div>
   )
 }
 

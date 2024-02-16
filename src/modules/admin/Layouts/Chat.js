@@ -5,6 +5,7 @@ import ImageLetters from './ImageLetters'
 import axios from 'axios'
 import AdminContext from '../Contexts/AdminContext'
 import EmojiPicker  from "emoji-picker-react"
+import SocketContext from '../Contexts/SocketContext'
 
 
 function Chat({currentRoom}) {
@@ -21,6 +22,8 @@ function Chat({currentRoom}) {
   const [texteAEnvoyer, setTexteAEnvoyer] = useState("")
 
   const [responseTo, setResponseTo] = useState({id: null, message: "", user: ""})
+
+  const {socket} = useContext(SocketContext)
 
   useEffect(()=>{
     setShowEmojiPicker(false)
@@ -180,6 +183,8 @@ function Chat({currentRoom}) {
         }, 1);
         setTexteAEnvoyer("")
         setResponseTo({id: null, message: "", user: ""})
+
+        socket.emit('message:send', response.data.message)
       })
       .catch((error)=>{
         console.log(error);

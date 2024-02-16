@@ -14,6 +14,7 @@ import AddAdmin from './Components/AddAdmin';
 import Settings from './Components/Settings';
 import GlobalContextProvider from './Contexts/GlobalContextProvider';
 import Alerte from './Layouts/Alerte';
+import SocketContextProvider from './Contexts/SocketContextProvider';
 
 
 function AppAdmin() {
@@ -50,30 +51,32 @@ function AppAdmin() {
     },[Navigate, decodedToken])
   return (
     <>
-    <GlobalContextProvider>
-        <Routes>
-            <Route path='/admin/login' Component={LoginAdmin} />
-        </Routes>
+    <SocketContextProvider>
+        <GlobalContextProvider>
+            <Routes>
+                <Route path='/admin/login' Component={LoginAdmin} />
+            </Routes>
 
-        {
-            currentRoute !== '/admin/login' &&
-            <AdminContextProvider>
-                <MainPage>
-                    <Routes>
-                        {/* <Route path='/admin' Component={Dashboard}/> */}
-                        <Route path='/admin' Component={Administrateurs}/>
-                        <Route path='/admin/add' Component={AddAdmin}/>
-                        <Route path='/admin/settings' Component={Settings}/>
-                        <Route path='/admin/users' Component={Users}/>
-                        <Route path='/admin/users/add' Component={AddUser}/>
-                        <Route path='/admin/subjects' Component={Subjects}/>
-                    </Routes>
-                </MainPage>
-            </AdminContextProvider>
-        }
+            {
+                currentRoute !== '/admin/login' &&
+                <AdminContextProvider>
+                    <MainPage>
+                        <Routes>
+                            {/* <Route path='/admin' Component={Dashboard}/> */}
+                            <Route path='/admin' Component={Administrateurs}/>
+                            <Route path='/admin/add' Component={AddAdmin}/>
+                            <Route path='/admin/settings' Component={Settings}/>
+                            <Route path='/admin/users' Component={Users}/>
+                            <Route path='/admin/users/add' Component={AddUser}/>
+                            <Route path='/admin/subjects' Component={Subjects}/>
+                        </Routes>
+                    </MainPage>
+                </AdminContextProvider>
+            }
 
-        <Alerte/>
-    </GlobalContextProvider>
+            <Alerte/>
+        </GlobalContextProvider>
+    </SocketContextProvider>
     </>
   )
 }

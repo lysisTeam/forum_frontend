@@ -466,7 +466,7 @@
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container{
-    background-color:var(--main-bg-color);
+    background-color: rgb(8, 43, 82);
     color: white;
     max-width: 60%;
     
@@ -563,7 +563,7 @@
 
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .coin{
-    color: var(--main-bg-color) !important;
+    color: rgb(8, 43, 82) !important;
     position: absolute;
 
     top: 0;

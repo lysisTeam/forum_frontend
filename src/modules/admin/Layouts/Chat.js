@@ -27,6 +27,10 @@ function Chat({currentRoom}) {
     setTexteAEnvoyer("")
     setShowMessageOptions(false)
     setResponseTo({id: null, message: "", user: ""})
+    if (document.querySelector('textarea')) {
+      document.querySelector('textarea').style.height = "22px"
+    }
+    
     // setTimeout(() => {
     //   var objDiv = document.querySelector('.section-messages');
     //     if (objDiv) {
@@ -116,7 +120,7 @@ function Chat({currentRoom}) {
         setShowMessageOptions(false)
         document.querySelector('.message-options.show').classList.remove('show')
         document.querySelectorAll('.btn-option').forEach(btn => {
-          btn.style.opacity = '0'
+          btn.style.display = 'none'
         })
       }
 
@@ -136,12 +140,11 @@ function Chat({currentRoom}) {
     e.target.style.height = 'auto'; // Réinitialisez la hauteur à auto
     e.target.style.height = (e.target.scrollHeight) + 'px'; // Ajustez la hauteur en fonction du contenu
 
-    console.log(document.querySelector('.chat-input-section').clientHeight);
-    console.log(e.target.scrollHeight);
+    // console.log(document.querySelector('.chat-input-section').clientHeight);
+    console.log(e.target.clientHeight);
 
-    setTimeout(() => {
-      document.querySelector('.section-chat .chat-open .chat-bottom-bar').style.height = (document.querySelector('.chat-input-section').clientHeight + 43) + 'px'
-    }, 1);
+    
+    
 
     setTimeout(() => {
       var objDiv = document.querySelector('.section-messages');
@@ -272,14 +275,14 @@ function Chat({currentRoom}) {
 
   const handleHover = (e) =>{
     if (e.target.querySelector('.btn-option') && !showMessageOptions) {
-      e.target.querySelector('.btn-option').style.opacity = "1"
+      e.target.querySelector('.btn-option').style.display = "inline-block"
     }
     
   }
 
   const handleHoverLeave = (e) =>{
     if (e.target.querySelector('.btn-option') && !showMessageOptions) {
-      e.target.querySelector('.btn-option').style.opacity = "0"
+      e.target.querySelector('.btn-option').style.display = "none"
     }
   }
 

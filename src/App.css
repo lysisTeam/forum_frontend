@@ -9,9 +9,16 @@
 }
 
 *{
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
     
+}
+
+.btn:focus,
+.btn:active,
+.btn {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .container {

@@ -51,8 +51,9 @@ function AppAdmin() {
     },[Navigate, decodedToken])
   return (
     <>
-    <SocketContextProvider>
-        <GlobalContextProvider>
+    
+    <GlobalContextProvider>
+        
             <Routes>
                 <Route path='/admin/login' Component={LoginAdmin} />
             </Routes>
@@ -60,23 +61,25 @@ function AppAdmin() {
             {
                 currentRoute !== '/admin/login' &&
                 <AdminContextProvider>
-                    <MainPage>
-                        <Routes>
-                            {/* <Route path='/admin' Component={Dashboard}/> */}
-                            <Route path='/admin' Component={Administrateurs}/>
-                            <Route path='/admin/add' Component={AddAdmin}/>
-                            <Route path='/admin/settings' Component={Settings}/>
-                            <Route path='/admin/users' Component={Users}/>
-                            <Route path='/admin/users/add' Component={AddUser}/>
-                            <Route path='/admin/subjects' Component={Subjects}/>
-                        </Routes>
-                    </MainPage>
+                    <SocketContextProvider>
+                        <MainPage>
+                            <Routes>
+                                {/* <Route path='/admin' Component={Dashboard}/> */}
+                                <Route path='/admin' Component={Administrateurs}/>
+                                <Route path='/admin/add' Component={AddAdmin}/>
+                                <Route path='/admin/settings' Component={Settings}/>
+                                <Route path='/admin/users' Component={Users}/>
+                                <Route path='/admin/users/add' Component={AddUser}/>
+                                <Route path='/admin/subjects' Component={Subjects}/>
+                            </Routes>
+                        </MainPage>
+                    </SocketContextProvider>
                 </AdminContextProvider>
             }
 
             <Alerte/>
-        </GlobalContextProvider>
-    </SocketContextProvider>
+    </GlobalContextProvider>
+    
     </>
   )
 }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import GlobalContext from '../Contexts/GlobalContext'
+import AdminContext from '../Contexts/AdminContext'
 
 function AddRoomModal({setRooms}) {
     const [image, setImage] = useState(null)
@@ -11,6 +12,8 @@ function AddRoomModal({setRooms}) {
     const [showSpinner, setShowSpinner] = useState(false)
 
     const {showToast} = useContext(GlobalContext)
+
+    const {admin} = useContext(AdminContext)
 
     const apiUrl = process.env.REACT_APP_API_URL
 
@@ -48,7 +51,8 @@ function AddRoomModal({setRooms}) {
         await axios.post(apiUrl+'/api/room/admin',{
             image: image,
             titre: titre,
-            theme_de_discussion: theme
+            theme_de_discussion: theme,
+            nom_createur: admin.nom + ' ' + admin.prenoms.split(' ')[0]
             // role: role
         },{
             headers:{
@@ -77,14 +81,14 @@ function AddRoomModal({setRooms}) {
         })
     }
   return (
-    <div class="modal fade" id="addRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addRoomModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" data-bs-theme="dark">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter une room</h1>
+    <div className="modal fade" id="addRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="addRoomModal" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+                <div className="modal-header" data-bs-theme="dark">
+                    <h1 className="modal-title fs-5" id="staticBackdropLabel">Ajouter une room</h1>
                     <button type="button" className="btn-close text-white close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                     <form className='d-flex gap-3 form-add-room' onSubmit={handleSubmit}>
                         <div className='image-input rounded'>
                             {
@@ -96,36 +100,36 @@ function AddRoomModal({setRooms}) {
                             <button className='overlay d-flex justify-content-center align-items-center' onClick={clickFileInput}>
                             {
                                 (!imageReader)?
-                                    <i class="fa-solid fa-square-plus fs-3" style={{color: 'white'}}></i>
+                                    <i className="fa-solid fa-square-plus fs-3" style={{color: 'white'}}></i>
                                 :
-                                    <i class="fa-solid fa-pen-to-square fs-3" style={{color: 'white'}}></i>
+                                    <i className="fa-solid fa-pen-to-square fs-3" style={{color: 'white'}}></i>
                             }
                             
                             </button>
                             
                             {
                                 imageReader &&
-                                <button className='btn-delete btn btn-dark' onClick={()=>deletePic()}><i class="fa-solid fa-trash"></i></button>
+                                <button className='btn-delete btn btn-dark' onClick={()=>deletePic()}><i className="fa-solid fa-trash"></i></button>
                             }
                             
                             <input className="form-control d-none" id='file' type="file" accept="image/*" onChange={handleChange}/>
                         </div>
 
                         <div className='flex-grow-1 p-2 rounded'>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Titre</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder='Ex: Les hooks de React...' value={titre} onChange={(e)=>setTitre(e.target.value)}/>
+                            <div className="mb-3">
+                                <label htmlFor="exampleInputEmail1" className="form-label fw-bold">Titre</label>
+                                <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder='Ex: Les hooks de React...' value={titre} onChange={(e)=>setTitre(e.target.value)}/>
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label fw-bold">Thèmes de discussion</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder='Ex: Programmation web...' required value={theme} onChange={(e)=>setTheme(e.target.value)}/>
+                            <div className="mb-3">
+                                <label htmlFor="exampleInputPassword1" className="form-label fw-bold">Thèmes de discussion</label>
+                                <input type="text" className="form-control" id="exampleInputPassword1" placeholder='Ex: Programmation web...' required value={theme} onChange={(e)=>setTheme(e.target.value)}/>
                             </div>
                             <div className='mt-3 text-end'>
-                                <button type="submit" class="btn btn-dark btn-sm">
+                                <button type="submit" className="btn btn-dark btn-sm">
                                     Ajouter la room &nbsp;
                                     {
                                         (!showSpinner)?
-                                        <i class="fa-solid fa-plus"></i>
+                                        <i className="fa-solid fa-plus"></i>
                                         :
                                         <div className="spinner-border" style={{width:"1.5rem", height: "1.5rem"}} role="status">
                                             <span className="visually-hidden">Loading...</span>
@@ -136,9 +140,9 @@ function AddRoomModal({setRooms}) {
                         </div>
                     </form>
                 </div>
-                {/* <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                {/* <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" className="btn btn-primary">Understood</button>
                 </div> */}
             </div>
         </div>

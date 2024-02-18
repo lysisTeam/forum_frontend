@@ -4,16 +4,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import ImageLetters from './ImageLetters'
 import axios from 'axios'
 import AdminContext from '../Contexts/AdminContext'
-import EmojiPicker  from "emoji-picker-react"
 import SocketContext from '../Contexts/SocketContext'
+import ChatBarInput from './ChatBarInput'
+import Messages from './Messages'
 
 
-function Chat({currentRoom}) {
+function Chat({currentRoom, setRooms}) {
   const apiUrl = process.env.REACT_APP_API_URL
   const [mediasOpen, setMediasOpen] = useState(false)
   const [messages, setMessages] = useState([])
   const {admin} = useContext(AdminContext)
   const [users, setUsers] = useState([])
+  const [messageArrival, setMessageArrival] = useState(null)
 
   const [showMessageOptions, setShowMessageOptions] = useState(false)
 
@@ -23,13 +25,14 @@ function Chat({currentRoom}) {
 
   const [responseTo, setResponseTo] = useState({id: null, message: "", user: ""})
 
-  const {socket} = useContext(SocketContext)
+  const socket = useContext(SocketContext)
 
   useEffect(()=>{
     setShowEmojiPicker(false)
     setTexteAEnvoyer("")
     setShowMessageOptions(false)
     setResponseTo({id: null, message: "", user: ""})
+
     if (document.querySelector('textarea')) {
       document.querySelector('textarea').style.height = "22px"
     }
@@ -57,11 +60,12 @@ function Chat({currentRoom}) {
             // console.log(response);
             setMessages(afficherFileMessages(response.data.messages))
             document.querySelector("textarea").rows = 1
+
             setTimeout(() => {
               var objDiv = document.querySelector('.section-messages');
                 objDiv.scroll({
                   top: objDiv.scrollHeight,
-                  behavior: "smooth",
+                  // behavior: "smooth",
                 });
             }, 1);
           })
@@ -117,8 +121,8 @@ function Chat({currentRoom}) {
     getMessages()
 
     const handleClose = (e) =>{
-      console.log(e.target);
-      console.log(showMessageOptions);
+      // console.log(e.target);
+      // console.log(showMessageOptions);
       if ((!e.target.closest('.message-options')) && document.querySelector('.message-options.show')) {
         setShowMessageOptions(false)
         document.querySelector('.message-options.show').classList.remove('show')
@@ -134,30 +138,7 @@ function Chat({currentRoom}) {
     return () => {
       document.removeEventListener('mousedown', handleClose);
     };
-
-    
   },[currentRoom, apiUrl])
-
-
-  const resizeTextArea = (e) =>{
-    e.target.style.height = 'auto'; // Réinitialisez la hauteur à auto
-    e.target.style.height = (e.target.scrollHeight) + 'px'; // Ajustez la hauteur en fonction du contenu
-
-    // console.log(document.querySelector('.chat-input-section').clientHeight);
-    console.log(e.target.clientHeight);
-
-    
-    
-
-    setTimeout(() => {
-      var objDiv = document.querySelector('.section-messages');
-        objDiv.scroll({
-          top: objDiv.scrollHeight,
-          behavior: "smooth",
-        });
-    }, 2);
-    
-  }
 
 
   const sendMessage = async()=>{
@@ -173,6 +154,19 @@ function Chat({currentRoom}) {
       })
       .then((response)=>{
         setMessages(previous => [...previous, response.data.message])
+
+        setTimeout(() => {
+          console.log(document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]);
+          const btn = document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]
+          
+          btn.addEventListener('click', () => handleClickResponse(response.data.message))
+          
+        }, 1);
+
+
+        setRooms(previous => previous.filter(rm => rm._id !== response.data.room._id))
+        setRooms(previous => [response.data.room, ...previous])
+
         document.querySelector('textarea').style.height = "22px"
         setTimeout(() => {
           var objDiv = document.querySelector('.section-messages');
@@ -183,15 +177,59 @@ function Chat({currentRoom}) {
         }, 1);
         setTexteAEnvoyer("")
         setResponseTo({id: null, message: "", user: ""})
-
-        socket.emit('message:send', response.data.message)
+        // console.log(socket)
+        socket.emit('message:send', {message: response.data.message, users: users.filter(user => user._id !== admin._id)})
+        
       })
       .catch((error)=>{
         console.log(error);
       })
     }
-    
   }
+
+  useEffect(()=>{
+    socket.on('message:receive', (data)=>{
+
+      setRooms(previous => previous.filter(rm => rm._id !== data.room._id))
+      setRooms(previous => [data.room, ...previous])
+
+      if (data.message.id_room === currentRoom._id) {
+        setMessageArrival(data.message)
+      }
+      
+      // console.log(messages);
+      // if (messages.length !== 0 && messages.filter(message => message.id === msg._id).length === 0) {
+      //   console.log(messages.filter(message => message.id === "65d1359c416c891ee08da694"));
+      //   setMessages(previous => [...previous, msg])
+      // }
+    })
+    
+  },[socket, currentRoom._id, setRooms])
+
+  useEffect(()=>{
+    if (messageArrival) {
+      console.log(messageArrival);
+
+
+      setMessages(previous => [...previous, messageArrival])
+
+      setTimeout(() => {
+        console.log(document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]);
+        const btn = document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]
+        
+        btn.addEventListener('click', () => handleClickResponse(messageArrival))
+        
+      }, 1);
+      // console.log(messageArrival);
+      setTimeout(() => {
+        var objDiv = document.querySelector('.section-messages');
+          objDiv.scroll({
+            top: objDiv.scrollHeight,
+            behavior: "smooth",
+          });
+      }, 2);
+    }
+  },[messageArrival])
 
   const afficherDateMessage = (updatedAt)=>{
     const dateMessage = new Date(updatedAt);
@@ -227,6 +265,9 @@ function Chat({currentRoom}) {
               enteteDate = dateMessage.toLocaleDateString('fr-FR');
             } else {
                 enteteDate = afficherDate(dateMessage);
+                // console.log(dateMessage);
+                // console.log(avantHier(dateActuelle));
+                // console.log(dateMessage > avantHier(dateActuelle));
             }
             if (message.type !== 'info') {
               fileMessages.push({ type: 'entete', contenue: enteteDate});
@@ -278,18 +319,7 @@ function Chat({currentRoom}) {
       return `${jour}/${mois}/${annee}`;
   }
 
-  const handleHover = (e) =>{
-    if (e.target.querySelector('.btn-option') && !showMessageOptions) {
-      e.target.querySelector('.btn-option').style.display = "inline-block"
-    }
-    
-  }
 
-  const handleHoverLeave = (e) =>{
-    if (e.target.querySelector('.btn-option') && !showMessageOptions) {
-      e.target.querySelector('.btn-option').style.display = "none"
-    }
-  }
 
   const handleEmojiClick = (emoji, event)=>{
     console.log(emoji);
@@ -300,6 +330,19 @@ function Chat({currentRoom}) {
     e.target.parentElement.querySelector('.message-options').classList.add('show')
     setShowMessageOptions(true)
   }
+
+  const handleClickResponse = (message) =>{
+    // users.find(user => user._id === message.id_user)?.nom
+    
+    setResponseTo({id: message._id || message.id, message: message.contenue}); 
+    setShowMessageOptions(false);
+    if (document.querySelector('.message-options.show')) {
+      document.querySelector('.message-options.show').classList.remove('show')
+      
+    }
+  }
+
+
 
 
   return (
@@ -322,195 +365,33 @@ function Chat({currentRoom}) {
                     <ImageLetters nom={currentRoom.titre || ""} prenoms={""}></ImageLetters>
                   }
                 <div>
-                  <h6 className='m-0 fw-bold'>{currentRoom.titre} &nbsp;&nbsp; <i class="fa-solid fa-gears"></i></h6>
+                  <h6 className='m-0 fw-bold'>{currentRoom.titre} &nbsp;&nbsp; <i className="fa-solid fa-gear"></i></h6>
                   <span>{`${currentRoom.members.length} participant${currentRoom.members.length < 2 ? '' : 's'}`}</span>
                 </div>
               
               </div>
               <div className='btns'>
-                <button className='btn btn-top-bar' onClick={()=>setMediasOpen(previous => !previous)}><i class="bi bi-images pe-none"></i></button>
-                <button className='btn btn-top-bar'><i class="bi bi-person-fill-add"></i></button>
-                <button className='btn btn-top-bar'><i class="bi bi-telephone-fill"></i></button>
-                {/* <button className='btn btn-top-bar'><i class="fa-solid fa-video"></i></button> */}
+                <button className='btn btn-top-bar' onClick={()=>setMediasOpen(previous => !previous)}><i className="bi bi-images pe-none"></i></button>
+                <button className='btn btn-top-bar'><i className="bi bi-person-fill-add"></i></button>
+                <button className='btn btn-top-bar'><i className="bi bi-telephone-fill"></i></button>
+                {/* <button className='btn btn-top-bar'><i className="fa-solid fa-video"></i></button> */}
               </div>
             </div>
             <div className='chat-body'>
               <div className='container section-messages'>
-                {
-                  messages.length !== 0 && users.length !== 0 &&
-                  messages.map(message => (
-                    message.type === 'info'?
-                    <div className='sentence-info' key={message._id}>
-                      <div className='rounded'>
-                        <span>{message.contenue}</span>
-                        
-                      </div>
-                    </div>
-                    :
-                    message.type === 'entete'?
-                    <div className='sentence-entete' key={message._id}>
-                      <div className='rounded-5'>
-                        <span>{message.contenue}</span>
-                        
-                      </div>
-                      <div className='line'>
-
-                      </div>
-                    </div>
-                    :
-                    message.id_user === admin._id ?
-                    <div className='message-sortant' onMouseOver={(e)=>handleHover(e)} onMouseLeave={(e)=>handleHoverLeave(e)}>
-                      <span className='name fst-italic'>Moi, {afficherDateMessage(message.updatedAt)}</span>
-                      <div className='px-3 py-2 rounded message-container'>
-                          {/* {message.contenue.replace(/\n/g, "<br>")} */}
-
-                          <div className='pl-5'>
-                              {
-                                  message.isResponseTo &&
-                                  <div className='response-section pl-5'>
-                                    <i class="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
-                                    <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
-                                    <span className='response-name'>
-                                    Envoyé par&nbsp;
-                                    {
-                                      messages.filter(msg => msg.id === message.isResponseTo)[0].id_user !== admin._id ?
-
-                                        users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom
-                                      : 
-                                        "moi"
-                                    }
-                                    </span>
-                                    {/* {afficherDateMessage(messages.filter(msg => msg.id === message.isResponseTo)[0].updatedAt)} */}
-                                    <hr className='my-1'></hr>
-                                  </div>
-                                }
-                            
-                            <div dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
-                          </div>
-
-                          
-
-                          <span data-icon="tail-out" class="coin">
-                            <svg viewBox="0 0 8 13" height="13" width="8" preserveAspectRatio="xMidYMid meet" class="" version="1.1" x="0px" y="0px" enable-background="new 0 0 8 13"><title>tail-out</title><path opacity="0.13" d="M5.188,1H0v11.193l6.467-8.625 C7.526,2.156,6.958,1,5.188,1z"></path><path fill="currentColor" d="M5.188,0H0v11.193l6.467-8.625C7.526,1.156,6.958,0,5.188,0z"></path></svg>
-                          </span>
-
-                          <div className='section-message-option'>
-                            <button className='btn btn-option' onClick={handleClickOption}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
-                            <div className='message-options shadow'>
-                              <button className=''><i class="fa-regular fa-copy"></i> Copier</button>
-                              <button className='' onClick={()=>{setResponseTo({id: message.id, message: message.contenue, user: "Moi"}); setShowMessageOptions(false); document.querySelector('.message-options.show').classList.remove('show')}}>
-                                <i class="fa-solid fa-reply"></i> Repondre
-                              </button>
-                              <button className=''><i class="fa-solid fa-pen"></i> Modifier</button>
-                              <button className=''><i class="fa-regular fa-trash-can"></i> Supprimer</button>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    :
-                    <div className='message-entrant' onMouseOver={(e)=>handleHover(e)} onMouseLeave={(e)=>handleHoverLeave(e)}>
-                      
-                      {
-                        (users.find(user => user._id === message.id_user)?.photo)?
-                        <img alt='pp' src={apiUrl+'/'+users.find(user => user._id === message.id_user)?.photo}/>
-                        :
-                        <ImageLetters nom={users.find(user => user._id === message.id_user)?.nom || ""} prenoms={users.find(user => user._id === message.id_user)?.prenoms || ""}></ImageLetters>
-                      }
-                      
-                      <div>
-                        <span className='name fst-italic'>{users.find(user => user._id === message.id_user)?.nom}, {afficherDateMessage(message.updatedAt)}</span>
-                        <div className='px-3 py-2 rounded message-container'>
-
-                            <div className='pl-5'>
-                                {
-                                  message.isResponseTo &&
-                                  <div className='response-section pl-5'>
-                                    <i class="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
-                                    <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
-                                    <span className='response-name'>Envoyé par&nbsp;{users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom}</span>
-                                    {/* {afficherDateMessage(messages.filter(msg => msg.id === message.isResponseTo)[0].updatedAt)} */}
-                                    <hr className='my-1'></hr>
-                                  </div>
-                                }
-                                
-                                <div dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
-                            </div>
-                            {/* <span className='time'>11:50</span> */}
-
-                            <span data-icon="tail-in" class="coin">
-                              <svg viewBox="0 0 8 13" height="13" width="8" preserveAspectRatio="xMidYMid meet" class="" version="1.1" x="0px" y="0px" enable-background="new 0 0 8 13"><title>tail-in</title><path opacity="0.13" fill="#0000000" d="M1.533,3.568L8,12.193V1H2.812 C1.042,1,0.474,2.156,1.533,3.568z"></path><path fill="currentColor" d="M1.533,2.568L8,11.193V0L2.812,0C1.042,0,0.474,1.156,1.533,2.568z"></path></svg>
-                            </span>
-                            
-                            <div className='section-message-option'>
-                              <button className='btn btn-option' onClick={handleClickOption}><i class="fa-solid fa-ellipsis-vertical pe-none"></i></button>
-                              <div className='message-options shadow'>
-                                <button className=''><i class="fa-regular fa-copy"></i> Copier</button>
-                                <button className='' onClick={()=>{setResponseTo({id: message.id, message: message.contenue, user: users.find(user => user._id === message.id_user)?.nom}); setShowMessageOptions(false); document.querySelector('.message-options.show').classList.remove('show')}}>
-                                  <i class="fa-solid fa-reply pe-none"></i> 
-                                  Repondre
-                                </button>
-                              </div>
-                            </div>
-                            
-                            {/* texte.replace(/\n/g, "<br>"); */}
-                        </div>
-                      </div>
-                    </div>
-
-                    
-                  ))
-                  
-                }
-                
-                
-              
+                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} />
               </div>
             </div>
 
             <div className='chat-bottom-bar'>
-              <div className='container pb-1 d-flex flex-column gap-2 justify-content-end'>
-                {
-                  showEmojiPicker &&
-                  <div className='emoji-section'>
-                      <EmojiPicker onEmojiClick={handleEmojiClick} height={400} width={300}/>
-                  </div>
-                }
-                
-                <div className='chat-input-section rounded shadow p-2'>
-                  {
-                    responseTo.id &&
-                    <div className='px-2 chat-input-response'>
-                      <div className='d-flex justify-content-between align-items-center'>
-                        <i class="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
-                        <button className='btn p-0 m-0 border-0' onClick={()=>{setResponseTo({id: null, message: "", user: ""})}}><i class="fa-solid fa-close pe-none" style={{fontSize: "0.7rem"}}></i></button>
-                      </div>
-
-                      <div className='mx-4'>
-                        <p className='m-0 p-0 texte'>{responseTo.message}</p>
-                        <span className=''>Envoyé par {responseTo.user}</span>
-                      </div>
-                      <hr className='my-2'></hr>
-                  </div>
-                  }
-                  <div className='chat-input'>
-                    <button className='btn' onClick={()=>setShowEmojiPicker(previous => !previous)}><i class="fa-regular fa-face-smile pe-none"></i></button>
-                    {/* <input type='text' placeholder='Votre message...'/> */}
-                    <textarea id="exampleFormControlTextarea1" rows={1} onChange={(e)=>{resizeTextArea(e); setTexteAEnvoyer(e.target.value)}} value={texteAEnvoyer}></textarea>
-                    <button className='btn'><i class="fa-solid fa-paperclip"></i></button>
-                    <button className='btn btn-send' onClick={()=>sendMessage()}><i class="fa-regular fa-paper-plane pe-none"></i></button>
-                  </div>
-                </div>
-                
-    
-              </div>
-              
+              <ChatBarInput responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} setTexteAEnvoyer={setTexteAEnvoyer} texteAEnvoyer={texteAEnvoyer} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} />
             </div>
           </div>
 
           <div className={`section-medias ${mediasOpen ? 'open' : ''}`}>
             <div className='p-3 top-section'>
               <h6 className='fw-bold m-0'>Galérie du groupe</h6>
-              <button type="button" class="btn-close btn-sm border-0" aria-label="Close" onClick={()=>setMediasOpen(false)}></button>
+              <button type="button" className="btn-close btn-sm border-0" aria-label="Close" onClick={()=>setMediasOpen(false)}></button>
             </div>
 
             {/* {

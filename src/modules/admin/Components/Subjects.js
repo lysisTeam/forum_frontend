@@ -106,7 +106,7 @@ function Subjects() {
           {
             !isLoaded ?
             [1,2,3].map((n)=>(
-              <div className='d-flex gap-3 px-3 py-3 overflow-hidden' aria-hidden="true">
+              <div className='d-flex gap-3 px-3 py-3 overflow-hidden' aria-hidden="true" key={n}>
                 <button className="btn btn-secondary disabled placeholder" style={{width: "45px", height: "45px", borderRadius: "50%" }} aria-disabled="true"></button>
                 <div className='flex-grow-1 overflow-hidden col-6'>
                   <p className="card-text placeholder-glow m-0">
@@ -135,7 +135,7 @@ function Subjects() {
                     <h6 className=''>{room.titre}</h6>
                     <span className='text-muted' style={{fontSize: "0.75rem"}}>{afficherDateConversation(room.updatedAt)}</span>
                   </div>
-                  <p className=''>aucun message...</p>
+                  <p className=''>{room.last_message !== "" ? room.last_message : "Aucun message..."}</p>
                 </div>
               </div>
             ))
@@ -152,7 +152,7 @@ function Subjects() {
         
       </div>
       <div className='second-section rounded'>
-        <Chat currentRoom={currentRoom} />
+        <Chat currentRoom={currentRoom} setRooms={setRooms}/>
       </div>
       <AddRoomModal setRooms={setRooms}/>
     </div>

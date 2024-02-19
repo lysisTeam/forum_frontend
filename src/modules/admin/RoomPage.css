@@ -358,6 +358,57 @@
     
 }
 
+.section-chat .chat-open-conversation .chat-body .section-modif{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backdrop-filter: blur(8px); /* assure la compatibilité avec safari */
+    backdrop-filter: blur(8px);
+    background-color: rgba(170, 170, 170, 0.678);
+    z-index: 6;
+    display: flex;
+    align-items: end;
+}
+
+
+.section-chat .chat-open-conversation .chat-body .section-modif .message-sortant{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-modif .message-sortant .name{
+    font-size: 0.7rem;
+    color: rgb(0, 0, 0);
+}
+
+.msg-ss{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    max-width: 60%;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-modif .message-sortant .message-container{
+    background-color: rgb(8, 43, 82);
+    color: white;
+    width: 100%;
+    
+    font-size: 0.9rem;
+    display: flex;
+    align-items: end;
+    margin-bottom: 15px;
+    /* border-top-right-radius: 0 !important; */
+    position: relative;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-modif .message-sortant .message-container .coin{
+    color: rgb(8, 43, 82) !important;
+    position: absolute;
+    top: 0;
+    right: -8px;
+}
+
 
 .section-chat .chat-open-conversation .chat-body .section-messages{
     
@@ -368,6 +419,7 @@
     gap: 15px;*/
     padding-top: 36px;
     overflow-y: scroll;
+    position: relative;
 
     
 }
@@ -448,6 +500,12 @@
     font-size: 0.75rem;
     font-style: italic;
     cursor: pointer;
+    background-color: rgb(15, 36, 61);
+    padding-right: 8px;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .response-section{
+    background-color: rgb(216, 162, 126);
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .response-section .response,
@@ -456,6 +514,8 @@
     font-style: italic;
     margin-left: 15px;
 }
+
+
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .response-section .response-name,
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .response-section .response-name{

@@ -25,6 +25,8 @@ function Chat({currentRoom, setRooms}) {
 
   const [responseTo, setResponseTo] = useState({id: null, message: "", user: ""})
 
+  const [modif, setModif] = useState({id: null, message: ""})
+
   const socket = useContext(SocketContext)
 
   useEffect(()=>{
@@ -57,7 +59,6 @@ function Chat({currentRoom, setRooms}) {
             }
           })
           .then(response =>{
-            // console.log(response);
             setMessages(afficherFileMessages(response.data.messages))
             document.querySelector("textarea").rows = 1
 
@@ -187,6 +188,40 @@ function Chat({currentRoom, setRooms}) {
     }
   }
 
+  const modifMessage = async()=>{
+    if (modif.id && texteAEnvoyer) {
+      await axios.put(`${apiUrl}/api/message/${modif.id}/admin`,{
+        contenue: texteAEnvoyer,
+        modified: true
+      },{
+        headers: {
+          token: localStorage.admin_token
+        }
+      })
+      .then((response)=>{
+        setMessages(afficherFileMessages(response.data.messages))
+        // setTimeout(() => {
+        //   console.log(document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]);
+        //   const btn = document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]
+          
+        //   btn.addEventListener('click', () => handleClickResponse(response.data.message))
+          
+        // }, 1);
+
+        setTexteAEnvoyer("")
+        document.querySelector('textarea').style.height = "22px"
+        setModif({id: null, message: ""})
+        // console.log(socket)
+        // socket.emit('message:send', {message: response.data.message, users: users.filter(user => user._id !== admin._id)})
+        
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }
+  }
+
+
   useEffect(()=>{
     socket.on('message:receive', (data)=>{
 
@@ -237,8 +272,6 @@ function Chat({currentRoom, setRooms}) {
     const minute = dateMessage.getMinutes().toString().padStart(2, '0');
     return `${heure}:${minute}`;
   }
-
-  
   
   function afficherFileMessages(messages) {
     let datePrecedente = null;
@@ -277,7 +310,7 @@ function Chat({currentRoom, setRooms}) {
         }
 
         // Ajouter le message
-        fileMessages.push({ id: message._id ,type: message.type, contenue: message.contenue,  id_room: message.id_room, id_user: message.id_user, isResponseTo: message.isResponseTo ,createdAt: message.createdAt, updatedAt: message.updatedAt});
+        fileMessages.push({ id: message._id ,type: message.type, contenue: message.contenue,  id_room: message.id_room, id_user: message.id_user, isResponseTo: message.isResponseTo ,createdAt: message.createdAt, updatedAt: message.updatedAt, modified: message.modified});
     });
 
     return fileMessages;
@@ -319,7 +352,32 @@ function Chat({currentRoom, setRooms}) {
       return `${jour}/${mois}/${annee}`;
   }
 
+  const resizeTextArea = (e) =>{
+    const textArea = document.querySelector('textarea')
+    textArea.style.height = 'auto'; // Réinitialisez la hauteur à auto
+    textArea.style.height = (textArea.scrollHeight) + 'px'; // Ajustez la hauteur en fonction du contenu
 
+    // console.log(document.querySelector('.chat-input-section').clientHeight);
+    // console.log(e.target.clientHeight);
+
+    setTimeout(() => {
+        scroll()
+    }, 2);
+
+}
+
+  const scroll = () =>{
+      var objDiv = document.querySelector('.section-messages');
+
+      console.log(objDiv.scrollHeight - objDiv.clientHeight);
+      console.log(objDiv.scrollTop);
+
+      objDiv.scroll({
+          top: objDiv.scrollTop + 22,
+          behavior: "smooth",
+      });
+      
+  }
 
   const handleEmojiClick = (emoji, event)=>{
     console.log(emoji);
@@ -339,6 +397,39 @@ function Chat({currentRoom, setRooms}) {
     if (document.querySelector('.message-options.show')) {
       document.querySelector('.message-options.show').classList.remove('show')
       
+    }
+  }
+
+  const handleClickModif = (message) =>{
+    // users.find(user => user._id === message.id_user)?.nom
+    setResponseTo({id: null, message: "", user: ""})
+
+    setModif({id: message.id, message: message})
+    setTexteAEnvoyer(message.contenue)
+
+    document.querySelector('.message-options.show').focus()
+    setTimeout(() => {
+      resizeTextArea()
+    }, 1);
+    
+
+    setShowMessageOptions(false);
+    if (document.querySelector('.message-options.show')) {
+      document.querySelector('.message-options.show').classList.remove('show')
+      
+    }
+  }
+
+  const handleClickResetModif = () =>{
+    // users.find(user => user._id === message.id_user)?.nom
+    setResponseTo({id: null, message: "", user: ""})
+
+    setModif({id: null, message: ""})
+
+    setTexteAEnvoyer("")
+
+    if (document.querySelector('textarea')) {
+      document.querySelector('textarea').style.height = "22px"
     }
   }
 
@@ -378,13 +469,36 @@ function Chat({currentRoom, setRooms}) {
               </div>
             </div>
             <div className='chat-body'>
+              {
+                modif.id && 
+                <div className='section-modif'>
+                  <div className='container'>
+                    <div className='message-sortant'>
+                      <button className='btn' onClick={handleClickResetModif}><i class="fa-regular fa-circle-xmark display-6 text-muted pe-none"></i></button>
+                      <div className='msg-ss'>
+                        <span className='name fst-italic'>Moi, {afficherDateMessage(modif.message.updatedAt)}</span>
+                        <div className='px-3 py-2 rounded message-container shadow'>
+                            <div className='pl-5'>
+                              <div dangerouslySetInnerHTML={{ __html: modif.message.contenue.replace(/\n/g, "<br>") }} />
+                            </div>
+
+                            <span data-icon="tail-out" className="coin">
+                              <svg viewBox="0 0 8 13" height="13" width="8" preserveAspectRatio="xMidYMid meet" className="" version="1.1" x="0px" y="0px" enableBackground="new 0 0 8 13"><title>tail-out</title><path opacity="0.13" d="M5.188,1H0v11.193l6.467-8.625 C7.526,2.156,6.958,1,5.188,1z"></path><path fill="currentColor" d="M5.188,0H0v11.193l6.467-8.625C7.526,1.156,6.958,0,5.188,0z"></path></svg>
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+              
               <div className='container section-messages'>
-                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} />
+                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} handleClickModif={handleClickModif}/>
               </div>
             </div>
 
             <div className='chat-bottom-bar'>
-              <ChatBarInput responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} setTexteAEnvoyer={setTexteAEnvoyer} texteAEnvoyer={texteAEnvoyer} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} />
+              <ChatBarInput responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} setTexteAEnvoyer={setTexteAEnvoyer} texteAEnvoyer={texteAEnvoyer} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} resizeTextArea={resizeTextArea} modifMessage={modifMessage} modif={modif}/>
             </div>
           </div>
 

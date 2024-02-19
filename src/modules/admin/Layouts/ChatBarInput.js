@@ -2,32 +2,8 @@ import React from 'react'
 import EmojiPicker  from "emoji-picker-react"
 
 
-function ChatBarInput({responseTo, setResponseTo, setShowEmojiPicker, setTexteAEnvoyer, texteAEnvoyer, showEmojiPicker, sendMessage, handleEmojiClick}) {
-    const resizeTextArea = (e) =>{
-        e.target.style.height = 'auto'; // Réinitialisez la hauteur à auto
-        e.target.style.height = (e.target.scrollHeight) + 'px'; // Ajustez la hauteur en fonction du contenu
+function ChatBarInput({responseTo, setResponseTo, setShowEmojiPicker, setTexteAEnvoyer, texteAEnvoyer, showEmojiPicker, sendMessage, handleEmojiClick, resizeTextArea, modifMessage, modif}) {
 
-        // console.log(document.querySelector('.chat-input-section').clientHeight);
-        // console.log(e.target.clientHeight);
-
-        setTimeout(() => {
-            scroll()
-        }, 2);
-    
-    }
-    
-    const scroll = () =>{
-        var objDiv = document.querySelector('.section-messages');
-
-        console.log(objDiv.scrollHeight - objDiv.clientHeight);
-        console.log(objDiv.scrollTop);
-
-        objDiv.scroll({
-            top: objDiv.scrollTop + 22,
-            behavior: "smooth",
-        });
-        
-    }
   return (
     <div className='container pb-1 d-flex flex-column gap-2 justify-content-end'>
         {
@@ -58,7 +34,7 @@ function ChatBarInput({responseTo, setResponseTo, setShowEmojiPicker, setTexteAE
             {/* <input type='text' placeholder='Votre message...'/> */}
             <textarea id="exampleFormControlTextarea1" rows={1} onChange={(e)=>{resizeTextArea(e); setTexteAEnvoyer(e.target.value)}} value={texteAEnvoyer}></textarea>
             <button className='btn'><i className="fa-solid fa-paperclip"></i></button>
-            <button className='btn btn-send' onClick={()=>sendMessage()}><i className="fa-regular fa-paper-plane pe-none"></i></button>
+            <button className='btn btn-send' onClick={()=>{modif.id ? modifMessage() : sendMessage()}}><i className="fa-regular fa-paper-plane pe-none"></i></button>
             </div>
         </div>
         

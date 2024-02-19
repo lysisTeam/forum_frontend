@@ -2,7 +2,7 @@ import React from 'react'
 import ImageLetters from './ImageLetters'
 
 
-function Messages({users, admin, messages, showMessageOptions, handleClickResponse, afficherDateMessage, handleClickOption}) {
+function Messages({users, admin, messages, showMessageOptions, handleClickResponse, afficherDateMessage, handleClickOption, handleClickModif}) {
   const apiUrl = process.env.REACT_APP_API_URL
 
   const handleHover = (e) =>{
@@ -20,9 +20,10 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
 
   return (
     <>
+        
         {
             messages.length !== 0 && users.length !== 0 &&
-            messages.map(message => (
+            messages?.map(message => (
             message.type === 'info'?
             <div className='sentence-info' key={message._id}>
                 <div className='rounded'>
@@ -51,25 +52,29 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     <div className='pl-5'>
                         {
                             message.isResponseTo &&
-                            <div className='response-section pl-5'>
-                            <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
-                            <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
-                            <span className='response-name'>
-                            Envoyé par&nbsp;
-                            {
-                                messages.filter(msg => msg.id === message.isResponseTo)[0].id_user !== admin._id ?
+                            <div className='response-section rounded'>
+                                <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
+                                <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
+                                <span className='response-name'>
+                                Envoyé par&nbsp;
+                                {
+                                    messages.filter(msg => msg.id === message.isResponseTo)[0].id_user !== admin._id ?
 
-                                users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom
-                                : 
-                                "moi"
-                            }
-                            </span>
-                            {/* {afficherDateMessage(messages.filter(msg => msg.id === message.isResponseTo)[0].updatedAt)} */}
-                            <hr className='my-1'></hr>
+                                    users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom
+                                    : 
+                                    "moi"
+                                }
+                                </span>
+                                {/* {afficherDateMessage(messages.filter(msg => msg.id === message.isResponseTo)[0].updatedAt)} */}
+                                <hr className='my-1'></hr>
                             </div>
                         }
                     
                     <div dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
+                    {
+                        message.modified &&
+                        <p className='m-0 text-end' style={{fontStyle: 'italic', fontSize:'0.7rem'}}>Ce message a été modifié</p>
+                    }
                     </div>
 
                     
@@ -85,7 +90,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                         <button className='btn-response' name={message.id} onClick={()=>{handleClickResponse(message)}}>
                         <i className="fa-solid fa-reply"></i> Repondre
                         </button>
-                        <button className=''><i className="fa-solid fa-pen"></i> Modifier</button>
+                        <button className='' onClick={()=>handleClickModif(message)}><i className="fa-solid fa-pen pe-none"></i> Modifier</button>
                         <button className=''><i className="fa-regular fa-trash-can"></i> Supprimer</button>
                     </div>
                     </div>
@@ -108,7 +113,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     <div className='pl-5'>
                         {
                             message.isResponseTo &&
-                            <div className='response-section pl-5'>
+                            <div className='response-section pl-5 rounded'>
                             <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
                             <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
                             <span className='response-name'>Envoyé par&nbsp;{users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom}</span>

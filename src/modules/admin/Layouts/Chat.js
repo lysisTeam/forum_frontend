@@ -27,6 +27,8 @@ function Chat({currentRoom, setRooms}) {
 
   const [modif, setModif] = useState({id: null, message: ""})
 
+  const [messageToDelete, setMessageToDelete] = useState(null)
+
   const socket = useContext(SocketContext)
 
   useEffect(()=>{
@@ -156,15 +158,6 @@ function Chat({currentRoom, setRooms}) {
       .then((response)=>{
         setMessages(previous => [...previous, response.data.message])
 
-        setTimeout(() => {
-          console.log(document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]);
-          const btn = document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]
-          
-          btn.addEventListener('click', () => handleClickResponse(response.data.message))
-          
-        }, 1);
-
-
         setRooms(previous => previous.filter(rm => rm._id !== response.data.room._id))
         setRooms(previous => [response.data.room, ...previous])
 
@@ -178,7 +171,7 @@ function Chat({currentRoom, setRooms}) {
         }, 1);
         setTexteAEnvoyer("")
         setResponseTo({id: null, message: "", user: ""})
-        // console.log(socket)
+        
         socket.emit('message:send', {message: response.data.message, users: users.filter(user => user._id !== admin._id)})
         
       })
@@ -200,19 +193,18 @@ function Chat({currentRoom, setRooms}) {
       })
       .then((response)=>{
         setMessages(afficherFileMessages(response.data.messages))
-        // setTimeout(() => {
-        //   console.log(document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]);
-        //   const btn = document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]
-          
-        //   btn.addEventListener('click', () => handleClickResponse(response.data.message))
-          
-        // }, 1);
 
+        console.log(response);
+        
+        if (response.data.room) {
+          setRooms(previous => previous.filter(rm => rm._id !== response.data.room._id))
+          setRooms(previous => [response.data.room, ...previous])
+        }
+        
         setTexteAEnvoyer("")
         document.querySelector('textarea').style.height = "22px"
         setModif({id: null, message: ""})
-        // console.log(socket)
-        // socket.emit('message:send', {message: response.data.message, users: users.filter(user => user._id !== admin._id)})
+        socket.emit('message:modified', {message: response.data.messageModified, users: users.filter(user => user._id !== admin._id)})
         
       })
       .catch((error)=>{
@@ -232,11 +224,6 @@ function Chat({currentRoom, setRooms}) {
         setMessageArrival(data.message)
       }
       
-      // console.log(messages);
-      // if (messages.length !== 0 && messages.filter(message => message.id === msg._id).length === 0) {
-      //   console.log(messages.filter(message => message.id === "65d1359c416c891ee08da694"));
-      //   setMessages(previous => [...previous, msg])
-      // }
     })
     
   },[socket, currentRoom._id, setRooms])
@@ -266,8 +253,24 @@ function Chat({currentRoom, setRooms}) {
     }
   },[messageArrival])
 
-  const afficherDateMessage = (updatedAt)=>{
-    const dateMessage = new Date(updatedAt);
+  useEffect(()=>{
+    socket.on('message:receive-updated', (data)=>{
+      // console.log(data);
+      if (data.room) {
+        setRooms(previous => previous.filter(rm => rm._id !== data.room._id))
+        setRooms(previous => [data.room, ...previous])
+      }
+      
+      if (data.idRoom === currentRoom._id) {
+        setMessages(afficherFileMessages(data.messages))
+      }
+      
+    })
+    
+  },[socket, currentRoom._id])
+
+  const afficherDateMessage = (createdAt)=>{
+    const dateMessage = new Date(createdAt);
     const heure = dateMessage.getHours().toString().padStart(2, '0');
     const minute = dateMessage.getMinutes().toString().padStart(2, '0');
     return `${heure}:${minute}`;
@@ -310,7 +313,7 @@ function Chat({currentRoom, setRooms}) {
         }
 
         // Ajouter le message
-        fileMessages.push({ id: message._id ,type: message.type, contenue: message.contenue,  id_room: message.id_room, id_user: message.id_user, isResponseTo: message.isResponseTo ,createdAt: message.createdAt, updatedAt: message.updatedAt, modified: message.modified});
+        fileMessages.push({ id: message._id ,type: message.type, contenue: message.contenue,  id_room: message.id_room, id_user: message.id_user, isResponseTo: message.isResponseTo ,createdAt: message.createdAt, updatedAt: message.updatedAt, modified: message.modified, deleted: message.deleted});
     });
 
     return fileMessages;
@@ -404,10 +407,10 @@ function Chat({currentRoom, setRooms}) {
     // users.find(user => user._id === message.id_user)?.nom
     setResponseTo({id: null, message: "", user: ""})
 
-    setModif({id: message.id, message: message})
+    setModif({id: message.id || message._id, message: message})
     setTexteAEnvoyer(message.contenue)
 
-    document.querySelector('.message-options.show').focus()
+    document.querySelector('textarea').focus()
     setTimeout(() => {
       resizeTextArea()
     }, 1);
@@ -423,7 +426,6 @@ function Chat({currentRoom, setRooms}) {
   const handleClickResetModif = () =>{
     // users.find(user => user._id === message.id_user)?.nom
     setResponseTo({id: null, message: "", user: ""})
-
     setModif({id: null, message: ""})
 
     setTexteAEnvoyer("")
@@ -434,6 +436,39 @@ function Chat({currentRoom, setRooms}) {
   }
 
 
+  const handleClickDelete = async() =>{
+    // console.log(messageToDelete);
+    if (messageToDelete) {
+      await axios.put(`${apiUrl}/api/message/${messageToDelete}/admin`,{
+        deleted: true
+      },{
+        headers: {
+          token: localStorage.admin_token
+        }
+      })
+      .then((response)=>{
+        setMessages(afficherFileMessages(response.data.messages))
+        
+        if (response.data.room) {
+          setRooms(previous => previous.filter(rm => rm._id !== response.data.room._id))
+          setRooms(previous => [response.data.room, ...previous])
+        }
+        
+        handleClickResetModif()
+
+        setMessageToDelete(null)
+
+        socket.emit('message:modified', {message: response.data.messageModified, users: users.filter(user => user._id !== admin._id)})
+        
+
+        document.querySelector('.close-confirmation').click()
+        
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }
+  }
 
 
   return (
@@ -476,7 +511,7 @@ function Chat({currentRoom, setRooms}) {
                     <div className='message-sortant'>
                       <button className='btn' onClick={handleClickResetModif}><i class="fa-regular fa-circle-xmark display-6 text-muted pe-none"></i></button>
                       <div className='msg-ss'>
-                        <span className='name fst-italic'>Moi, {afficherDateMessage(modif.message.updatedAt)}</span>
+                        <span className='name fst-italic'>Moi, {afficherDateMessage(modif.message.createdAt)}</span>
                         <div className='px-3 py-2 rounded message-container shadow'>
                             <div className='pl-5'>
                               <div dangerouslySetInnerHTML={{ __html: modif.message.contenue.replace(/\n/g, "<br>") }} />
@@ -493,7 +528,7 @@ function Chat({currentRoom, setRooms}) {
               }
               
               <div className='container section-messages'>
-                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} handleClickModif={handleClickModif}/>
+                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} handleClickModif={handleClickModif} setMessageToDelete={setMessageToDelete} handleClickDelete={handleClickDelete} />
               </div>
             </div>
 

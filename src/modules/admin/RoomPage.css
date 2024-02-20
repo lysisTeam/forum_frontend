@@ -412,16 +412,11 @@
 
 .section-chat .chat-open-conversation .chat-body .section-messages{
     
-    z-index: 5;
-    /* display: flex;
-    flex-direction: column;
-    justify-content: end;
-    gap: 15px;*/
+    /* z-index: 5; */
     padding-top: 36px;
     overflow-y: scroll;
     position: relative;
 
-    
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages::-webkit-scrollbar {
@@ -549,7 +544,7 @@
     opacity: 1;
     background-color: black;
     width: 0;
-    z-index: 503;
+    z-index: 5;
 }
 
  .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .section-message-option .btn-option,
@@ -654,7 +649,7 @@
 
 .section-chat .chat-open-conversation .chat-body .section-messages .sentence-entete > div{
     background-color: #d6d6d6;
-    z-index: 500;
+    z-index: 5;
     width: fit-content;
     padding: 4px 10px;
     color: rgb(59, 59, 59);
@@ -664,7 +659,7 @@
 
 .section-chat .chat-open-conversation .chat-body .section-messages .sentence-entete > .line{
    width: 100%;
-   z-index: 499;
+   z-index: 4;
    height: 1px;
    position: absolute;
    top: 50%;  /* à 50%/50% du parent référent */
@@ -834,17 +829,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 #addRoomModal .modal-header{
     background-color: var(--main-bg-color);
     color: white;
@@ -852,6 +836,25 @@
 
 #addRoomModal .modal-body{
     background-color: aliceblue;
+}
+
+#confirmation .modal-content{
+    overflow: hidden;
+}
+
+#confirmation .conf-btns{
+    display: flex;
+    flex-direction: column;
+}
+
+#confirmation .conf-btns button{
+    border: 0;
+    border-top: 1px solid rgb(112, 112, 112) ;
+    padding: 8px;
+}
+
+#confirmation .conf-btns button:hover{
+    background-color: #d6d6d6;
 }
 
 

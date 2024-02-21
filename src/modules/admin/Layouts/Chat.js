@@ -7,6 +7,7 @@ import AdminContext from '../Contexts/AdminContext'
 import SocketContext from '../Contexts/SocketContext'
 import ChatBarInput from './ChatBarInput'
 import Messages from './Messages'
+import ProfilModal from './ProfilModal'
 
 
 function Chat({currentRoom, setRooms}) {
@@ -21,7 +22,7 @@ function Chat({currentRoom, setRooms}) {
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
-  const [texteAEnvoyer, setTexteAEnvoyer] = useState("")
+  const [texteInput, setTexteInput] = useState("")
 
   const [responseTo, setResponseTo] = useState({id: null, message: "", user: ""})
 
@@ -33,24 +34,14 @@ function Chat({currentRoom, setRooms}) {
 
   useEffect(()=>{
     setShowEmojiPicker(false)
-    setTexteAEnvoyer("")
+    setTexteInput("")
     setShowMessageOptions(false)
+    if(document.querySelector('textarea')) document.querySelector('textarea').focus()
     setResponseTo({id: null, message: "", user: ""})
 
     if (document.querySelector('textarea')) {
       document.querySelector('textarea').style.height = "22px"
     }
-    
-    // setTimeout(() => {
-    //   var objDiv = document.querySelector('.section-messages');
-    //     if (objDiv) {
-    //       objDiv.scroll({
-    //         top: objDiv.scrollHeight,
-    //         behavior: "smooth",
-    //       });
-    //     }
-    //   }, 1);
-
 
     const getMessages = async()=>{
       
@@ -145,10 +136,10 @@ function Chat({currentRoom, setRooms}) {
 
 
   const sendMessage = async()=>{
-    if (texteAEnvoyer) {
+    if (texteInput) {
       await axios.post(`${apiUrl}/api/message/send-message/${currentRoom._id}/admin`,{
         type: "message",
-        contenue: texteAEnvoyer,
+        contenue: texteInput,
         isResponseTo: responseTo.id || null
       },{
         headers: {
@@ -169,8 +160,9 @@ function Chat({currentRoom, setRooms}) {
               behavior: "smooth",
             });
         }, 1);
-        setTexteAEnvoyer("")
+        setTexteInput("")
         setResponseTo({id: null, message: "", user: ""})
+        setShowEmojiPicker(false)
         
         socket.emit('message:send', {message: response.data.message, users: users.filter(user => user._id !== admin._id)})
         
@@ -182,9 +174,9 @@ function Chat({currentRoom, setRooms}) {
   }
 
   const modifMessage = async()=>{
-    if (modif.id && texteAEnvoyer) {
+    if (modif.id && texteInput) {
       await axios.put(`${apiUrl}/api/message/${modif.id}/admin`,{
-        contenue: texteAEnvoyer,
+        contenue: texteInput,
         modified: true
       },{
         headers: {
@@ -201,7 +193,7 @@ function Chat({currentRoom, setRooms}) {
           setRooms(previous => [response.data.room, ...previous])
         }
         
-        setTexteAEnvoyer("")
+        setTexteInput("")
         document.querySelector('textarea').style.height = "22px"
         setModif({id: null, message: ""})
         socket.emit('message:modified', {message: response.data.messageModified, users: users.filter(user => user._id !== admin._id)})
@@ -362,29 +354,42 @@ function Chat({currentRoom, setRooms}) {
 
     // console.log(document.querySelector('.chat-input-section').clientHeight);
     // console.log(e.target.clientHeight);
+  }
 
-    setTimeout(() => {
-        scroll()
-    }, 2);
-
-}
-
-  const scroll = () =>{
+  const scrollTop = () =>{
       var objDiv = document.querySelector('.section-messages');
-
-      console.log(objDiv.scrollHeight - objDiv.clientHeight);
-      console.log(objDiv.scrollTop);
-
       objDiv.scroll({
-          top: objDiv.scrollTop + 22,
+          top: objDiv.scrollTop + 18,
           behavior: "smooth",
       });
-      
+  }
+
+  const scrollBottom = () =>{
+    var objDiv = document.querySelector('.section-messages');
+    objDiv.scroll({
+        top: objDiv.scrollTop - 18,
+        behavior: "smooth",
+    });
   }
 
   const handleEmojiClick = (emoji, event)=>{
-    console.log(emoji);
-    setTexteAEnvoyer(previous => previous + emoji.emoji)
+
+    var textArea = document.querySelector('textarea')
+    const cursorPosition = textArea.selectionStart;
+    const newPos = cursorPosition + 1
+
+    const newText = texteInput.substring(0, cursorPosition) + emoji.native + texteInput.substring(cursorPosition);
+    console.log(newText);
+    setTexteInput(newText)
+    textArea.focus()
+
+    // setTimeout(() => {
+      
+    //   textArea.setSelectionRange(cursorPosition,cursorPosition)
+    //   textArea.setSelectionRange(newPos, newPos)
+      
+    // }, 1);
+    
   }
 
   const handleClickOption = (e)=>{
@@ -406,9 +411,10 @@ function Chat({currentRoom, setRooms}) {
   const handleClickModif = (message) =>{
     // users.find(user => user._id === message.id_user)?.nom
     setResponseTo({id: null, message: "", user: ""})
-
+    
     setModif({id: message.id || message._id, message: message})
-    setTexteAEnvoyer(message.contenue)
+
+    setTexteInput(message.contenue)
 
     document.querySelector('textarea').focus()
     setTimeout(() => {
@@ -419,7 +425,6 @@ function Chat({currentRoom, setRooms}) {
     setShowMessageOptions(false);
     if (document.querySelector('.message-options.show')) {
       document.querySelector('.message-options.show').classList.remove('show')
-      
     }
   }
 
@@ -428,7 +433,7 @@ function Chat({currentRoom, setRooms}) {
     setResponseTo({id: null, message: "", user: ""})
     setModif({id: null, message: ""})
 
-    setTexteAEnvoyer("")
+    setTexteInput("")
 
     if (document.querySelector('textarea')) {
       document.querySelector('textarea').style.height = "22px"
@@ -460,7 +465,6 @@ function Chat({currentRoom, setRooms}) {
 
         socket.emit('message:modified', {message: response.data.messageModified, users: users.filter(user => user._id !== admin._id)})
         
-
         document.querySelector('.close-confirmation').click()
         
       })
@@ -470,6 +474,51 @@ function Chat({currentRoom, setRooms}) {
     }
   }
 
+  function isElementAtBottom(element) {
+    return element.scrollHeight - element.scrollTop === element.clientHeight;
+  }
+
+  function isElementScrollable(element) {
+    return element.scrollHeight > element.clientHeight;
+  }
+
+  const handleInputTextArea = (e) =>{
+    setTexteInput(e.target.value)
+    resizeTextArea(e)
+  }
+
+  const handleKeyDownTextArea = (e)=>{
+
+    // console.log(isElementScrollable(document.querySelector('textarea')));
+    
+    if (e.key === 'Backspace' && !isElementScrollable(document.querySelector('textarea'))) {
+      if (e.target.value.charAt(e.target.value.length - 1) === '\n' && !isElementAtBottom(document.querySelector('.section-messages'))) {
+        setTimeout(() => {
+          scrollBottom()
+        }, 1);
+      }
+    }
+
+    if (e.key === 'Enter' && !isElementScrollable(document.querySelector('textarea'))) {
+      setTimeout(() => {
+        scrollTop()
+      }, 2);
+    }
+  }
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+
+        setShowMessageOptions(false);
+        if (document.querySelector('.message-options.show')) {
+          document.querySelector('.message-options.show').classList.remove('show')
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la copie du texte :', error);
+      });
+  };
 
   return (
     <div className='section-chat'>
@@ -483,7 +532,7 @@ function Chat({currentRoom, setRooms}) {
           
           <div className='chat-open-conversation'>
             <div className='chat-top-bar px-3 shadow'>
-              <div className='top-cover'>
+              <div className='top-cover' data-bs-target="#profil" data-bs-toggle="modal">
                   {
                     (currentRoom.cover)?
                     <img alt='cover' src={apiUrl+'/'+currentRoom.cover}/>
@@ -528,12 +577,12 @@ function Chat({currentRoom, setRooms}) {
               }
               
               <div className='container section-messages'>
-                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} handleClickModif={handleClickModif} setMessageToDelete={setMessageToDelete} handleClickDelete={handleClickDelete} />
+                <Messages users={users} admin={admin} messages={messages} handleClickResponse={handleClickResponse} afficherDateMessage={afficherDateMessage} handleClickOption={handleClickOption} showMessageOptions={showMessageOptions} handleClickModif={handleClickModif} setMessageToDelete={setMessageToDelete} handleClickDelete={handleClickDelete} copyToClipboard={copyToClipboard} />
               </div>
             </div>
 
             <div className='chat-bottom-bar'>
-              <ChatBarInput responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} setTexteAEnvoyer={setTexteAEnvoyer} texteAEnvoyer={texteAEnvoyer} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} resizeTextArea={resizeTextArea} modifMessage={modifMessage} modif={modif}/>
+              <ChatBarInput setTexteInput={setTexteInput} texteInput={texteInput} responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} modifMessage={modifMessage} modif={modif} handleInputTextArea={handleInputTextArea} handleKeyDownTextArea={handleKeyDownTextArea} />
             </div>
           </div>
 
@@ -553,7 +602,7 @@ function Chat({currentRoom, setRooms}) {
           </div>
         </div>
       }
-        
+      <ProfilModal currentRoom={currentRoom} users={users} />
     </div>
   )
 }

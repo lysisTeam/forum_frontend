@@ -1,15 +1,15 @@
-import React from 'react'
-import EmojiPicker  from "emoji-picker-react"
+import React, { useEffect, useState } from 'react'
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 
-function ChatBarInput({responseTo, setResponseTo, setShowEmojiPicker, setTexteAEnvoyer, texteAEnvoyer, showEmojiPicker, sendMessage, handleEmojiClick, resizeTextArea, modifMessage, modif}) {
-
+function ChatBarInput({responseTo,texteInput, setTest,setResponseTo, setShowEmojiPicker,showEmojiPicker, sendMessage, handleEmojiClick, modifMessage, modif, handleInputTextArea, handleKeyDownTextArea}) {
   return (
     <div className='container pb-1 d-flex flex-column gap-2 justify-content-end'>
         {
             showEmojiPicker &&
             <div className='emoji-section'>
-                <EmojiPicker onEmojiClick={handleEmojiClick} height={400} width={300}/>
+                <Picker data={data} onEmojiSelect={handleEmojiClick} locale={'fr'} previewPosition={'none'} searchPosition={'none'} emojiSize={18} emojiButtonSize={33} />
             </div>
         }
         
@@ -30,9 +30,9 @@ function ChatBarInput({responseTo, setResponseTo, setShowEmojiPicker, setTexteAE
             </div>
             }
             <div className='chat-input'>
-            <button className='btn' onClick={()=>setShowEmojiPicker(previous => !previous)}><i className="fa-regular fa-face-smile pe-none"></i></button>
+            <button className='btn' onClick={()=>{setShowEmojiPicker(previous => !previous); document.querySelector('textarea').focus()}} tabindex="-1"><i className="fa-regular fa-face-smile pe-none"></i></button>
             {/* <input type='text' placeholder='Votre message...'/> */}
-            <textarea id="exampleFormControlTextarea1" rows={1} onChange={(e)=>{resizeTextArea(e); setTexteAEnvoyer(e.target.value)}} value={texteAEnvoyer}></textarea>
+            <textarea id="exampleFormControlTextarea1" rows={1} onChange={(e)=>handleInputTextArea(e)} onKeyDown={(e)=>handleKeyDownTextArea(e)} value={texteInput}></textarea>
             <button className='btn'><i className="fa-solid fa-paperclip"></i></button>
             <button className='btn btn-send' onClick={()=>{modif.id ? modifMessage() : sendMessage()}}><i className="fa-regular fa-paper-plane pe-none"></i></button>
             </div>

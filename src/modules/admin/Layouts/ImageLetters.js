@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-function ImageLetters({nom, prenoms}) {
+function ImageLetters({nom, prenoms, size, fs}) {
     const [word, setWord] = useState("")
     useEffect(()=>{
         if (!prenoms) {
@@ -14,9 +14,10 @@ function ImageLetters({nom, prenoms}) {
         }else{
             setWord(nom[0] + prenoms[0])
         }
-    },[nom, prenoms, word])
+
+    },[nom, prenoms, word, size])
   return (
-    <div className='image-lettres shadow'>{(word ? word : "").toUpperCase()}</div>
+    <div className='image-lettres shadow' style={{width : size + 'px', height: size + 'px', fontSize: fs + 'px'}}>{(word ? word : "").toUpperCase()}</div>
   )
 }
 

@@ -235,6 +235,9 @@
    width: 45px;
    height: 45px;
    border-radius: 50%;
+   object-fit: cover;
+   object-position: center;
+   image-rendering: auto;
     
 }
 
@@ -302,6 +305,9 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    image-rendering: auto;
 }
 
 .top-cover h6{
@@ -632,7 +638,7 @@
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .sentence-info > div{
-    background-color: rgb(169, 188, 209);
+    background-color: rgb(211, 216, 221);
     width: fit-content;
     padding: 6px 60px;
     color: rgb(0, 0, 0);
@@ -648,7 +654,7 @@
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .sentence-entete > div{
-    background-color: #d6d6d6;
+    background-color: #fcfcfc;
     z-index: 5;
     width: fit-content;
     padding: 4px 10px;
@@ -838,28 +844,6 @@
     background-color: aliceblue;
 }
 
-#confirmation .modal-content{
-    overflow: hidden;
-}
-
-#confirmation .conf-btns{
-    display: flex;
-    flex-direction: column;
-}
-
-#confirmation .conf-btns button{
-    border: 0;
-    border-top: 1px solid rgb(112, 112, 112) ;
-    padding: 8px;
-}
-
-#confirmation .conf-btns button:hover{
-    background-color: #d6d6d6;
-}
-
-
-
-
 .form-add-room .image-input{
     height: 300px;
     width: 250px;
@@ -934,3 +918,148 @@
 }
 
 
+
+#confirmation .modal-content{
+    overflow: hidden;
+}
+
+#confirmation .conf-btns{
+    display: flex;
+    flex-direction: column;
+}
+
+#confirmation .conf-btns button{
+    border: 0;
+    border-top: 1px solid rgb(112, 112, 112) ;
+    padding: 8px;
+}
+
+#confirmation .conf-btns button:hover{
+    background-color: #d6d6d6;
+}
+
+#profil .modal-content{
+    max-height: 550px;
+    overflow-y: scroll;
+}
+
+#profil .modal-header{
+    padding: 0;
+    background: rgb(14,26,40);
+    background: linear-gradient(0deg, rgba(14,26,40,1) 0%, rgba(4,45,93,1) 100%);
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#profil .modal-header .profil-photo{
+    position: relative;
+    top: 25px;
+}
+
+#profil .modal-header .profil-photo img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    image-rendering: auto;
+}
+
+#profil .modal-body .entete-body{
+    position: relative;
+}
+
+#profil .modal-body .entete-body .btn-update{
+    border: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #555555;
+    transition: color 0.2s ease;
+}
+
+#profil .modal-body .entete-body .btn-update:hover{
+    color: #000000;
+}
+
+#profil .modal-body .list-button{
+    display: flex;
+    flex-direction: column;
+}
+
+#profil .modal-body .list-button button{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: transparent;
+    border: 0;
+    border-bottom: 0.5px solid rgb(168, 168, 168);
+    height: 40px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #161616;
+    transition: color 0.2s ease;
+}
+
+#profil .modal-body .list-button button i{
+    font-size: 1.2rem;
+}
+
+#profil .modal-body .list-button button:hover{
+    color: #5c5c5c;
+}
+
+#profil .modal-body .liste-members > div{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 15px;
+    font-weight: bold;
+    height: 50px;
+    padding: 0px 5px;
+    padding-bottom: 0;
+}
+
+#profil .modal-body .liste-members > div:hover{
+    background-color: #f1f1f1;
+}
+
+#profil .modal-body .liste-members > div .plus-span{
+    background-color: #d6d6d6;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#profil .modal-body .liste-members > div img{
+   height: 40px;
+   width: 40px;
+   border-radius: 50%;
+   object-fit: cover;
+   object-position: center;
+}
+
+#profil .modal-body .liste-members > div .name{
+    flex-grow: 1;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+
+#profil .modal-body .liste-members > div .name::before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    
+    height: 1px;
+    background-color: rgb(168, 168, 168);
+    bottom: 0;
+}

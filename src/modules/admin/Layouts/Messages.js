@@ -3,7 +3,7 @@ import ImageLetters from './ImageLetters'
 import ConfirmationModal from './ConfirmationModal'
 
 
-function Messages({users, admin, messages, showMessageOptions, handleClickResponse, afficherDateMessage, handleClickOption, handleClickModif, setMessageToDelete, handleClickDelete}) {
+function Messages({users, admin, messages, showMessageOptions, handleClickResponse, afficherDateMessage, handleClickOption, handleClickModif, setMessageToDelete, handleClickDelete, copyToClipboard}) {
   const apiUrl = process.env.REACT_APP_API_URL
 
   const handleHover = (e) =>{
@@ -46,7 +46,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
             :
             message.id_user === admin._id ?
             <div className='message-sortant' onMouseOver={(e)=>handleHover(e)} onMouseLeave={(e)=>handleHoverLeave(e)} key={message._id}>
-                <span className='name fst-italic'>Moi, {afficherDateMessage(message.createdAt)}</span>
+                <span className='name fst-italic'>Vous, {afficherDateMessage(message.createdAt)}</span>
                 <div className='px-3 py-2 rounded message-container'>
                     {/* {message.contenue.replace(/\n/g, "<br>")} */}
 
@@ -63,7 +63,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
 
                                     users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom
                                     : 
-                                    "moi"
+                                    "Vous"
                                 }
                                 </span>
                                 {/* {afficherDateMessage(messages.filter(msg => msg.id === message.isResponseTo)[0].updatedAt)} */}
@@ -95,7 +95,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                         <div className='section-message-option'>
                             <button className='btn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
                             <div className='message-options shadow'>
-                                <button className=''><i className="fa-regular fa-copy"></i> Copier</button>
+                                <button className='' onClick={()=>copyToClipboard(message.contenue)}><i className="fa-regular fa-copy pe-none"></i> Copier</button>
                                 <button className='btn-response' name={message.id} onClick={()=>{handleClickResponse(message)}}>
                                 <i className="fa-solid fa-reply"></i> Repondre
                                 </button>
@@ -153,7 +153,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                         <div className='section-message-option'>
                             <button className='btn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
                             <div className='message-options shadow'>
-                            <button className=''><i className="fa-regular fa-copy"></i> Copier</button>
+                            <button className='' onClick={()=>copyToClipboard(message.contenue)}><i className="fa-regular fa-copy pe-none"></i> Copier</button>
                             <button className='' name={message.id} onClick={()=>{handleClickResponse(message)}}>
                                 <i className="fa-solid fa-reply pe-none"></i> 
                                 Repondre

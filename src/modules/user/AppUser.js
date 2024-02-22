@@ -5,14 +5,12 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 
 function AppUser() {
   const actions = [
     { icon: <FileCopyIcon />, name: 'Copy' },
     { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
     { icon: <ShareIcon />, name: 'Share' },
   ];
   return (

@@ -55,13 +55,13 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                             message.isResponseTo && !message.deleted &&
                             <div className='response-section rounded'>
                                 <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
-                                <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
+                                <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0]?.contenue.replace(/\n/g, "<br>") }} />
                                 <span className='response-name'>
                                 Envoyé par&nbsp;
                                 {
-                                    messages.filter(msg => msg.id === message.isResponseTo)[0].id_user !== admin._id ?
+                                    messages.filter(msg => msg.id === message.isResponseTo)[0]?.id_user !== admin._id ?
 
-                                    users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom
+                                    users?.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom
                                     : 
                                     "Vous"
                                 }

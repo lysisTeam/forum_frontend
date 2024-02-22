@@ -7,26 +7,35 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 
 
-function ChatBarInput({responseTo,texteInput, setTest,setResponseTo, setShowEmojiPicker,showEmojiPicker, sendMessage, handleEmojiClick, modifMessage, modif, handleInputTextArea, handleKeyDownTextArea}) {
-    const [imageReader, setImageReader] = useState([])
+function ChatBarInput({responseTo,texteInput, images, setImages,setResponseTo, setShowEmojiPicker,showEmojiPicker, sendMessage, handleEmojiClick, modifMessage, modif, handleInputTextArea, handleKeyDownTextArea}) {
     
     const clickFileInput = (e) =>{
         e.preventDefault()
         document.getElementById('file-input').click()
     }
 
-    const handleChange = (e)=>{
+    const handleChangeFile = (e)=>{
         e.preventDefault()
         const file = e.target.files[0]
 
         if (file) {
             const reader = new FileReader()
+
             reader.onloadend = () =>{
-                setImageReader(previous => [...previous, reader.result])
-                // setImage(e.target.files[0])
+
+                if (images.filter(img => img.imageReader === reader.result).length === 0) {
+                    setImages(previous => [...previous ,{image: file, imageReader: reader.result}])
+                }
+                
             }
             reader.readAsDataURL(file)
+            
         }
+    }
+
+    const handleRemoveImage = (image) =>{
+        const newImages = images.filter(img => img.imageReader !== image)
+        setImages(newImages)
     }
 
     return (
@@ -56,24 +65,39 @@ function ChatBarInput({responseTo,texteInput, setTest,setResponseTo, setShowEmoj
             }
 
             {
-            imageReader.length !== 0 &&
+            images.length !== 0 &&
             <div className='px-2 chat-input-response'>
-                    <div className='d-flex gap-1 flex-wrap'>
-                        {imageReader.map((item) => (
-                        <div key={item}>
+                <div className='d-flex gap-2 flex-wrap'>
+                    {images.map((item) => (
+                        <ImageListItem key={item.imageReader}>
                             <img
-                            srcSet={`${item}`}
-                            src={`${item}`}
-                            alt={"zzz"}
-                            loading="lazy"
+                                srcSet={`${item.imageReader}`}
+                                src={`${item.imageReader}`}
+                                alt={"zzz"}
+                                loading="lazy"
                                 className='rounded '
-                            style={{width: '110px', height: '110px'}}
+                                style={{width: '110px', height: '110px'}}
                             >
                             </img>
-                            
-                        </div>
-                        ))}
-                    </div>
+                            <button 
+                                className='border-0 d-flex align-items-center justify-content-center' 
+                                style={{
+                                    width: '20px', 
+                                    height: '20px',
+                                    backgroundColor: 'white',
+                                    borderRadius: '50%', 
+                                    position:'absolute', 
+                                    top: '5px', 
+                                    right: '5px', 
+                                    color: 'black'
+                                }}
+                                onClick={()=>handleRemoveImage(item.imageReader)}
+                            >
+                            <i class="fa-solid fa-xmark pe-none"></i>
+                            </button>
+                        </ImageListItem>
+                    ))}
+                </div>
                 <hr className='my-2'></hr>
             </div>
             }
@@ -82,7 +106,7 @@ function ChatBarInput({responseTo,texteInput, setTest,setResponseTo, setShowEmoj
                 {/* <input type='text' placeholder='Votre message...'/> */}
                 <textarea id="exampleFormControlTextarea1" rows={1} onChange={(e)=>handleInputTextArea(e)} onKeyDown={(e)=>handleKeyDownTextArea(e)} value={texteInput}></textarea>
                 <button className='bttn' onClick={clickFileInput}><i className="fa-solid fa-paperclip pe-none"></i></button>
-                <input className="form-control d-none" id='file-input' type="file" accept="image/*" onChange={handleChange}/>
+                <input className="form-control d-none" id='file-input' type="file" accept="image/*" onChange={handleChangeFile}/>
                 <button className='bttn btn-send' onClick={()=>{modif.id ? modifMessage() : sendMessage()}}><i className="fa-regular fa-paper-plane pe-none"></i></button>
             </div>
         </div>

@@ -24,6 +24,8 @@ function Chat({currentRoom, setRooms}) {
 
   const [texteInput, setTexteInput] = useState("")
 
+  const [images, setImages] = useState([])
+
   const [responseTo, setResponseTo] = useState({id: null, message: "", user: ""})
 
   const [modif, setModif] = useState({id: null, message: ""})
@@ -35,6 +37,7 @@ function Chat({currentRoom, setRooms}) {
   useEffect(()=>{
     setShowEmojiPicker(false)
     setTexteInput("")
+    setImages([])
     setShowMessageOptions(false)
     if(document.querySelector('textarea')) document.querySelector('textarea').focus()
     setResponseTo({id: null, message: "", user: ""})
@@ -134,13 +137,25 @@ function Chat({currentRoom, setRooms}) {
 
   const sendMessage = async()=>{
     if (texteInput) {
-      await axios.post(`${apiUrl}/api/message/send-message/${currentRoom._id}/admin`,{
-        type: "message",
-        contenue: texteInput,
-        isResponseTo: responseTo.id || null
-      },{
+
+      const formData = new FormData();
+      for (let i = 0; i < images.length; i++) {
+        const element = images[i];
+        formData.append('files', element.image);
+      }
+      
+      formData.append('type', "message");
+      formData.append('contenue', texteInput);
+
+      if (responseTo.id) {
+        formData.append('isResponseTo', responseTo.id || null);
+      }
+      
+
+      await axios.post(`${apiUrl}/api/message/send-message/${currentRoom._id}/admin`,formData,{
         headers: {
-          token: localStorage.admin_token
+          token: localStorage.admin_token,
+          'Content-Type': 'multipart/form-data'
         }
       })
       .then((response)=>{
@@ -158,6 +173,7 @@ function Chat({currentRoom, setRooms}) {
             });
         }, 1);
         setTexteInput("")
+        setImages([])
         setResponseTo({id: null, message: "", user: ""})
         setShowEmojiPicker(false)
         
@@ -579,7 +595,7 @@ function Chat({currentRoom, setRooms}) {
             </div>
 
             <div className='chat-bottom-bar'>
-              <ChatBarInput setTexteInput={setTexteInput} texteInput={texteInput} responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} modifMessage={modifMessage} modif={modif} handleInputTextArea={handleInputTextArea} handleKeyDownTextArea={handleKeyDownTextArea} />
+              <ChatBarInput images={images} setImages={setImages} setTexteInput={setTexteInput} texteInput={texteInput} responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} modifMessage={modifMessage} modif={modif} handleInputTextArea={handleInputTextArea} handleKeyDownTextArea={handleKeyDownTextArea} />
             </div>
           </div>
 

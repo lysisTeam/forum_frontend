@@ -58,22 +58,22 @@ function ChatBarInput({responseTo,texteInput, setTest,setResponseTo, setShowEmoj
             {
             imageReader.length !== 0 &&
             <div className='px-2 chat-input-response'>
-                {
-                    <ImageList cols={8} >
-                    {imageReader.map((item) => (
-                      <ImageListItem key={item}>
-                        <img
-                          srcSet={`${item}`}
-                          src={`${item}`}
-                          alt={"zzz"}
-                          loading="lazy"
-
-                          style={{width: '120px', height: '120px'}}
-                        />
-                      </ImageListItem>
-                    ))}
-                  </ImageList>
-                }
+                    <div className='d-flex gap-1 flex-wrap'>
+                        {imageReader.map((item) => (
+                        <div key={item}>
+                            <img
+                            srcSet={`${item}`}
+                            src={`${item}`}
+                            alt={"zzz"}
+                            loading="lazy"
+                                className='rounded '
+                            style={{width: '110px', height: '110px'}}
+                            >
+                            </img>
+                            
+                        </div>
+                        ))}
+                    </div>
                 <hr className='my-2'></hr>
             </div>
             }

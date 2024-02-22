@@ -1,10 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ImageLetters from './ImageLetters'
 import AdminContext from '../Contexts/AdminContext'
+import CustomizedSwitches from './CheckSwitch'
 
 function ProfilModal({currentRoom, users}) {
   const apiUrl = process.env.REACT_APP_API_URL
   const {admin} = useContext(AdminContext)
+  const [number, setNumber] = useState(3)
+
+//   useEffect(()=>{
+    
+//   },[])
 
   return (
     <>
@@ -20,7 +26,7 @@ function ProfilModal({currentRoom, users}) {
                                 <ImageLetters nom={currentRoom.titre || ""} prenoms={""} size={120} fs={25}></ImageLetters>
                             }
                         </div>
-                        
+                        <button className='btn-close-modal' data-bs-dismiss="modal" aria-label="Close">x</button>
                     </div>
 
                     <div className='modal-body'>
@@ -40,16 +46,17 @@ function ProfilModal({currentRoom, users}) {
                             <button className=''><i class="bi bi-chat-dots"></i> Envoyer un message</button>
                             <button className=''><i class="bi bi-telephone"></i> Lancer un appel vocal</button>
                             <button className=''><i class="bi bi-camera-video"></i> Lancer un appel vidéo</button>
+                            <button className=''><i class="bi bi-images"></i> Voir les médias</button>
                         </div>
-                        <div className='my-4'>
-                            <p className='mb-2' style={{fontSize: '0.85rem'}}>{`${currentRoom.members?.length} PARTICIPANT${currentRoom.members?.length < 2 ? '' : 'S'}`}</p>
+                        <div className='my-5'>
+                            <p className='mb-2' style={{fontSize: '0.8rem'}}>{`${currentRoom.members?.length} PARTICIPANT${currentRoom.members?.length < 2 ? '' : 'S'}`}</p>
                             <div className='liste-members'>
                                 <div className='add-members rounded'>
                                     <div className='plus-span img'><i class="fa-solid fa-plus"></i></div>
-                                    <div className='name'>Ajouter des participants</div>
+                                    <div className='name' data-bs-target="#add-members" data-bs-toggle="modal" data-bs-dismiss="modal">Ajouter des participants</div>
                                 </div>
                                 {
-                                    currentRoom.members?.map((member)=>(
+                                    currentRoom.members?.slice(0, number)?.map((member)=>(
                                         <div className='add-members rounded'>
                                             {
                                                 (users.find(user => user._id === member.id)?.photo)?
@@ -57,10 +64,49 @@ function ProfilModal({currentRoom, users}) {
                                                 :
                                                 <ImageLetters nom={users.find(user => user._id === member.id )?.nom || ""} prenoms={users.find(user => user._id === member.id)?.prenoms || ""}></ImageLetters>
                                                 }
-                                            <div className='name'>{users.find(user => user._id === member.id)?.nom} {users.find(user => user._id === member.id)?.prenoms}</div>
+                                            <div className='name'>
+                                                {users.find(user => user._id === member.id)?.nom} {users.find(user => user._id === member.id)?.prenoms} {(member.id === admin._id)? "( Vous )" : ""}
+                                                {
+                                                    (member.id !== admin._id) && (member.id !== currentRoom.id_createur) &&
+                                                    <button className='delete-user rounded-5'>Supprimer</button>
+                                                }
+
+                                                {
+                                                    (member.id === currentRoom.id_createur) &&
+                                                    <span className='text-muted fw-none' style={{fontSize: '0.8rem'}}>Créateur</span>
+                                                }
+                                            </div>
                                         </div>
                                     ))
                                 }
+                                {
+                                    currentRoom.members?.length > 3 && currentRoom.members?.length !== number &&
+                                    <p className='text-muted text-end mt-2' style={{fontSize: '0.8rem', cursor: 'pointer'}} onClick={()=>setNumber(currentRoom.members?.length)}>Afficher plus</p>
+                                }
+                                
+                            </div>
+                        </div>
+
+                        <div className='my-5 mb-0'>
+                            <p className='mb-2' style={{fontSize: '0.8rem'}}>PARAMETRES DE LA ROOM</p>
+                            <div className='list-button-params'>
+                                
+                                <div className='param-btns'>
+                                    Masquer la room pour les étudiants
+                                    <CustomizedSwitches check={false}/>
+                                </div>
+
+                                <div className='param-btns'>
+                                    Envoyer des messages ( étudiants )
+                                    <CustomizedSwitches check={true}/>
+                                </div>
+
+                                <div className='param-btns'>
+                                    Notifications
+                                    <CustomizedSwitches check={true}/>
+                                </div>
+                                <button className='text-danger border-0'>Supprimer la room</button>
+                                {/* <button className='text-danger border-0'>Quitter la room</button> */}
                             </div>
                         </div>
                     </div>

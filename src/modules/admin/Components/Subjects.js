@@ -5,8 +5,9 @@ import image from '../../../images/Robot Cosmonaut.jpg'
 import avatar from "../../../images/avatar.jpg"
 import Chat from '../Layouts/Chat'
 import axios from 'axios'
-import AddRoomModal from '../Layouts/AddRoomModal'
-import ImageLetters from '../Layouts/ImageLetters'
+import AddRoomModal from '../Utils/AddRoomModal'
+import ImageLetters from '../Utils/ImageLetters'
+import Fab from '@mui/material/Fab';
 
 function Subjects() {
   const { openTopBar, setOpenTopBar} = useContext(GlobalContext)
@@ -80,14 +81,22 @@ function Subjects() {
         <i className="fa-solid fa-angle-down pe-none"></i>
       </button>
       
+      
       <div className='first-section rounded'>
-        <button className='btn add-room-button shadow' data-bs-toggle="modal" data-bs-target="#addRoomModal">
+      <Fab color="primary" size='medium' aria-label="add" className='add-room-button' data-bs-toggle="modal" data-bs-target="#addRoomModal">
+        <i className="fa-solid fa-plus"></i>
+        {
+          isLoaded && rooms.length === 0 &&
+          <i className="fa-solid fa-down-long fa-bounce"></i>
+        }
+      </Fab>
+        {/* <button className='btn add-room-button shadow' data-bs-toggle="modal" data-bs-target="#addRoomModal">
           <i className="fa-solid fa-plus"></i>
           {
             isLoaded && rooms.length === 0 &&
             <i className="fa-solid fa-down-long fa-bounce"></i>
           }
-        </button>
+        </button> */}
 
         <div className=''>
           <div className='d-flex justify-content-between align-items-center top-tiny-bar px-3'>

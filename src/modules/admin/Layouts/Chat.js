@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 // import image from '../../../images/Robot Cosmonaut.jpg'
 // import avatar from "../../../images/avatar.jpg"
-import ImageLetters from './ImageLetters'
+import ImageLetters from '../Utils/ImageLetters'
 import axios from 'axios'
 import AdminContext from '../Contexts/AdminContext'
 import SocketContext from '../Contexts/SocketContext'
 import ChatBarInput from './ChatBarInput'
 import Messages from './Messages'
-import ProfilModal from './ProfilModal'
+import ProfilModal from '../Utils/ProfilModal'
 
 
 function Chat({currentRoom, setRooms}) {
@@ -83,9 +83,6 @@ function Chat({currentRoom, setRooms}) {
       .then((response)=>{
         // console.log(response.data.users);
         setUsers(previous => previous.concat(response.data.users))
-
-
-        
       })
       .catch((err)=>{
         console.log(err);
@@ -546,9 +543,9 @@ function Chat({currentRoom, setRooms}) {
               
               </div>
               <div className='btns'>
-                <button className='btn btn-top-bar' onClick={()=>setMediasOpen(previous => !previous)}><i className="bi bi-images pe-none"></i></button>
-                <button className='btn btn-top-bar'><i className="bi bi-person-fill-add"></i></button>
-                <button className='btn btn-top-bar'><i className="bi bi-telephone-fill"></i></button>
+                <button className='bttn btn-top-bar' onClick={()=>setMediasOpen(previous => !previous)}><i className="bi bi-images pe-none"></i></button>
+                <button className='bttn btn-top-bar' data-bs-target="#add-members" data-bs-toggle="modal"><i className="bi bi-person-fill-add"></i></button>
+                <button className='bttn btn-top-bar'><i className="bi bi-telephone-fill"></i></button>
                 {/* <button className='btn btn-top-bar'><i className="fa-solid fa-video"></i></button> */}
               </div>
             </div>
@@ -558,7 +555,7 @@ function Chat({currentRoom, setRooms}) {
                 <div className='section-modif'>
                   <div className='container'>
                     <div className='message-sortant'>
-                      <button className='btn' onClick={handleClickResetModif}><i class="fa-regular fa-circle-xmark display-6 text-muted pe-none"></i></button>
+                      <button className='bttn' onClick={handleClickResetModif}><i class="fa-regular fa-circle-xmark display-6 text-muted pe-none"></i></button>
                       <div className='msg-ss'>
                         <span className='name fst-italic'>Moi, {afficherDateMessage(modif.message.createdAt)}</span>
                         <div className='px-3 py-2 rounded message-container shadow'>

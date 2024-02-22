@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminContext from './AdminContext'
 import axios from 'axios'
-import Loader from '../Layouts/Loader'
+import Loader from '../Utils/Loader'
 import { useNavigate } from 'react-router-dom'
 
 function AdminContextProvider({children}) {

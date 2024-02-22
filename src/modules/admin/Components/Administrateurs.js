@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AdminContext from '../Contexts/AdminContext'
 import axios from 'axios'
-import PlaceholderTable from '../Layouts/PlaceholderTable'
+import PlaceholderTable from '../Utils/PlaceholderTable'
 import { motion } from 'framer-motion';
 import GlobalContext from '../Contexts/GlobalContext'
-import ImageLetters from '../Layouts/ImageLetters'
+import ImageLetters from '../Utils/ImageLetters'
 
 function Administrateurs() {
   const [admins, setAdmins] = useState([])

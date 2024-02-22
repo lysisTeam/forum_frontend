@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import AddPic from '../Layouts/AddPic'
+import AddPic from '../Utils/AddPic'
 import axios from 'axios'
 // import AlertError from '../Layouts/AlertError'
 import GlobalContext from '../Contexts/GlobalContext'

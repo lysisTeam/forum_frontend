@@ -8,20 +8,18 @@ import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 
-function AppUser() {
-  const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
-  ];
+function ButtonUpload() {
+    const actions = [
+        { icon: <FileCopyIcon />, name: 'Copy' },
+        { icon: <SaveIcon />, name: 'Save' },
+        { icon: <PrintIcon />, name: 'Print' },
+        { icon: <ShareIcon />, name: 'Share' },
+    ];
   return (
-    <div>
-      <SpeedDial
+    <SpeedDial
         ariaLabel="SpeedDial basic example"
-        sx={{ position: 'absolute', bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
-      >
+    >
         {actions.map((action) => (
           <SpeedDialAction
             key={action.name}
@@ -29,10 +27,8 @@ function AppUser() {
             tooltipTitle={action.name}
           />
         ))}
-      </SpeedDial>
-      
-    </div>
+    </SpeedDial>
   )
 }
 
-export default AppUser
+export default ButtonUpload

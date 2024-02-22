@@ -1,6 +1,6 @@
 import React from 'react'
-import ImageLetters from './ImageLetters'
-import ConfirmationModal from './ConfirmationModal'
+import ImageLetters from '../Utils/ImageLetters'
+import ConfirmationModal from '../Utils/ConfirmationModal'
 
 
 function Messages({users, admin, messages, showMessageOptions, handleClickResponse, afficherDateMessage, handleClickOption, handleClickModif, setMessageToDelete, handleClickDelete, copyToClipboard}) {
@@ -93,7 +93,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     {
                         !message.deleted &&
                         <div className='section-message-option'>
-                            <button className='btn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                            <button className='bttn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
                             <div className='message-options shadow'>
                                 <button className='' onClick={()=>copyToClipboard(message.contenue)}><i className="fa-regular fa-copy pe-none"></i> Copier</button>
                                 <button className='btn-response' name={message.id} onClick={()=>{handleClickResponse(message)}}>
@@ -151,7 +151,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     {
                         !message.deleted &&
                         <div className='section-message-option'>
-                            <button className='btn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                            <button className='bttn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
                             <div className='message-options shadow'>
                             <button className='' onClick={()=>copyToClipboard(message.contenue)}><i className="fa-regular fa-copy pe-none"></i> Copier</button>
                             <button className='' name={message.id} onClick={()=>{handleClickResponse(message)}}>

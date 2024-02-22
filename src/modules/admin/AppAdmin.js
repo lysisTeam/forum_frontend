@@ -13,7 +13,7 @@ import AddUser from './Components/AddUser';
 import AddAdmin from './Components/AddAdmin';
 import Settings from './Components/Settings';
 import GlobalContextProvider from './Contexts/GlobalContextProvider';
-import Alerte from './Layouts/Alerte';
+import Alerte from './Utils/Alerte';
 import SocketContextProvider from './Contexts/SocketContextProvider';
 
 

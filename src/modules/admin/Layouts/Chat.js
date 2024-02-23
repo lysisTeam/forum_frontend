@@ -57,7 +57,7 @@ function Chat({currentRoom, setRooms}) {
           .then(response =>{
             setMessages(afficherFileMessages(response.data.messages))
             document.querySelector("textarea").rows = 1
-
+            console.log(afficherFileMessages(response.data.messages));
             setTimeout(() => {
               var objDiv = document.querySelector('.section-messages');
                 objDiv.scroll({
@@ -136,8 +136,7 @@ function Chat({currentRoom, setRooms}) {
 
 
   const sendMessage = async()=>{
-    if (texteInput) {
-
+    if (texteInput || images.length !== 0) {
       const formData = new FormData();
       for (let i = 0; i < images.length; i++) {
         const element = images[i];
@@ -318,7 +317,7 @@ function Chat({currentRoom, setRooms}) {
         }
 
         // Ajouter le message
-        fileMessages.push({ id: message._id ,type: message.type, contenue: message.contenue,  id_room: message.id_room, id_user: message.id_user, isResponseTo: message.isResponseTo ,createdAt: message.createdAt, updatedAt: message.updatedAt, modified: message.modified, deleted: message.deleted});
+        fileMessages.push({ id: message._id ,type: message.type, contenue: message.contenue,  id_room: message.id_room, id_user: message.id_user, isResponseTo: message.isResponseTo ,createdAt: message.createdAt, updatedAt: message.updatedAt, modified: message.modified, deleted: message.deleted, files: message.files});
     });
 
     return fileMessages;

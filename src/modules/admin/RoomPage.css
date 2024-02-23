@@ -462,7 +462,7 @@
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container{
-    background-color:rgb(236, 171, 127);
+    background-color:rgb(187 187 187);
     /* max-width: 60%; */
     width: fit-content;
     
@@ -476,7 +476,7 @@
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .coin{
-    color: rgb(236, 171, 127) !important;
+    color: rgb(187 187 187) !important;
     position: absolute;
     top: 0;
     left: -7px;
@@ -501,12 +501,12 @@
     font-size: 0.75rem;
     font-style: italic;
     cursor: pointer;
-    background-color: rgb(15, 36, 61);
+    background-color: rgb(68 100 137);
     padding-right: 8px;
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .response-section{
-    background-color: rgb(216, 162, 126);
+    background-color: rgb(147 147 147);
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .response-section .response,
@@ -732,6 +732,22 @@
     color: #a3a3a3;
 }
 
+.chat-bottom-bar .chat-input-section .chat-input-response .doc-in-input{
+    background-color: white;
+    height: 110px;
+    width: 170px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chat-bottom-bar .chat-input-section .chat-input-response .doc-in-input h6{
+    font-size: 0.8rem;
+    text-wrap: wrap;
+    font-weight: bold;
+}
+
 .chat-bottom-bar textarea{
     background-color: transparent;
     color: white;
@@ -767,6 +783,12 @@
 .chat-bottom-bar .chat-input-section .btn-send{
     color: white;
     background-color: rgb(231, 114, 36);
+}
+
+.chat-bottom-bar .chat-input-section .btn-send.disabled{
+    color: white;
+    background-color: rgb(255, 186, 140);
+    pointer-events: none;
 }
 
 .emoji-section{

@@ -1,6 +1,8 @@
 import React from 'react'
 import ImageLetters from '../Utils/ImageLetters'
 import ConfirmationModal from '../Utils/ConfirmationModal'
+import ImageListItem from '@mui/material/ImageListItem';
+
 
 
 function Messages({users, admin, messages, showMessageOptions, handleClickResponse, afficherDateMessage, handleClickOption, handleClickModif, setMessageToDelete, handleClickDelete, copyToClipboard}) {
@@ -47,13 +49,13 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
             message.id_user === admin._id ?
             <div className='message-sortant' onMouseOver={(e)=>handleHover(e)} onMouseLeave={(e)=>handleHoverLeave(e)} key={message._id}>
                 <span className='name fst-italic'>Vous, {afficherDateMessage(message.createdAt)}</span>
-                <div className='px-3 py-2 rounded message-container'>
+                <div className=' rounded message-container py-2'>
                     {/* {message.contenue.replace(/\n/g, "<br>")} */}
 
                     <div className='pl-5'>
                         {
                             message.isResponseTo && !message.deleted &&
-                            <div className='response-section rounded'>
+                            <div className='response-section rounded py-1 px-2 mx-2'>
                                 <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
                                 <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0]?.contenue.replace(/\n/g, "<br>") }} />
                                 <span className='response-name'>
@@ -73,14 +75,36 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     
                         {
                             !message.deleted ?
-                            <div dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
+                            <div>
+                                {
+                                    message.files && message.files.length !== 0 &&
+                                    <div className='d-flex gap-2 flex-wrap px-3 py-1'>
+                                        {message.files.map((item) => (
+                                            <ImageListItem key={item}>
+                                                <img
+                                                    srcSet={`${apiUrl}/${item}`}
+                                                    src={`${apiUrl}/${item}`}
+                                                    alt={"zzz"}
+                                                    loading="lazy"
+                                                    className='rounded '
+                                                    style={{width: '110px', height: '110px', cursor:'pointer'}}
+                                                >
+                                                </img>
+                                                
+                                            </ImageListItem>
+                                        ))}
+                                    </div>
+                                }
+
+                                <div className='px-3' dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
+                            </div>
                             :
-                            <div style={{fontStyle: 'italic', fontSize: '0.8rem', color: '#a5a5a5'}}><i class="fa-solid fa-ban"></i> Vous avez supprimé ce méssage</div>
+                            <div className='px-3' style={{fontStyle: 'italic', fontSize: '0.8rem', color: '#a5a5a5'}}><i class="fa-solid fa-ban"></i> Vous avez supprimé ce méssage</div>
                         }
 
                         {
                             message.modified && !message.deleted &&
-                            <p className='m-0 text-end' style={{fontStyle: 'italic', fontSize:'0.7rem', color: '#a5a5a5'}}>Ce message a été modifié</p>
+                            <p className='m-0 text-end px-3' style={{fontStyle: 'italic', fontSize:'0.7rem', color: '#a5a5a5'}}>Ce message a été modifié</p>
                         }
                     </div>
 
@@ -93,13 +117,17 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     {
                         !message.deleted &&
                         <div className='section-message-option'>
-                            <button className='bttn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                            <button className='bttn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical text-muted pe-none" style={{fontSize: '0.75rem'}}></i></button>
                             <div className='message-options shadow'>
                                 <button className='' onClick={()=>copyToClipboard(message.contenue)}><i className="fa-regular fa-copy pe-none"></i> Copier</button>
                                 <button className='btn-response' name={message.id} onClick={()=>{handleClickResponse(message)}}>
                                 <i className="fa-solid fa-reply"></i> Repondre
                                 </button>
+                                {
+                                    message.contenue &&
                                 <button className='' onClick={()=>handleClickModif(message)}><i className="fa-solid fa-pen pe-none"></i> Modifier</button>
+
+                                }
                                 <button className='btn-delete' data-bs-toggle="modal" data-bs-target="#confirmation" onClick={ ()=>setMessageToDelete(message.id || message._id) }><i className="fa-regular fa-trash-can pe-none"></i> Supprimer</button>
                             </div>
                         </div>
@@ -118,12 +146,12 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                 
                 <div>
                 <span className='name fst-italic'>{users.find(user => user._id === message.id_user)?.nom}, {afficherDateMessage(message.createdAt)}</span>
-                <div className='px-3 py-2 rounded message-container'>
+                <div className='rounded message-container py-2'>
 
                     <div className='pl-5'>
                         {
                             message.isResponseTo && !message.deleted &&
-                            <div className='response-section pl-5 rounded'>
+                            <div className='response-section pl-5 rounded py-1 px-2 mx-2'>
                                 <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
                                 <div className='response' dangerouslySetInnerHTML={{ __html: messages.filter(msg => msg.id === message.isResponseTo)[0].contenue.replace(/\n/g, "<br>") }} />
                                 <span className='response-name'>Envoyé par&nbsp;{users.find(user => user._id === messages.filter(msg => msg.id === message.isResponseTo)[0].id_user)?.nom}</span>
@@ -133,14 +161,35 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                         }
                         {
                             !message.deleted ?
-                            <div dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
+                            <div>
+                                {
+                                    message.files && message.files.length !== 0 &&
+                                    <div className='d-flex gap-2 flex-wrap px-3 py-1'>
+                                        {message.files.map((item) => (
+                                            <ImageListItem key={item}>
+                                                <img
+                                                    srcSet={`${apiUrl}/${item}`}
+                                                    src={`${apiUrl}/${item}`}
+                                                    alt={"zzz"}
+                                                    loading="lazy"
+                                                    className='rounded '
+                                                    style={{width: '110px', height: '110px', cursor:'pointer'}}
+                                                >
+                                                </img>
+                                                
+                                            </ImageListItem>
+                                        ))}
+                                    </div>
+                                }
+                                <div className='px-3' dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
+                            </div>
                             :
-                            <div style={{fontStyle: 'italic', fontSize: '0.8rem', color: '#5d5d5d'}}><i class="fa-solid fa-ban"></i> Ce méssage a été supprimé</div>
+                            <div className='px-3' style={{fontStyle: 'italic', fontSize: '0.8rem', color: '#5d5d5d'}}><i class="fa-solid fa-ban"></i> Ce méssage a été supprimé</div>
                         }
                         
                         {
                             message.modified && !message.deleted &&
-                            <p className='m-0 text-end' style={{fontStyle: 'italic', fontSize:'0.7rem', color: '#5d5d5d'}}>Ce message a été modifié</p>
+                            <p className='m-0 text-end px-3' style={{fontStyle: 'italic', fontSize:'0.7rem', color: '#5d5d5d'}}>Ce message a été modifié</p>
                         }
                     </div>
                     {/* <span className='time'>11:50</span> */}
@@ -151,7 +200,7 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                     {
                         !message.deleted &&
                         <div className='section-message-option'>
-                            <button className='bttn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical pe-none"></i></button>
+                            <button className='bttn btn-option' onClick={handleClickOption}><i className="fa-solid fa-ellipsis-vertical text-muted pe-none" style={{fontSize: '0.75rem'}}></i></button>
                             <div className='message-options shadow'>
                             <button className='' onClick={()=>copyToClipboard(message.contenue)}><i className="fa-regular fa-copy pe-none"></i> Copier</button>
                             <button className='' name={message.id} onClick={()=>{handleClickResponse(message)}}>

@@ -350,7 +350,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
     height: 0;
 }
 
@@ -373,7 +373,7 @@
     background-color: rgba(170, 170, 170, 0.678);
     z-index: 6;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
 }
 
 
@@ -391,7 +391,7 @@
 .msg-ss{
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
     max-width: 60%;
 }
 
@@ -402,7 +402,7 @@
     
     font-size: 0.9rem;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     margin-bottom: 15px;
     /* border-top-right-radius: 0 !important; */
     position: relative;
@@ -449,13 +449,23 @@
     gap: 8px;
 }
 
-.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant img{
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant > img{
     height: 40px;
     width: 40px;
     object-fit: cover;
-    
+
     border-radius: 50%;
 }
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container img{
+    max-height: 280px;
+    width: auto;
+    max-width: 100%;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant > div{
     max-width: 60%;
@@ -468,7 +478,7 @@
     
     font-size: 0.9rem;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     margin-bottom: 15px;
     /* border-top-left-radius: 0 !important; */
     position: relative;
@@ -486,7 +496,7 @@
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant{
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
     
 }
 
@@ -533,11 +543,46 @@
     
     font-size: 0.9rem;
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     margin-bottom: 15px;
     /* border-top-right-radius: 0 !important; */
     position: relative;
 }
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container img{
+    max-height: 280px;
+    width: auto;
+    max-width: 100%;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .doc-in-input,
+    .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .doc-in-input{
+    background-color: white;
+    height: 110px;
+    width: 270px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .doc-in-input h6,
+    .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .doc-in-input h6{
+    font-size: 0.8rem;
+    text-wrap: wrap;
+    font-weight: bold;
+}
+
+.section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .doc-in-input span,
+    .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .doc-in-input span{
+    font-size: 0.7rem;
+    font-style: normal;
+    color: #a3a3a3;
+}
+
+
 
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .section-message-option,
@@ -684,7 +729,7 @@
     /* background-color: #eff3f6; */
     /* border-top: 2px solid rgb(202, 202, 202); */
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     
 }
 
@@ -711,7 +756,7 @@
 .chat-bottom-bar .chat-input-section .chat-input{
     display: flex;
     width: 100%;
-    align-items: end;
+    align-items: flex-end;
     gap: 5px;
     position: relative;
 }

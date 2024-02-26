@@ -150,8 +150,16 @@ function ChatBarInput({responseTo,texteInput, images, setImages,setResponseTo, s
                 <button className='bttn' onClick={()=>{setShowEmojiPicker(previous => !previous); document.querySelector('textarea').focus()}} tabindex="-1"><i className="fa-regular fa-face-smile pe-none"></i></button>
                 {/* <input type='text' placeholder='Votre message...'/> */}
                 <textarea id="exampleFormControlTextarea1" rows={1} onChange={(e)=>handleInputTextArea(e)} onKeyDown={(e)=>handleKeyDownTextArea(e)} value={texteInput}></textarea>
-                <button className='bttn' onClick={clickFileInput}><i className="fa-solid fa-paperclip pe-none"></i></button>
-                <input className="form-control d-none" id='file-input' type="file" accept="image/*jpeg,image/png,image/jpg,application/pdf" onChange={handleChangeFile}/>
+                <input className="form-control d-none" id='file-input' type="file" accept="image/jpeg,image/png,image/jpg,application/pdf" onChange={handleChangeFile}/>
+                {
+                    !modif.id &&
+                    <>
+                        <button className='bttn px-2' onClick={clickFileInput}><i className="fa-solid fa-paperclip pe-none"></i></button>
+                    
+                        <button className='bttn px-2' onClick={clickFileInput}><i class="fa-solid fa-microphone-lines pe-none"></i></button>
+                    </>
+                }
+                
                 <button className={`bttn btn-send ${ texteInput || images.length !== 0 ? '' : 'disabled'}`} onClick={()=>{modif.id ? modifMessage() : sendMessage()}}><i className="fa-regular fa-paper-plane pe-none"></i></button>
             </div>
         </div>

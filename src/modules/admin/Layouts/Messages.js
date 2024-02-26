@@ -21,9 +21,22 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
     }
   }
 
+  const handleDownload = (downloadUrl) => {
+    // Logique de téléchargement ou URL à télécharger
+  
+    const fileName = 'your-file.zip';
+    // Créer un lien temporaire pour déclencher le téléchargement
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    // Nettoyer après le téléchargement
+    document.body.removeChild(link);
+  };
+
   return (
     <>
-        
         {
             messages.length !== 0 && users.length !== 0 &&
             messages?.map(message => (
@@ -78,20 +91,60 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                             <div>
                                 {
                                     message.files && message.files.length !== 0 &&
-                                    <div className='d-flex gap-2 flex-wrap px-3 py-1'>
+                                    <div className='d-flex gap-2 flex-wrap px-2 py-1 flex-column'>
                                         {message.files.map((item) => (
-                                            <ImageListItem key={item}>
+                                            item.path.substr(-3,3) !== 'pdf' &&
+                                            <ImageListItem key={item.path}>
                                                 <img
-                                                    srcSet={`${apiUrl}/${item}`}
-                                                    src={`${apiUrl}/${item}`}
+                                                    srcSet={`${apiUrl}/${item.path}`}
+                                                    src={`${apiUrl}/${item.path}`}
                                                     alt={"zzz"}
                                                     loading="lazy"
                                                     className='rounded '
-                                                    style={{width: '110px', height: '110px', cursor:'pointer'}}
+                                                    // style={{maxHeight: '280px', width: "auto", maxWidth:'100%' ,cursor:'pointer'}}
                                                 >
                                                 </img>
-                                                
                                             </ImageListItem>
+                                        ))}
+                                    </div>
+                                }
+                                {
+                                    message.files && message.files.length !== 0 &&
+                                    <div className='d-flex gap-2 flex-wrap px-2 py-1 flex-column'>
+                                        {message.files.map((item) => (
+                                            item.path.substr(-3,3) === 'pdf' &&
+                                            <div className='doc-in-input rounded p-2'>
+                                                <div>
+                                                    <span className='m-0 p-0'>Fichier pdf</span>
+                                                    <h6 className='text-dark'>{item.name}</h6>
+                                                </div>
+
+                                                <div className='d-flex justify-content-between'>
+                                                    <span className='m-0 p-0'>{item.size < 1048576 ? (item.size / 1024).toFixed(0) + 'ko' : (item.size / 1048576).toFixed(2) + 'mo'}</span>
+                                                    <i class="fa-regular fa-file-pdf text-muted"></i>
+                                                </div>
+
+                                                <a 
+                                                    className='border-0 d-flex align-items-center justify-content-center p-1 text-muted' 
+                                                    style={{
+                                                        // width: '25px', 
+                                                        // height: '25px',
+                                                        backgroundColor: 'transparent',
+                                                        // borderRadius: '50%', 
+                                                        position:'absolute', 
+                                                        top: '10px', 
+                                                        right: '5px', 
+                                                        // color: 'black'
+                                                    }}
+                                                    target='_blank'
+                                                    // onClick={()=>handleDownload(`${apiUrl}/${item.path}`)}
+                                                    href={`${apiUrl}/${item.path}`}
+                                                >
+                                                <i class="fa-solid fa-download pe-none"></i>
+                                                
+                                                </a>
+                            
+                                            </div>
                                         ))}
                                     </div>
                                 }
@@ -164,20 +217,57 @@ function Messages({users, admin, messages, showMessageOptions, handleClickRespon
                             <div>
                                 {
                                     message.files && message.files.length !== 0 &&
-                                    <div className='d-flex gap-2 flex-wrap px-3 py-1'>
+                                    <div className='d-flex gap-2 flex-wrap px-2 py-1 flex-column'>
                                         {message.files.map((item) => (
-                                            <ImageListItem key={item}>
+                                            item.path.substr(-3,3) !== 'pdf' &&
+                                            <ImageListItem key={item.path}>
                                                 <img
-                                                    srcSet={`${apiUrl}/${item}`}
-                                                    src={`${apiUrl}/${item}`}
+                                                    srcSet={`${apiUrl}/${item.path}`}
+                                                    src={`${apiUrl}/${item.path}`}
                                                     alt={"zzz"}
                                                     loading="lazy"
                                                     className='rounded '
-                                                    style={{width: '110px', height: '110px', cursor:'pointer'}}
+                                                    // style={{maxHeight: '280px', width: "auto", maxWidth:'100%' ,cursor:'pointer'}}
                                                 >
                                                 </img>
-                                                
                                             </ImageListItem>
+                                        ))}
+                                    </div>
+                                }
+                                {
+                                    message.files && message.files.length !== 0 &&
+                                    <div className='d-flex gap-2 flex-wrap px-2 py-1 flex-column'>
+                                        {message.files.map((item) => (
+                                            item.path.substr(-3,3) === 'pdf' &&
+                                            <div className='doc-in-input rounded p-2'>
+                                                <div>
+                                                    <span className='m-0 p-0'>Fichier pdf</span>
+                                                    <h6 className='text-dark'>{item.name}</h6>
+                                                </div>
+
+                                                <div className='d-flex justify-content-between'>
+                                                    <span className='m-0 p-0'>{item.size < 1048576 ? (item.size / 1024).toFixed(0) + 'ko' : (item.size / 1048576).toFixed(2) + 'mo'}</span>
+                                                    <i class="fa-regular fa-file-pdf text-muted"></i>
+                                                </div>
+
+                                                <button 
+                                                    className='border-0 d-flex align-items-center justify-content-center p-1 text-muted' 
+                                                    style={{
+                                                        // width: '25px', 
+                                                        // height: '25px',
+                                                        backgroundColor: 'transparent',
+                                                        // borderRadius: '50%', 
+                                                        position:'absolute', 
+                                                        top: '10px', 
+                                                        right: '5px', 
+                                                        // color: 'black'
+                                                    }}
+                                                    // onClick={()=>handleRemoveImage(item.image.name, false)}
+                                                >
+                                                <i class="fa-solid fa-download pe-none"></i>
+                                                </button>
+                            
+                                            </div>
                                         ))}
                                     </div>
                                 }

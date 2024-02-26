@@ -239,13 +239,7 @@ function Chat({currentRoom, setRooms}) {
 
       setMessages(previous => [...previous, messageArrival])
 
-      setTimeout(() => {
-        console.log(document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]);
-        const btn = document.querySelectorAll('.btn-response')[document.querySelectorAll('.btn-response').length - 1]
-        
-        btn.addEventListener('click', () => handleClickResponse(messageArrival))
-        
-      }, 1);
+
       // console.log(messageArrival);
       setTimeout(() => {
         var objDiv = document.querySelector('.section-messages');
@@ -531,6 +525,8 @@ function Chat({currentRoom, setRooms}) {
         console.error('Erreur lors de la copie du texte :', error);
       });
   };
+
+  
 
   return (
     <div className='section-chat'>

@@ -1,35 +1,56 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import ShareIcon from '@mui/icons-material/Share';
+import {React, useRef, useState} from 'react';
 
 function AppUser() {
-  const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <ShareIcon />, name: 'Share' },
-  ];
+  const [recording, setRecording] = useState(false);
+  const [audioChunks, setAudioChunks] = useState([]);
+  const [audioURL, setAudioURL] = useState(null);
+  let mediaRecorder = useRef(null);
+
+  const startRecording = () => {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        mediaRecorder.current = new MediaRecorder(stream);
+        console.log(mediaRecorder);
+        mediaRecorder.current.ondataavailable = handleDataAvailable;
+        mediaRecorder.current.start();
+        setRecording(true);
+      })
+      .catch(error => console.error('Error accessing microphone:', error));
+  };
+
+  const stopRecording = () => {
+    console.log(mediaRecorder);
+    if (mediaRecorder) {
+      mediaRecorder.current.stop();
+      setRecording(false);
+    }
+  };
+
+  const handleDataAvailable = (event) => {
+    console.log(event);
+    if (event.data.size > 0) {
+      setAudioChunks([event.data]);
+    }
+  };
+
+  const playRecording = () => {
+    console.log(audioChunks);
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+    const url = URL.createObjectURL(audioBlob);
+    setAudioURL(url);
+    const audio = new Audio(url);
+    audio.play();
+  };
   return (
     <div>
-      <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: 'absolute', bottom: 16, right: 16 }}
-        icon={<SpeedDialIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-          />
-        ))}
-      </SpeedDial>
-      
-    </div>
+    <button onClick={recording ? stopRecording : startRecording}>
+      {recording ? 'Stop Recording' : 'Start Recording'}
+    </button>
+    <button onClick={playRecording} disabled={!true}>
+      Play Recording
+    </button>
+    {true && <audio src={audioURL} controls />}
+  </div>
   )
 }
 

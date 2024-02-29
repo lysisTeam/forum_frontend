@@ -472,7 +472,7 @@
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container{
-    background-color:rgb(187 187 187);
+    background-color:rgb(203 203 203);
     /* max-width: 60%; */
     width: fit-content;
     
@@ -513,10 +513,11 @@
     cursor: pointer;
     background-color: rgb(68 100 137);
     padding-right: 8px;
+    min-width: 160px;
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-entrant .message-container .response-section{
-    background-color: rgb(147 147 147);
+    background-color: rgb(241 241 241);
 }
 
 .section-chat .chat-open-conversation .chat-body .section-messages .message-sortant .message-container .response-section .response,

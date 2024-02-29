@@ -8,6 +8,7 @@ import SocketContext from '../Contexts/SocketContext'
 import ChatBarInput from './ChatBarInput'
 import Messages from './Messages'
 import ProfilModal from '../Utils/ProfilModal'
+import Galerie from '../Utils/Galerie'
 
 
 function Chat({currentRoom, setRooms}) {
@@ -22,15 +23,21 @@ function Chat({currentRoom, setRooms}) {
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
+
+
   const [texteInput, setTexteInput] = useState("")
 
   const [images, setImages] = useState([])
 
-  const [responseTo, setResponseTo] = useState({id: null, message: "", user: ""})
+  // const [audioFile, setAudioFile] = useState(null)
+
+  const [responseTo, setResponseTo] = useState({id: null, message: "", user: "", file: "", fileType: null})
 
   const [modif, setModif] = useState({id: null, message: ""})
 
   const [messageToDelete, setMessageToDelete] = useState(null)
+
+  const [isRecording, setIsRecording] = useState(false)
 
   const socket = useContext(SocketContext)
 
@@ -40,7 +47,7 @@ function Chat({currentRoom, setRooms}) {
     setImages([])
     setShowMessageOptions(false)
     if(document.querySelector('textarea')) document.querySelector('textarea').focus()
-    setResponseTo({id: null, message: "", user: ""})
+    setResponseTo({id: null, message: "", user: "", file: "", fileType: null})
 
     if (document.querySelector('textarea')) {
       document.querySelector('textarea').style.height = "22px"
@@ -135,12 +142,17 @@ function Chat({currentRoom, setRooms}) {
   },[currentRoom, apiUrl])
 
 
-  const sendMessage = async()=>{
-    if (texteInput || images.length !== 0) {
+  const sendMessage = async(audioFile)=>{
+    if (texteInput || images.length !== 0 || audioFile) {
       const formData = new FormData();
+
       for (let i = 0; i < images.length; i++) {
         const element = images[i];
         formData.append('files', element.image);
+      }
+
+      if (audioFile) {
+        formData.append('files', audioFile)
       }
       
       formData.append('type', "message");
@@ -173,7 +185,7 @@ function Chat({currentRoom, setRooms}) {
         }, 1);
         setTexteInput("")
         setImages([])
-        setResponseTo({id: null, message: "", user: ""})
+        setResponseTo({id: null, message: "", user: "", file: "", fileType: null})
         setShowEmojiPicker(false)
         
         socket.emit('message:send', {message: response.data.message, users: users.filter(user => user._id !== admin._id)})
@@ -405,8 +417,18 @@ function Chat({currentRoom, setRooms}) {
 
   const handleClickResponse = (message) =>{
     // users.find(user => user._id === message.id_user)?.nom
+    console.log(message);
+    let fileType;
     
-    setResponseTo({id: message._id || message.id, message: message.contenue}); 
+    if (message.files.length === 0) {
+      fileType = null
+    }else{
+      fileType = message.files[0]?.path.substr(-3,3) !== 'pdf' ? 'Image' : "Document"
+    }
+    
+    setResponseTo({id: message._id || message.id, message: message.contenue, file : message.files[0], fileType: fileType}); 
+
+    
     setShowMessageOptions(false);
     if (document.querySelector('.message-options.show')) {
       document.querySelector('.message-options.show').classList.remove('show')
@@ -416,7 +438,7 @@ function Chat({currentRoom, setRooms}) {
 
   const handleClickModif = (message) =>{
     // users.find(user => user._id === message.id_user)?.nom
-    setResponseTo({id: null, message: "", user: ""})
+    setResponseTo({id: null, message: "", user: "", file: "", fileType: null})
     
     setModif({id: message.id || message._id, message: message})
 
@@ -436,7 +458,7 @@ function Chat({currentRoom, setRooms}) {
 
   const handleClickResetModif = () =>{
     // users.find(user => user._id === message.id_user)?.nom
-    setResponseTo({id: null, message: "", user: ""})
+    setResponseTo({id: null, message: "", user: "", file: "", fileType: null})
     setModif({id: null, message: ""})
 
     setTexteInput("")
@@ -491,6 +513,7 @@ function Chat({currentRoom, setRooms}) {
   const handleInputTextArea = (e) =>{
     setTexteInput(e.target.value)
     resizeTextArea(e)
+    console.log(messages);
   }
 
   const handleKeyDownTextArea = (e)=>{
@@ -590,24 +613,11 @@ function Chat({currentRoom, setRooms}) {
             </div>
 
             <div className='chat-bottom-bar'>
-              <ChatBarInput images={images} setImages={setImages} setTexteInput={setTexteInput} texteInput={texteInput} responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} modifMessage={modifMessage} modif={modif} handleInputTextArea={handleInputTextArea} handleKeyDownTextArea={handleKeyDownTextArea} />
+              <ChatBarInput images={images} setImages={setImages} setTexteInput={setTexteInput} texteInput={texteInput} responseTo={responseTo} setResponseTo={setResponseTo} setShowEmojiPicker={setShowEmojiPicker} showEmojiPicker={showEmojiPicker} sendMessage={sendMessage} handleEmojiClick={handleEmojiClick} modifMessage={modifMessage} modif={modif} handleInputTextArea={handleInputTextArea} handleKeyDownTextArea={handleKeyDownTextArea} isRecording={isRecording} setIsRecording={setIsRecording} />
             </div>
           </div>
 
-          <div className={`section-medias ${mediasOpen ? 'open' : ''}`}>
-            <div className='p-3 top-section'>
-              <h6 className='fw-bold m-0'>Galérie du groupe</h6>
-              <button type="button" className="btn-close btn-sm border-0" aria-label="Close" onClick={()=>setMediasOpen(false)}></button>
-            </div>
-
-            {/* {
-              users?.map((user)=>(
-                <h6>{user.nom}</h6>
-              ))
-            } */}
-            
-            
-          </div>
+          <Galerie mediasOpen={mediasOpen} setMediasOpen={setMediasOpen}  />
         </div>
       }
       <ProfilModal currentRoom={currentRoom} users={users} />

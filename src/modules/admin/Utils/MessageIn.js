@@ -1,6 +1,7 @@
 import React from 'react'
 import ImageLetters from './ImageLetters'
 import ImageListItem from '@mui/material/ImageListItem';
+import AudioPlayer from './AudioPlayer';
 
 
 function MessageIn({message, handleHover, handleHoverLeave, afficherDateMessage, response, admin, users, handleClickModif, handleClickOption, setMessageToDelete, copyToClipboard, handleClickResponse}) {
@@ -59,6 +60,12 @@ function MessageIn({message, handleHover, handleHoverLeave, afficherDateMessage,
                                                 response?.files[0].type === 'document' &&
                                                 <div style={{marginLeft: '15px'}}><i class="fa-regular fa-file"></i> Doc : {response?.files[0].name}</div>
                                             }
+
+                                            {
+                                                response?.files[0].type === 'audio' &&
+                                                <div style={{marginLeft: '15px'}}><i class="fa-solid fa-microphone"></i> Message vocal</div>
+
+                                            }
                                         </>
                                 }
 
@@ -78,6 +85,8 @@ function MessageIn({message, handleHover, handleHoverLeave, afficherDateMessage,
                                 response?.files.length !== 0 && response?.files[0]?.type === 'image' &&
                                 <img className='rounded' style={{width: '45px', height: '45px', objectFit: 'cover'}} src={apiUrl + '/' + response?.files[0]?.path}></img>
                             }
+
+                            
                         </div>
                         {/* {afficherDateMessage(response.updatedAt)} */}
                         <hr className='my-1'></hr>
@@ -149,6 +158,12 @@ function MessageIn({message, handleHover, handleHoverLeave, afficherDateMessage,
                         {
                             message.contenue !== "" && 
                             <div className='px-3 py-2' dangerouslySetInnerHTML={{ __html: message.contenue.replace(/\n/g, "<br>") }} />
+                        }
+                        {
+                            message.files && message.files.length !== 0 && message.files[0].type === 'audio'&&
+                            // <audio src={`${apiUrl}/${message.files[0].path}`} controls />
+                            <AudioPlayer audio={`${apiUrl}/${message.files[0].path}`} />
+
                         }
                     </div>
                     :

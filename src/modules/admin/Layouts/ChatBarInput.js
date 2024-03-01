@@ -177,6 +177,11 @@ function ChatBarInput({setIsRecording, isRecording, responseTo, texteInput, imag
                                     responseTo.fileType === 'Document' &&
                                     <div><i class="fa-regular fa-file"></i> Doc : {responseTo.file.name}</div>
                                 }
+
+                                {
+                                    responseTo.fileType === 'Audio' &&
+                                    <><i class="fa-solid fa-microphone"></i> Message vocal </>
+                                }
                             </>
 
                         }

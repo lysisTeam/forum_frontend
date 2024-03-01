@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import ImageListItem from '@mui/material/ImageListItem';
+import AudioPlayer from './AudioPlayer';
 
 
 function MessageOut({message, handleHover, handleHoverLeave, afficherDateMessage, response, admin, users, handleClickModif, handleClickOption, setMessageToDelete, copyToClipboard, handleClickResponse}) {
@@ -16,7 +17,7 @@ function MessageOut({message, handleHover, handleHoverLeave, afficherDateMessage
             <div className='pl-5'>
                 {
                     message.isResponseTo && !message.deleted &&
-                    <div className='response-section rounded py-1 px-2 mx-1 mt-1'>
+                    <div className={`response-section rounded py-1 px-2 mx-1 mt-1 ${response?.deleted ? 'blur' : ''}`}>
                         <div className='d-flex justify-content-between gap-5 align-items-end'>
                             <div>
                                 <i className="fa-solid fa-reply" style={{fontSize: "0.6rem"}}></i>
@@ -52,10 +53,16 @@ function MessageOut({message, handleHover, handleHoverLeave, afficherDateMessage
                                                 response?.files[0].type === 'document' &&
                                                 <div style={{marginLeft: '15px'}}><i class="fa-regular fa-file"></i> Doc : {response?.files[0].name}</div>
                                             }
+
+                                            {
+                                                response?.files[0].type === 'audio' &&
+                                                <div style={{marginLeft: '15px'}}><i class="fa-solid fa-microphone"></i> Message vocal</div>
+
+                                            }
                                         </>
                                 }
 
-                                <span className='response-name'>
+                                {/* <span className='response-name'>
                                 Envoyé par&nbsp;
                                 {
                                     response?.id_user !== admin._id ?
@@ -64,6 +71,17 @@ function MessageOut({message, handleHover, handleHoverLeave, afficherDateMessage
                                     : 
                                     "Vous"
                                 }
+                                </span> */}
+
+                                <span className='response-name'>
+                                    Envoyé par&nbsp;
+                                    {
+                                        response?.id_user !== admin._id ?
+
+                                        users?.find(user => user._id === response.id_user)?.nom
+                                        : 
+                                        "Vous"
+                                    }
                                 </span>
                             
                             </div>
@@ -146,7 +164,8 @@ function MessageOut({message, handleHover, handleHoverLeave, afficherDateMessage
 
                         {
                             message.files && message.files.length !== 0 && message.files[0].type === 'audio'&&
-                            <audio src={`${apiUrl}/${message.files[0].path}`} controls />
+                            // <audio src={`${apiUrl}/${message.files[0].path}`} controls />
+                            <AudioPlayer audio={`${apiUrl}/${message.files[0].path}`} />
 
                         }
                     </div>

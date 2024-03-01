@@ -176,8 +176,9 @@ function Chat({currentRoom, setRooms}) {
         setRooms(previous => [response.data.room, ...previous])
 
         document.querySelector('textarea').style.height = "22px"
+        var objDiv = document.querySelector('.section-messages');
         setTimeout(() => {
-          var objDiv = document.querySelector('.section-messages');
+          
             objDiv.scroll({
               top: objDiv.scrollHeight,
               behavior: "smooth",
@@ -423,7 +424,7 @@ function Chat({currentRoom, setRooms}) {
     if (message.files.length === 0) {
       fileType = null
     }else{
-      fileType = message.files[0]?.path.substr(-3,3) !== 'pdf' ? 'Image' : "Document"
+      fileType = message.files[0]?.type === 'image' ? 'Image' : (message.files[0]?.type === 'document' ? "Document" : "Audio")
     }
     
     setResponseTo({id: message._id || message.id, message: message.contenue, file : message.files[0], fileType: fileType}); 

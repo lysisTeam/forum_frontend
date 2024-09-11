@@ -1,11 +1,18 @@
-import {React, useRef, useState} from 'react';
+import {React, useEffect, useRef, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AppUser() {
   const [recording, setRecording] = useState(false);
   const [audioChunks, setAudioChunks] = useState([]);
   const [audioURL, setAudioURL] = useState(null);
   let mediaRecorder = useRef(null);
+  const Navigate = useNavigate()
 
+  
+  useEffect(() => {
+    
+    Navigate('/admin/')
+  }, []);
   const startRecording = () => {
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
